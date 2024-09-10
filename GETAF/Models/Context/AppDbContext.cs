@@ -14,9 +14,11 @@ public class AppDbContext : DbContext {
     public DbSet<Tarefa> Tarefas { get; set; }
     public DbSet<GrupoUsuario> GrupoUsuarios { get; set; }
 
-
-
-
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+        if (!optionsBuilder.IsConfigured) {
+            optionsBuilder.UseSqlServer("Data Source=FONSECA\\SQLEXPRESS;Initial Catalog=GETAF;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
