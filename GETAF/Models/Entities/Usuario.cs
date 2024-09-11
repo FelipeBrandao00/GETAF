@@ -9,8 +9,9 @@ public class Usuario {
     public required string Senha { get; set; }
     public bool IsAtivo { get; set; }
     public byte[]? Foto { get; set; }
-
+    public ulong Salt { get; set; }
     public virtual List<GrupoUsuario> GrupoUsuarios { get; set; }
     public virtual List<QuizUsuario>? QuizUsuarios { get; set; }
+    public virtual List<Quiz>? Quiz { get; set; }
     public virtual List<Tarefa> Tarefas { get; set; }
 }

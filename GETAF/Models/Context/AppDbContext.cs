@@ -12,10 +12,15 @@ public class AppDbContext : DbContext {
     public DbSet<Grupo> Grupos { get; set; }
     public DbSet<Tarefa> Tarefas { get; set; }
     public DbSet<GrupoUsuario> GrupoUsuarios { get; set; }
+    public DbSet<Quiz> Quiz { get; set; }
+    public DbSet<QuizUsuario> QuizUsuarios { get; set; }
+    public DbSet<Alternativa> Alternativas { get; set; }
+
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         if (!optionsBuilder.IsConfigured) {
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=GETAF;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=GETAF;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
         }
     }
 
@@ -58,6 +63,12 @@ public class AppDbContext : DbContext {
        .WithMany(u => u.Tarefas)
        .HasForeignKey(t => t.UsuarioId)
        .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Quiz>()
+      .HasOne(t => t.Usuario)
+      .WithMany(u => u.Quiz)
+      .HasForeignKey(t => t.UsuarioId)
+      .OnDelete(DeleteBehavior.Restrict);
 
     }
 }

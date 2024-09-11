@@ -4,6 +4,7 @@ using GETAF.Models.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GETAF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240911161221_adicao do usuario no quiz")]
+    partial class adicaodousuarionoquiz
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace GETAF.Migrations
 
                     b.HasIndex("QuizId");
 
-                    b.ToTable("Alternativas");
+                    b.ToTable("Alternativa");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Dificuldade", b =>
@@ -164,7 +167,7 @@ namespace GETAF.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("QuizUsuarios");
+                    b.ToTable("QuizUsuario");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Tarefa", b =>
