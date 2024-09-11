@@ -11,5 +11,6 @@ public class Usuario {
     public byte[]? Foto { get; set; }
 
     public virtual List<GrupoUsuario> GrupoUsuarios { get; set; }
+    public virtual List<QuizUsuario>? QuizUsuarios { get; set; }
     public virtual List<Tarefa> Tarefas { get; set; }
 }

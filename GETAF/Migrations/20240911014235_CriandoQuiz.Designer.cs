@@ -4,6 +4,7 @@ using GETAF.Models.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GETAF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240911014235_CriandoQuiz")]
+    partial class CriandoQuiz
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,7 +58,7 @@ namespace GETAF.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Alternativa", (string)null);
+                    b.ToTable("Alternativa");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Dificuldade", b =>
@@ -72,7 +75,7 @@ namespace GETAF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Dificuldades", (string)null);
+                    b.ToTable("Dificuldades");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Grupo", b =>
@@ -97,7 +100,7 @@ namespace GETAF.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Grupos", (string)null);
+                    b.ToTable("Grupos");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.GrupoUsuario", b =>
@@ -112,7 +115,7 @@ namespace GETAF.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("GrupoUsuarios", (string)null);
+                    b.ToTable("GrupoUsuarios");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Materia", b =>
@@ -129,7 +132,7 @@ namespace GETAF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Materias", (string)null);
+                    b.ToTable("Materias");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Quiz", b =>
@@ -154,7 +157,7 @@ namespace GETAF.Migrations
 
                     b.HasIndex("TarefaId");
 
-                    b.ToTable("Quiz", (string)null);
+                    b.ToTable("Quiz");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.QuizUsuario", b =>
@@ -185,7 +188,7 @@ namespace GETAF.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("QuizUsuario", (string)null);
+                    b.ToTable("QuizUsuario");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Status", b =>
@@ -202,7 +205,7 @@ namespace GETAF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Status", (string)null);
+                    b.ToTable("Status");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Tarefa", b =>
@@ -256,7 +259,7 @@ namespace GETAF.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Tarefas", (string)null);
+                    b.ToTable("Tarefas");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Usuario", b =>
@@ -287,7 +290,7 @@ namespace GETAF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuarios", (string)null);
+                    b.ToTable("Usuarios");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Alternativa", b =>

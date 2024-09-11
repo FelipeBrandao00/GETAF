@@ -10,13 +10,11 @@ public class Tarefa {
     public DateTime? DtInicio { get; set; }
     public DateTime? DtFim { get; set; }
 
-    public int StatusId { get; set; }
     public int UsuarioId { get; set; }
     public int GrupoId { get; set; }
     public int MateriaId { get; set; }
     public int DificuldadeId { get; set; }
 
-    public virtual Status? Status { get; set; }
     public virtual Usuario? Usuario { get; set; }
     public virtual Grupo? Grupo { get; set; }
     public virtual Materia? Materia { get; set; }
