@@ -1,9 +1,9 @@
 ﻿using GETAF.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace GETAF.Models.Context; 
+namespace GETAF.Models.Context;
 public class AppDbContext : DbContext {
-    public AppDbContext(){}
+    public AppDbContext() { }
     public AppDbContext(DbContextOptions options) : base(options) { }
 
     public DbSet<Usuario> Usuarios { get; set; }
@@ -20,7 +20,7 @@ public class AppDbContext : DbContext {
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         if (!optionsBuilder.IsConfigured) {
-            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=GETAF;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Data Source=FONSECA\\SQLEXPRESS;Initial Catalog=GETAF;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
         }
     }
 

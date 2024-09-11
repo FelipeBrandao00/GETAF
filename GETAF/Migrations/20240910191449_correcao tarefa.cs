@@ -2,14 +2,11 @@
 
 #nullable disable
 
-namespace GETAF.Migrations
-{
+namespace GETAF.Migrations {
     /// <inheritdoc />
-    public partial class correcaotarefa : Migration
-    {
+    public partial class correcaotarefa : Migration {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.AddColumn<int>(
                 name: "DificuldadeId",
                 table: "Tarefas",
@@ -52,8 +49,7 @@ namespace GETAF.Migrations
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropForeignKey(
                 name: "FK_Tarefas_Dificuldades_DificuldadeId",
                 table: "Tarefas");

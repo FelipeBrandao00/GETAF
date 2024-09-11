@@ -25,7 +25,7 @@
         width: 100px;
     }
 
-.form-group {
+.formulario {
     margin-bottom: 15px;
 }
 
@@ -78,36 +78,36 @@ input[type="submit"]:hover {
     background-color: #559da8;
 }
 
-.forgot-password {
+.esqueci-senha {
     text-align: left;
     margin-bottom: 10px;
     font-size: 14px;
 }
 
-    .forgot-password a {
+    .esqueci-senha a {
         color: #559da8;
         text-decoration: none;
     }
 
-        .forgot-password a:hover {
+        .esqueci-senha a:hover {
             text-decoration: underline;
         }
 
-.account {
+.conta {
     text-align: center;
     padding: 10px;
     font-size: 13px;
 }
 
-.create-account {
+.criar-conta {
     text-align: center;
 }
 
-    .create-account a {
+    .criar-conta a {
         color: #559da8;
         text-decoration: none;
     }
 
-        .create-account a:hover {
+        .criar-conta a:hover {
             text-decoration: underline;
         }

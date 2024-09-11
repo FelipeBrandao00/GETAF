@@ -1,5 +1,4 @@
 ﻿@{
-    ViewData["Title"] = "Login";
     Layout = null;
 }
 
@@ -9,37 +8,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/css/Login/Index.css">
-    <title>Tela Login</title>
+    <title>Login</title>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <img src="https://www.freepnglogos.com/uploads/business-logo-png/business-logo-png-vector-30.png" alt="Logo">
-        </div>
-        <h2 class="login">Entrar</h2>
-        <form>
-            <div class="form-group">
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="forgot-password">
-                <a href="#">Esqueci minha senha</a>
-            </div>
-            <div class="form">
-                <button class="submit" type="submit" onclick="Login()">Entrar</button>
-            </div>
-        </form>
-        <div class="account">
-            <a>Não possui uma conta?</a>
-        </div>
-        <div class="create-account">
-            <a href="#">Cadastre-se</a>
-        </div>
+  <div class="container">
+    @* <div class="logo">
+      <img src="" alt="Logo">
+    </div> *@
+    <h2 class="login">Entrar</h2>
+    <form>
+      <div class="formulario">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="formulario">
+        <label for="password">Senha</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div class="esqueci-senha">
+        <a href="#">Esqueci minha senha</a>
+      </div>
+      <div class="form">
+        <button class="submit" type="submit" onclick="Login()">Entrar</button>
+      </div>
+    </form>
+    <div class="conta">
+      <a>Não possui uma conta?</a>
     </div>
+    <div class="criar-conta">
+      <a href="#">Cadastre-se</a>
+    </div>
+  </div>
 </body>
 </html>
 
@@ -48,15 +47,15 @@
     function Login() {
         event.preventDefault();
 
-        var email = document.getElementById('email').value;
-        if (email.length == 0) {
+        var email = document.getElementById('email');
+        if (email.value.length == 0) {
             alert('O email não foi escrito!');
             email.focus();
             return;
         }
 
-        var password = document.getElementById('password').value;
-        if (password.length == 0) {
+        var password = document.getElementById('password');
+        if (password.value.length == 0) {
             alert('A senha não foi escrita!');
             password.focus();
             return;
@@ -68,21 +67,18 @@
             dataType: "json",
             type: "POST",
             data: JSON.stringify({
-                Email: email,
-                Password: password
+                Email: email.value,
+                Password: password.value
             }),
             success: function(retorno) {
                 if (retorno.sucesso) {
                     alert('Login correto.');
                     return;
                 }
-                console.log(retorno);
-                alert('Não foi possível realizar o login. Mensagem: ' + retorno.mensagem);
-                return;
+                alert('Não foi possível realizar o login. ' + retorno.mensagem);
             }, 
             error: function () {
                 alert('Algo deu errado ao fazer o login.');
-                return;
             }
         });
     }

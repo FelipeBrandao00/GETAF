@@ -1,8 +1,6 @@
-﻿namespace GETAF.Models.Entities
-{
-    public class QuizUsuario
-    {
-        public int QuizId {  get; set; }
+﻿namespace GETAF.Models.Entities {
+    public class QuizUsuario {
+        public int QuizId { get; set; }
         public int UsuarioId { get; set; }
         public int AlternativaId { get; set; }
 

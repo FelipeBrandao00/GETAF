@@ -2,26 +2,21 @@
 
 #nullable disable
 
-namespace GETAF.Migrations
-{
+namespace GETAF.Migrations {
     /// <inheritdoc />
-    public partial class CriandoQuiz : Migration
-    {
+    public partial class CriandoQuiz : Migration {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.CreateTable(
                 name: "Quiz",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdTarefa = table.Column<int>(type: "int", nullable: false),
                     Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TarefaId = table.Column<int>(type: "int", nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Quiz", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Quiz_Tarefas_TarefaId",
@@ -32,8 +27,7 @@ namespace GETAF.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Alternativa",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdUser = table.Column<int>(type: "int", nullable: false),
@@ -43,8 +37,7 @@ namespace GETAF.Migrations
                     QuizId = table.Column<int>(type: "int", nullable: true),
                     UsuarioId = table.Column<int>(type: "int", nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Alternativa", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Alternativa_Quiz_QuizId",
@@ -60,8 +53,7 @@ namespace GETAF.Migrations
 
             migrationBuilder.CreateTable(
                 name: "QuizUsuario",
-                columns: table => new
-                {
+                columns: table => new {
                     IdQuiz = table.Column<int>(type: "int", nullable: false),
                     IdUsuario = table.Column<int>(type: "int", nullable: false),
                     IdAlternativa = table.Column<int>(type: "int", nullable: false),
@@ -69,8 +61,7 @@ namespace GETAF.Migrations
                     QuizId = table.Column<int>(type: "int", nullable: true),
                     AlternativaId = table.Column<int>(type: "int", nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_QuizUsuario", x => new { x.IdQuiz, x.IdUsuario });
                     table.ForeignKey(
                         name: "FK_QuizUsuario_Alternativa_AlternativaId",
@@ -121,8 +112,7 @@ namespace GETAF.Migrations
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropTable(
                 name: "QuizUsuario");
 

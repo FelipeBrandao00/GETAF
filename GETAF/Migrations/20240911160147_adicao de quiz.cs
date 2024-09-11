@@ -2,14 +2,11 @@
 
 #nullable disable
 
-namespace GETAF.Migrations
-{
+namespace GETAF.Migrations {
     /// <inheritdoc />
-    public partial class adicaodequiz : Migration
-    {
+    public partial class adicaodequiz : Migration {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropForeignKey(
                 name: "FK_Alternativa_Quiz_QuizId",
                 table: "Alternativa");
@@ -173,8 +170,7 @@ namespace GETAF.Migrations
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropForeignKey(
                 name: "FK_Alternativa_Quiz_QuizId",
                 table: "Alternativa");
@@ -297,14 +293,12 @@ namespace GETAF.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Status",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Status", x => x.Id);
                 });
 

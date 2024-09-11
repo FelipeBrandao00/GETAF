@@ -2,14 +2,11 @@
 
 #nullable disable
 
-namespace GETAF.Migrations
-{
+namespace GETAF.Migrations {
     /// <inheritdoc />
-    public partial class adicaodousuarionoquiz : Migration
-    {
+    public partial class adicaodousuarionoquiz : Migration {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.AddColumn<int>(
                 name: "UsuarioId",
                 table: "Quiz",
@@ -32,8 +29,7 @@ namespace GETAF.Migrations
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropForeignKey(
                 name: "FK_Quiz_Usuarios_UsuarioId",
                 table: "Quiz");

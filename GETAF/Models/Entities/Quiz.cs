@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GETAF.Models.Entities
-{
-    public class Quiz
-    {
+namespace GETAF.Models.Entities {
+    public class Quiz {
         [Key]
         public int Id { get; set; }
         public required string Titulo { get; set; }
