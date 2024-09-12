@@ -101,9 +101,11 @@ input[type="submit"]:hover {
 
 .criar-conta {
     text-align: center;
+    cursor: pointer;
 }
 
     .criar-conta a {
+        
         color: #559da8;
         text-decoration: none;
     }
@@ -111,3 +113,5 @@ input[type="submit"]:hover {
         .criar-conta a:hover {
             text-decoration: underline;
         }
+
+

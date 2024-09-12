@@ -36,7 +36,7 @@
       <a>Não possui uma conta?</a>
     </div>
     <div class="criar-conta">
-      <a href="#">Cadastre-se</a>
+      <a onclick="Cadastrar()">Cadastre-se</a>
     </div>
   </div>
 </body>
@@ -82,4 +82,9 @@
             }
         });
     }
+
+    function Cadastrar() {
+        window.location.href = '@Url.Action("Index", "Cadastro")';
+    }
+
 </script>
