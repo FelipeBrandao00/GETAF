@@ -1,7 +1,13 @@
 ﻿using GETAF.Models.Context;
+using Microsoft.AspNetCore.Mvc;
+using GETAF.Models;
+using GETAF.Helper;
+using GETAF.Models.Entities;
 
 namespace GETAF.Models.ViewModel {
     public class LoginModel {
+
+        private readonly ISessao _Sessao;
         public string Email { get; set; }
         public string Password { get; set; }
 
@@ -21,6 +27,13 @@ namespace GETAF.Models.ViewModel {
             } catch (Exception ex) {
                 return new Resposta(false, ex.Message);
             }
+        }
+
+        public Resposta Login()
+        {
+            //Criando sessao do Usuario
+            //_Sessao.CriarSessaoUsuario(usuario);
+            return null;
         }
     }
 }
