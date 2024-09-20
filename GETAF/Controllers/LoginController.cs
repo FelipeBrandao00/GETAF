@@ -18,19 +18,10 @@ namespace GETAF.Controllers {
             return View();
         }
 
-        public JsonResult ValidarLogin([FromBody] LoginModel login) {
+        public IActionResult ValidarLogin([FromBody] LoginModel login) {
+
             var retorno = login.ValidarLogin();
             return Json(retorno);
         }
-
-        //Criar funcao "Entrar", e adicionar "CriarSessaoUsuario"
-
-        public IActionResult Login([FromBody] LoginModel login)
-        {
-            var entrada = login.Login();
-            return Json(entrada);
-        }
-
-
     }
 }

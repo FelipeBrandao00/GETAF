@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using GETAF.Models;
 using GETAF.Helper;
 using GETAF.Models.Entities;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Web.Mvc;
 
 namespace GETAF.Models.ViewModel {
     public class LoginModel {
 
-        private readonly ISessao _Sessao;
+        private readonly ISessao _sessao;
         public string Email { get; set; }
         public string Password { get; set; }
 
@@ -19,21 +21,15 @@ namespace GETAF.Models.ViewModel {
                         return new Resposta(false, "Login/senha inválidos.");
                     }
 
-                    if (Hash.ValidarHash(Password, user.Salt, user.Senha)) {
-                        return new Resposta();
+                    if (Hash.ValidarHash(Password, user.Salt, user.Senha)) 
+                    {
+                        return new Resposta(true, "Login bem-sucedido.");
                     }
                     return new Resposta(false, "Login/senha inválidos.");
                 }
             } catch (Exception ex) {
                 return new Resposta(false, ex.Message);
             }
-        }
-
-        public Resposta Login()
-        {
-            //Criando sessao do Usuario
-            //_Sessao.CriarSessaoUsuario(usuario);
-            return null;
         }
     }
 }
