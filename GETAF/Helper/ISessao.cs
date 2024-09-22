@@ -4,8 +4,8 @@ namespace GETAF.Helper
 {
     public interface ISessao
     {
-        void CriarSessaoUsuario(Usuario usuario);
-        void RemoverSessaoUsuario();
-        Usuario BuscarSessaoUsuario();
+        void CriarSessaoUsuario(string chave, Usuario usuario);
+        void RemoverSessaoUsuario(string chave);
+        Usuario BuscarSessaoUsuario(string chave);
     }
 }

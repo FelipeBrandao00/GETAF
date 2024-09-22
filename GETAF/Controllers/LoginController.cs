@@ -7,21 +7,30 @@ using Microsoft.AspNetCore.Mvc;
 namespace GETAF.Controllers {
     public class LoginController : Controller {
 
-        private readonly ISessao _Sessao;
-        public LoginController(ISessao Sessao)
+        private readonly ISessao _sessao;
+        public LoginController(ISessao sessao)
         {
-            _Sessao = Sessao;
+            _sessao = sessao;
         }
          
         public IActionResult Index() {
-            
+
+            _sessao.RemoverSessaoUsuario("SessaoUsuarioLogado");
             return View();
         }
 
-        public IActionResult ValidarLogin([FromBody] LoginModel login) {
+        public IActionResult ValidarLogin([FromBody] LoginModel login)
+        {
+            var (usuario, resposta) = login.ValidarLogin();
+            
+            if(resposta.Sucesso)
+            {
+                _sessao.CriarSessaoUsuario("SessaoUsuarioLogado", usuario);
+                return Json(new { sucesso = true });
+            }
 
-            var retorno = login.ValidarLogin();
-            return Json(retorno);
+            ViewBag.Erro = resposta.Mensagem;
+            return View("Index");
         }
     }
 }

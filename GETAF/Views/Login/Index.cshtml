@@ -16,7 +16,7 @@
         <img src="" alt="Logo">
         </div> *@
         <h2 class="login">Entrar</h2>
-        <form>
+        <form id="loginForm">
             <div class="formulario">
                 <label for="email">E-mail</label>
                 <input type="email" id="email" name="email" required>
@@ -26,10 +26,10 @@
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="esqueci-senha">
-                <a href="#">Esqueci minha senha</a>
+                <a href="#" onclick="EsqueciSenha()">Esqueci minha senha</a>
             </div>
             <div class="form">
-                <button class="submit" type="submit" onclick="Login()">Entrar</button>
+                <button class="submit" type="submit">Entrar</button>
             </div>
         </form>
         <div class="conta">
@@ -44,7 +44,14 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
-    function Login() {
+
+    $(document).ready(function () {
+        $("#loginForm").on("submit", function (event) {
+            Login(event);
+        });
+    });
+
+    function Login(event) {
         event.preventDefault();
 
         var email = document.getElementById('email');
@@ -77,14 +84,19 @@
                 }
                 alert('Não foi possível realizar o login. ' + retorno.mensagem);
             },
-            error: function () {
-                alert('Algo deu errado ao fazer o login.');
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(jqXHR.responseText);
+                alert('Algo deu errado ao fazer o login: ' + textStatus);
             }
         });
     }
 
     function Cadastrar() {
         window.location.href = '@Url.Action("Index", "Cadastro")';
+    }
+
+    function EsqueciSenha() {
+        window.location.href = '@Url.Action("Index", "EsqueciSenha")';
     }
 
 </script>

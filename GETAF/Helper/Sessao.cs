@@ -7,31 +7,31 @@ namespace GETAF.Helper
 {
     public class Sessao : ISessao
     {
-        private readonly IHttpContextAccessor _httpContext;
+        private readonly IHttpContextAccessor _httpContextAcessor;
 
-        public Sessao(IHttpContextAccessor httpContext)
+        public Sessao(IHttpContextAccessor httpContextAcessor)
         {
-            _httpContext = httpContext;
+            _httpContextAcessor = httpContextAcessor;
         }
 
-        public Usuario BuscarSessaoUsuario()
+        public Usuario BuscarSessaoUsuario(string chave)
         {
-            string SessaoUsuario = _httpContext.HttpContext.Session.GetString("SessaoUsuarioLogado");
+            string SessaoUsuario = _httpContextAcessor.HttpContext.Session.GetString(chave);
 
             if (string.IsNullOrEmpty(SessaoUsuario)) return null;
 
             return JsonConvert.DeserializeObject<Usuario>(SessaoUsuario);
         }
 
-        public void CriarSessaoUsuario(Usuario usuario)
+        public void CriarSessaoUsuario(string chave, Usuario usuario)
         {
             string valor = JsonConvert.SerializeObject(usuario);
-            _httpContext.HttpContext.Session.SetString("SessaoUsuarioLogado", valor);
+            _httpContextAcessor.HttpContext.Session.SetString(chave, valor);
         }
 
-        public void RemoverSessaoUsuario()
+        public void RemoverSessaoUsuario(string chave)
         {
-            _httpContext.HttpContext.Session.Remove("SessaoUsuarioLogado");
+            _httpContextAcessor.HttpContext.Session.Remove(chave);
         }
     }
 }

@@ -22,9 +22,9 @@
             <div class="slogan">
                 Uma forma prática e rápida de gerenciar seus estudos!
             </div>
-            <button class="botao">Entrar</button>
+            <button class="botao" onclick="Entrar()">Entrar</button>
             <div class="esqueci-senha">
-                <a href="#">Esqueci minha senha</a>
+                <a href="#" onclick="EsqueciSenha()">Esqueci minha senha</a>
             </div>
         </div>
         <div class="pag-direita">
@@ -126,6 +126,12 @@
         });
     }
 
+    function EsqueciSenha() {
+        window.location.href = '@Url.Action("Index", "EsqueciSenha")';
+    }
 
+    function Entrar() {
+        window.location.href = '@Url.Action("Index", "Login")';
+    }
 
 </script>
