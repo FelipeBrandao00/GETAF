@@ -1,5 +1,6 @@
 ﻿using GETAF.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 
 namespace GETAF.Models.Context;
 public class AppDbContext : DbContext {
@@ -20,7 +21,8 @@ public class AppDbContext : DbContext {
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         if (!optionsBuilder.IsConfigured) {
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=GETAF;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-HDNU4UN;Initial Catalog=GETAF;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            //optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=GETAF;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
         }
     }
 
