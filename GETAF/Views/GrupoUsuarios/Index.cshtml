@@ -1,0 +1,169 @@
+﻿@model GETAF.Models.Entities.GrupoUsuario
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="~/css/Membros/Membros.css">
+    <title>Membros</title>
+
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo-container">
+                <h1 class="logo">UniFocus</h1>
+                <div class="icons">
+                    <a href="#grupos" onclick="window.location.href='./grupos.html'">
+                        <span class="material-symbols-outlined">groups</span>
+                        <span class="link-texto">Grupos</span>
+                    </a>
+                    <a href="#cronometro" onclick="window.location.href='./pomodoro.html'">
+                        <span class="material-symbols-outlined">alarm</span>
+                        <span class="link-texto">Cronômetro</span>
+                    </a>
+                    <a href="#ranking" onclick="window.location.href='./ranking.html'">
+                        <span class="material-symbols-outlined">star</span>
+                        <span class="link-texto">Ranking</span>
+                    </a>
+                    <a href="#tarefas" onclick="window.location.href='./tarefas.html'">
+                        <span class="material-symbols-outlined">view_kanban</span>
+                        <span class="link-texto">Tarefas</span>
+                    </a>
+                </div>
+            </div>
+
+            <div id="user-menu" class="user-menu">
+                <ul>
+                    <li><a href="#configuracoes" onclick="window.location.href='./configuracoes.html'">Configurações</a></li>
+                    <li><a href="#telainicial" onclick="window.location.href='./telainicial.html'">Sair</a></li>
+                </ul>
+            </div>
+
+            <div class="user" onclick="toggleUserMenu()">
+                <img src="user-icon.png" alt="Ícone de usuário">
+            </div>
+        </div>
+
+        <ul class="menu">
+            <li><a href="#">Tarefas</a></li>
+            <li><a href="#">Perguntas</a></li>
+            <li><a href="#">Ranking</a></li>
+            <li><a href="#">Membros</a></li>
+            <li><a href="#">Configurações</a></li>
+        </ul>
+
+        <div class="invite-container">
+            <button id="inviteButton" onclick="showInviteModal()">
+                <span class="material-symbols-outlined">person_add</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <h2>Membros - @Html.DisplayFor(model => model.Grupo)</h2>
+        <section class="members-section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Função</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        @if (Model.UsuaProp == 1)
+                        {
+                             <td><a href="#"></a>@Html.DisplayFor(modelItem => modelItem.UsuaProp)</td>
+                             <td>Proprietário</td>
+                             <td></td>   
+                        }
+                       
+                    </tr asp-for = "id">
+                    <td"><a href="#">@Html.DisplayFor(modelItem => modelItem.UsuarioId)</a></td>
+                    <td>Membro</td>
+                    @if (Model.UsuaProp == 1)
+                    {
+                         <td><a class="material-symbols-outlined" onclick="showModal('{membro}')">delete_forever</a></td>
+                    }
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <div id="deleteModal" class="modal" asp-action="DeletedConfirmed">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 class="modal-title">Confirmação de Exclusão</h2>
+            <p>Tem certeza de que deseja remover <span id="memberName"></span> do grupo?</p>
+            <div class="modal-buttons">
+                <button class="modal-button" onclick="confirmDelete()">Excluir</button>
+                <button class="modal-button" onclick="closeModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="inviteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeInviteModal()">&times;</span>
+            <h2 class="nome-grupo">@Html.DisplayFor(modelItem => modelItem.Grupo)</h2>
+            <h3 class="invite">Convite</h3>
+            <p class="texto">Digite o e-mail da pessoa para enviarmos um link de convite para o seu grupo.</p>
+            <input id="Email" type="email" placeholder="E-mail" required>
+            <button onclick="sendInvite() asp-action="GerarLink" class="invite-send">Enviar convite</button>
+            <hr>
+            <p class="or">OU</p>
+            <a href="#" type="button" onclick="copyLink()" class="invite-link">Copiar link</a>
+        </div>
+    </div>
+
+    <script>
+        const userMenu = document.getElementById("user-menu");
+
+        function toggleUserMenu() {
+            userMenu.classList.toggle("show");
+        }
+
+        function showModal(memberName) {
+            document.getElementById("memberName").textContent = memberName;
+            document.getElementById("deleteModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("deleteModal").style.display = "none";
+        }
+
+        function confirmDelete() {
+            alert('O membro foi removido com sucesso!');
+            closeModal();
+        }
+
+        function showInviteModal() {
+            document.getElementById("inviteModal").style.display = "block";
+        }
+
+        function closeInviteModal() {
+            document.getElementById("inviteModal").style.display = "none";
+        }
+
+        function sendInvite() {
+            alert('Convite enviado com sucesso!');
+            closeInviteModal();
+        }
+
+        function copyLink() {
+            alert('Link copiado!');
+        }
+    </script>
+</body>
+</html>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GETAF.Models.Context;
 using GETAF.Models.Entities;
+using Microsoft.AspNetCore.SignalR;
 
 namespace GETAF.Controllers
 {
@@ -160,5 +161,24 @@ namespace GETAF.Controllers
         {
             return _context.Grupos.Any(e => e.Id == id);
         }
+
+        public IActionResult GerarLink(int gpId)
+        {
+            var codConvite = Guid.NewGuid().ToString();
+
+            var grupo = _context.Grupos.Find(gpId);
+
+            var linkConvite = Url.Action("ParticipeGrupo", "GrupoUsuario", codConvite, Request.Scheme);
+
+            return Json(new { linkConvite, grupo });
+        }
+
+        public void ParticipeGrupo(int gpId, int userId)
+        {
+            var grupo = _context.GrupoUsuarios.Find(gpId);
+            
+            _context.GrupoUsuarios.Add(new GrupoUsuario { UsuarioId = userId, GrupoId = gpId });
+        }
     }
+
 }
