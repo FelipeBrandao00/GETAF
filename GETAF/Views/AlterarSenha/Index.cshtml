@@ -24,9 +24,60 @@
             <input type="password" id="confirmar-senha" placeholder="Confirmar nova senha">
         </div>
         <div class="botao-container">
-            <button class="confirmar" id="confirmar" onclick="window.location.href='./login.html'">Confirmar</button>
+            <button class="confirmar" id="confirmar">Confirmar</button>
             <a href="./login.html" class="cancelar">Cancelar</a>
         </div>
     </div>
 </body>
 </html>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+
+    function RedefinirSenha() {
+
+        var novaSenha = document.getElementById('nova-senha');
+        if (novaSenha.value.length == 0) {
+            alert('A senha não foi escrita');
+            novaSenha.focus();
+            return;
+        }
+
+        var confirmarSenha = document.getElementById('confirmar-senha');
+        if (confirmarSenha.value.length == 0) {
+            alert('A senha não foi escrita');
+            confirmarSenha.focus();
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("RedefinirSenha", "AlterarSenha")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                NovaSenha: novaSenha.value,
+                ConfirmarSenha: confirmarSenha.value
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    window.location.href = '@Url.Action("Index", "Login")';
+                }
+                else {
+                    alert('Algo deu errado ao fazer o envio: ' + retorno.mensagem);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(jqXHR.responseText);
+                alert('Algo deu errado ao fazer o envio: ' + textStatus);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('#confirmar').click(function () {
+            RedefinirSenha();
+        });
+    });
+
+</script>

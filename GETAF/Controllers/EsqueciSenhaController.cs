@@ -25,6 +25,9 @@ namespace GETAF.Controllers
         public async Task<IActionResult> ReceberCodigo([FromBody] EsqueciSenhaModel esqueciSenhaModel)
         {
             var (usuario, resposta) = esqueciSenhaModel.ReceberCodigo();
+            var emailCapturado = usuario.Email;
+
+            TempData["EmailUsuario"] = emailCapturado;
 
             if (resposta.Sucesso)
             {
