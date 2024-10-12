@@ -11,6 +11,7 @@ namespace GETAF.Controllers
     public class EsqueciSenhaController : Controller
     {
         private readonly IEmail _email;
+        public string CodigoGerado;
 
         public EsqueciSenhaController(IEmail email)
         {
@@ -27,8 +28,9 @@ namespace GETAF.Controllers
 
             if (resposta.Sucesso)
             {
-                string codigo = (Guid.NewGuid().ToString().Substring(0, 8));
-                bool emailEnviado = await _email.EnviarAsync(usuario.Email, "Código para redefinir senha", $"Seu código para redefinir a senha é: {codigo.ToUpper()}");
+                CodigoGerado = (Guid.NewGuid().ToString().Substring(0, 8)).ToUpper();
+                HttpContext.Session.SetString("CodigoGerado", CodigoGerado);
+                bool emailEnviado = await _email.EnviarAsync(usuario.Email, "Código para redefinir senha", $"Seu código para redefinir a senha é: {CodigoGerado}");
 
                 if (emailEnviado)
                 {

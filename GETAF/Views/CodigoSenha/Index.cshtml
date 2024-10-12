@@ -25,7 +25,7 @@
             <input placeholder="Código" id="codigo" required>
         </div>
         <div class="botao-container">
-            <button class="confirmar" id="confirmar" onclick="window.location.href='./redefinirsenha.html'">Confirmar</button>
+            <button class="confirmar" id="confirmar">Confirmar</button>
         </div>
         <div class="codigo-n">
             <a>Não recebeu um código?</a>
@@ -35,3 +35,51 @@
         </div>
 </body>
 </html>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+
+    function Voltar() {
+        window.location.href = '@Url.Action("Index", "Login")';
+    }
+
+    function VerificarCodigo() {
+
+        var codigo = document.getElementById('codigo');
+        if (codigo.value.length == 0) {
+            alert('O código não foi escrito');
+            codigo.focus();
+            return;
+        }
+
+        
+        $.ajax({
+            url: '@Url.Action("VerificarCodigo", "CodigoSenha")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                Codigo: codigo.value,
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    window.location.href = '@Url.Action("Index", "AlterarSenha")';
+                }
+                else{
+                    alert('Algo deu errado ao fazer o envio: ' + retorno.mensagem);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(jqXHR.responseText);
+                alert('Algo deu errado ao fazer o envio: ' + textStatus);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('#confirmar').click(function () {
+            VerificarCodigo();
+        });
+    });
+
+</script>

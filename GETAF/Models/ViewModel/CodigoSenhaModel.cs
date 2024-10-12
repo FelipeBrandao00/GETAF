@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace GETAF.Models.ViewModel
+﻿namespace GETAF.Models.ViewModel
 {
-    public class CodigoSenhaModel : Controller
+    public class CodigoSenhaModel
     {
-        public IActionResult ReceberCodigo()
-        {
-            return View();
-        }
+        public string Codigo { get; set; }
+
+        public Resposta VerificarCodigo(string codigo) => new Resposta(codigo == Codigo, codigo == Codigo? "Código Validado" : "Código Incorreto");      
     }
 }
