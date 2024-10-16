@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GETAF.Models.Context;
+using GETAF.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using GETAF.Models.Context;
-using GETAF.Models.Entities;
-using Microsoft.AspNetCore.SignalR;
 
-namespace GETAF.Controllers
-{
+namespace GETAF.Controllers {
     public class GrupoesController : Controller
     {
         private readonly AppDbContext _context;
@@ -60,14 +54,9 @@ namespace GETAF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome,Descricao,UsuarioId")] Grupo grupo)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(grupo);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "Id", grupo.UsuarioId);
-            return View(grupo);
+            _context.Add(grupo);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Grupoes/Edit/5
@@ -99,29 +88,24 @@ namespace GETAF.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(grupo);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!GrupoExists(grupo.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(grupo);
+                await _context.SaveChangesAsync();
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "Id", grupo.UsuarioId);
-            return View(grupo);
-        }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!GrupoExists(grupo.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));        
+       }
 
         // GET: Grupoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
