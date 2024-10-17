@@ -1,0 +1,21 @@
+﻿
+@{
+    Layout = "_LayoutTopMenu";
+}
+
+<link rel="stylesheet" href="~/css/Grupo/ExcluirGrupo/Index.css" />
+
+
+<div class="content">
+            <h2>Configurações</h2>
+        <div class="delete-group">
+            <h3>Deletar grupo</h3>
+            <p class="p"><span class="material-symbols-outlined info-icon">info</span> Esta ação é irreversível.</p>
+            <h3 id="nome-grupo">{nome do grupo}</h3>
+            <p class="confirmation-text" id="nome-grp">Você tem certeza que deseja excluir o grupo?</p>
+            <div class="actions">
+                <button type="button" class="cancel-btn" onclick="window.location.href='./configuracoes.html'">Cancelar</button>
+                <button type="button" class="delete-btn" onclick="window.location.href='./telainicial.html'">Deletar conta</button>
+            </div>
+        </div>
+    </div>

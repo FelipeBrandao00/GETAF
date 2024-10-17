@@ -14,6 +14,14 @@ namespace GETAF.Controllers {
             return View();
         }
 
+        public IActionResult EditarGrupo() {
+            return View();
+        }
+
+        public IActionResult ExcluirGrupo() {
+            return View();
+        }
+
         [HttpPost]
         public IActionResult CriarGrupo([FromBody] GrupoModel grupoModel) {
             var usuario = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
