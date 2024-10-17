@@ -1,5 +1,6 @@
 ﻿using GETAF.Models.Context;
 using GETAF.Models.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GETAF.Models.ViewModel {
     public class GrupoModel() {
@@ -27,5 +28,23 @@ namespace GETAF.Models.ViewModel {
 
             return new Resposta(true, "Criado com sucesso!");
         }
+
+        //public IActionResult DetalhesGrupo()
+        //{
+        //    return new Resposta(false, "");
+        //}
+
+        public Resposta EditarGrupo()
+        {
+            return new Resposta(false, "");
+        }
+
+        //public IActionResult ExcluirGrupo()
+        //{
+        //    return new Resposta(false, "");
+        //}
+
+
+
     }
 }

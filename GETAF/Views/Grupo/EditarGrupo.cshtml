@@ -16,8 +16,8 @@
         </div>
         <form action="#">
             <section id="sec-nome">
-                <input type="text" id="text" placeholder="{nome grupo}">
-                <input type="text" id="text" placeholder="{descrição grupo}">
+                <input type="text" id="nome-grupo" placeholder="{nome grupo}">
+                <input type="text" id="desc-grupo" placeholder="{descrição grupo}">
             </section>
             <div class="button-group">
                 <button type="button" class="cancel-btn">Cancelar</button>
@@ -27,3 +27,57 @@
         </form>
     </div>
 </div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#loginForm").on("submit", function (event) {
+            Login(event);
+        });
+    });
+
+    function DetalhesGrupos(event) {
+        event.preventDefault();
+
+        var nome = document.getElementById('nome-grupo');
+        if (nome.value.length == 0) {
+            alert('O nome não foi escrito!');
+            nome.focus();
+            return;
+        }
+
+        var descricao = document.getElementById('desc-grupo');
+
+        $.ajax({
+            url: '@Url.Action("ValidarLogin", "Login")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                Email: email.value,
+                Password: password.value
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    window.location.href = '@Url.Action("Index", "Home")';
+                    return;
+                }
+                alert('Não foi possível realizar o login. ' + retorno.mensagem);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(jqXHR.responseText);
+                alert('Algo deu errado ao fazer o login: ' + textStatus);
+            }
+        });
+    }
+
+    function Cadastrar() {
+        window.location.href = '@Url.Action("Index", "Cadastro")';
+    }
+
+    function EsqueciSenha() {
+        window.location.href = '@Url.Action("Index", "EsqueciSenha")';
+    }
+
+</script>

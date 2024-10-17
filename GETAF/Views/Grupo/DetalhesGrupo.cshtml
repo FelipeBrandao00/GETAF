@@ -1,4 +1,5 @@
-﻿@{
+﻿@model GETAF.Models.Entities.Grupo
+@{
     ViewData["Title"] = "Detalhes do Grupo";
     Layout = "_LayoutTopMenu";
 }
@@ -40,7 +41,7 @@
 </ul>
 
 <div class="group">
-    {Nome do grupo}
+    @Model.Nome
 </div>
 
 <div class="back-to-groups" onclick="RedirecionarGrupos()">

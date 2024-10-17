@@ -10,8 +10,10 @@ namespace GETAF.Controllers {
             return View();
         }
 
-        public IActionResult DetalhesGrupo() {
-            return View();
+        public IActionResult DetalhesGrupo([FromQuery]int grupoId) {
+
+            var grupo = _context.Grupos.Find(grupoId);
+            return View(grupo);
         }
 
         public IActionResult EditarGrupo() {
