@@ -1,15 +1,9 @@
 ﻿@model List<GETAF.Models.Entities.Grupo>
 
-<script>
-    function EntrarNoGrupo(grupoId) {
-        window.location.href = `@Url.Action("DetalhesGrupo", "Grupo")?grupoId=` + grupoId;
-    }
-</script>
-
 <h2>Meus grupos</h2>
 <div class="group-list">
     @foreach (var grupo in Model) {
-        <div class="group" onclick="EntrarNoGrupo(`@grupo.Id`)">@grupo.Nome</div>
+        <div class="group" onclick="EntrarNoGrupo(@grupo.Id)">@grupo.Nome</div>
     }
 </div>
 

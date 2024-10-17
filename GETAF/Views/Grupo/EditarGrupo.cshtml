@@ -1,4 +1,6 @@
-﻿@{
+﻿@model GETAF.Models.Entities.Grupo
+
+@{
     Layout = "_LayoutTopMenu";
 }
 
@@ -16,14 +18,14 @@
         </div>
         <form action="#">
             <section id="sec-nome">
-                <input type="text" id="nome-grupo" placeholder="{nome grupo}">
-                <input type="text" id="desc-grupo" placeholder="{descrição grupo}">
+                <input type="text" id="nome-grupo" placeholder="{nome grupo}" value="@Model.Nome">
+                <input type="text" id="desc-grupo" placeholder="{descrição grupo}" value="@Model.Descricao">
             </section>
             <div class="button-group">
-                <button type="button" class="cancel-btn">Cancelar</button>
-                <button type="submit" class="confirm-btn">Confirmar</button>
+                <button type="button" class="cancel-btn" onclick="VoltarGrupo(@Model.Id)">Cancelar</button>
+                <button type="button" class="confirm-btn" onclick="editGroup(@Model.Id)">Confirmar</button>
             </div>
-            <a href="#" class="delete-group" onclick="">Deletar grupo</a>
+            <a href="#" class="delete-group" onclick="ExcluirGrupo(@Model.Id)">Deletar grupo</a>
         </form>
     </div>
 </div>
@@ -31,53 +33,40 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
 
-    $(document).ready(function () {
-        $("#loginForm").on("submit", function (event) {
-            Login(event);
-        });
-    });
+    function VoltarGrupo(grupoId) {
+        window.location.href = `@Url.Action("DetalhesGrupo", "Grupo")?grupoId=` + grupoId;
+    }
+    function ExcluirGrupo(grupoId) {
+        window.location.href = `@Url.Action("ExcluirGrupo", "Grupo")?grupoId=` + grupoId;
+    }
 
-    function DetalhesGrupos(event) {
+
+    function editGroup(idGrupo) {
         event.preventDefault();
-
-        var nome = document.getElementById('nome-grupo');
-        if (nome.value.length == 0) {
-            alert('O nome não foi escrito!');
-            nome.focus();
-            return;
-        }
-
-        var descricao = document.getElementById('desc-grupo');
+        var nome = document.getElementById("nome-grupo").value;
+        var descricao = document.getElementById("desc-grupo").value;
 
         $.ajax({
-            url: '@Url.Action("ValidarLogin", "Login")',
+            url: '@Url.Action("EditarGrupo", "Grupo")',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             type: "POST",
             data: JSON.stringify({
-                Email: email.value,
-                Password: password.value
+                id: idGrupo,
+                nome: nome,
+                descricao: descricao
             }),
             success: function (retorno) {
                 if (retorno.sucesso) {
-                    window.location.href = '@Url.Action("Index", "Home")';
-                    return;
+                    VoltarGrupo(idGrupo);
                 }
-                alert('Não foi possível realizar o login. ' + retorno.mensagem);
+                else alert(retorno.mensagem)
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.error(jqXHR.responseText);
-                alert('Algo deu errado ao fazer o login: ' + textStatus);
+                alert('Algo deu errado');
             }
         });
-    }
-
-    function Cadastrar() {
-        window.location.href = '@Url.Action("Index", "Cadastro")';
-    }
-
-    function EsqueciSenha() {
-        window.location.href = '@Url.Action("Index", "EsqueciSenha")';
     }
 
 </script>

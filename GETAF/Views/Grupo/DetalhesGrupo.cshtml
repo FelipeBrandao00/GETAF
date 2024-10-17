@@ -37,7 +37,7 @@
     <li><a href="#">Perguntas</a></li>
     <li><a href="#">Ranking</a></li>
     <li><a href="#">Membros</a></li>
-    <li><a href="#">Configurações</a></li>
+    <li><a onclick="EntrarConfigGrupo(@Model.Id)">Configurações</a></li>
 </ul>
 
 <div class="group">
@@ -48,3 +48,9 @@
     <span id="back" class="material-symbols-outlined">arrow_back_ios</span>
     <a class="groups">Grupos</a>
 </div>
+
+<script>
+    function EntrarConfigGrupo(grupoId) {
+        window.location.href = `@Url.Action("EditarGrupo", "Grupo")?grupoId=` + grupoId;
+    }
+</script>

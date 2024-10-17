@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GETAF.Models.ViewModel {
     public class GrupoModel() {
+        public int Id { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; } = "";
 
@@ -34,15 +35,32 @@ namespace GETAF.Models.ViewModel {
         //    return new Resposta(false, "");
         //}
 
-        public Resposta EditarGrupo()
+        public Resposta EditarGrupo(AppDbContext _context)
         {
-            return new Resposta(false, "");
+            try {
+                var grupo = _context.Grupos.Find(Id);
+                grupo.Nome = Nome;
+                grupo.Descricao = Descricao;
+                _context.SaveChanges();
+                return new Resposta(true, "Sucesso ao editar grupo");
+            }
+            catch (Exception ex) {
+                return new Resposta(false, "Erro ao editar grupo");
+            }
+
         }
 
-        //public IActionResult ExcluirGrupo()
-        //{
-        //    return new Resposta(false, "");
-        //}
+        public Resposta ExcluirGrupo(AppDbContext _context) {
+            try {
+                var grupo = _context.Grupos.Find(Id);
+                _context.Grupos.Remove(grupo);
+                _context.SaveChanges();
+                return new Resposta(true, "Sucesso ao excluir grupo");
+            }
+            catch (Exception ex) {
+                return new Resposta(false, "Erro ao excluir grupo");
+            }
+        }
 
 
 

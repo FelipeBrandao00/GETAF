@@ -1,4 +1,5 @@
-﻿
+﻿@model GETAF.Models.Entities.Grupo
+
 @{
     Layout = "_LayoutTopMenu";
 }
@@ -11,11 +12,41 @@
         <div class="delete-group">
             <h3>Deletar grupo</h3>
             <p class="p"><span class="material-symbols-outlined info-icon">info</span> Esta ação é irreversível.</p>
-            <h3 id="nome-grupo">{nome do grupo}</h3>
+            <h3 id="nome-grupo">@Model.Nome</h3>
             <p class="confirmation-text" id="nome-grp">Você tem certeza que deseja excluir o grupo?</p>
             <div class="actions">
-                <button type="button" class="cancel-btn" onclick="window.location.href='./configuracoes.html'">Cancelar</button>
-                <button type="button" class="delete-btn" onclick="window.location.href='./telainicial.html'">Deletar conta</button>
+            <button type="button" class="cancel-btn" onclick="VoltarConfigGrupo(@Model.Id)">Cancelar</button>
+            <button type="button" class="delete-btn" onclick="DelGroup(@Model.Id)">Deletar</button>
             </div>
         </div>
     </div>
+
+<script>
+    function VoltarConfigGrupo(grupoId) {
+        window.location.href = `@Url.Action("EditarGrupo", "Grupo")?grupoId=` + grupoId;
+    }
+
+    function DelGroup(idGrupo) {
+        event.preventDefault();
+
+        $.ajax({
+            url: '@Url.Action("ExcluirGrupo", "Grupo")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                id: idGrupo
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    RedirecionarGrupos();
+                }
+                else alert(retorno.mensagem)
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+</script>

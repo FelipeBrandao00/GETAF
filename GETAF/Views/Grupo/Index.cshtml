@@ -163,6 +163,10 @@
         document.getElementById("createGroupModal").style.display = "none";
     }
 
+    function EntrarNoGrupo(grupoId) {
+        window.location.href = `@Url.Action("DetalhesGrupo", "Grupo")?grupoId=` + grupoId;
+    }
+
     function createGroup() {
         var nome = document.getElementById("groupName").value;
         var descricao = document.getElementById("groupDesc").value;
@@ -177,19 +181,17 @@
                 descricao: descricao
             }),
             success: function (retorno) {
-                alert(retorno.mensagem)
-                if (retorno.sucesso)
+                if (retorno.sucesso) {
                     closeCreateGroupModal();
-                ListarGrupos();
+                    ListarGrupos();
+                }
+                else alert(retorno.mensagem)
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Algo deu errado');
             }
         });
-
-        // closeCreateGroupModal();
-        // Redireciona para a nova tela após criar o grupo
-        // window.location.href = './grupovisu.html'
     }
 
     // Fechar modal ao clicar fora dele
