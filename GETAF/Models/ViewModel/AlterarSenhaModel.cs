@@ -30,6 +30,7 @@ namespace GETAF.Models.ViewModel
 
                     _context.Usuarios.Update(usuario);
                     _context.SaveChanges();
+                    
 
                     return new Resposta(true, "Senha Alterada com sucesso");
                 }

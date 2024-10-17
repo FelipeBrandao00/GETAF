@@ -1,0 +1,155 @@
+﻿.config {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #155967;
+    padding: 15px;
+}
+
+.profile-box {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 430px;
+    margin: 0 auto;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    text-align: left;
+    position: relative; /* Para permitir o posicionamento absoluto do ícone */
+}
+
+    .profile-header .avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 20px; /* Espaço entre a foto e o título */
+    }
+
+    .profile-header h2 {
+        font-size: 32px;
+        color: #155967;
+        margin: 0;
+    }
+
+    .profile-header p {
+        color: #999;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+.camera-icon {
+    font-size: 24px;
+    color: #454545;
+    position: absolute;
+    bottom: 10px;
+    left: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    form input {
+        width: 80%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+        position: relative;
+        box-sizing: border-box;
+    }
+
+section {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.confirm-btn {
+    width: 130px;
+    background-color: #207283;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+    .confirm-btn:hover {
+        background-color: #155967;
+    }
+
+.cancel-btn {
+    width: 130px;
+    background-color: #fff;
+    color: #155967;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: 1px solid #155967;
+    transition: background-color 0.3s ease;
+}
+
+    .cancel-btn:hover {
+        background-color: #e2e0e0;
+        color: #155967;
+        border: 1px solid #155967;
+    }
+
+.change-password {
+    color: #ADD8E6;
+    font-size: 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margim-bottom: 40px;
+}
+
+    .change-password:hover {
+        text-decoration: underline;
+    }
+
+.delete-account {
+    color: #d9534f;
+    font-size: 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+
+    .delete-account:hover {
+        text-decoration: underline;
+    }
+
+input::placeholder {
+    color: #999;
+    font-size: 16px;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 10px;
+}

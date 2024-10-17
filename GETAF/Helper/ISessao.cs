@@ -6,6 +6,7 @@ namespace GETAF.Helper
     {
         void CriarSessaoUsuario(string chave, Usuario usuario);
         void RemoverSessaoUsuario(string chave);
+        void AtualizarSessaoUsuario(string chave);
         Usuario BuscarSessaoUsuario(string chave);
     }
 }

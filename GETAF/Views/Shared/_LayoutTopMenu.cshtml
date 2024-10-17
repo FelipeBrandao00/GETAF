@@ -36,7 +36,7 @@
             <div id="user-menu" class="user-menu">
                 <ul>
                     <li>
-                        <a href="#configuracoes" onclick="window.location.href='./configuracoes.html'">
+                        <a href="#configuracoes" onclick="Configuracoes()">
                             Configurações
                             <span class="material-symbols-outlined">settings</span>
                         </a>
@@ -69,11 +69,20 @@
 </html>
 
 <script>
+    function toggleUserMenu() {
+        var menu = document.getElementById('user-menu');
+        menu.classList.toggle('show');
+    }
+
     function RedirecionarGrupos() {
         window.location.href = '@Url.Action("Index", "Grupo")';
     }
 
     function RedirecionarHome() {
         window.location.href = '@Url.Action("Index", "Home")';
+    }
+
+    function Configuracoes(){
+        window, location.href = '@Url.Action("Index", "Configuracao")';
     }
 </script>

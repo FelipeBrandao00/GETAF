@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "_LayoutTopMenu";
+}
+<link rel="stylesheet" href="/css/Configuracao/DeletarConta.css">
+
+<div class="content">
+    <h1>Configurações</h1>
+        <div class="delete-account">
+            <h3>Deletar conta</h3>
+            <p class="p"><span class="material-symbols-outlined info-icon">info</span> Esta ação é irreversível.</p>
+            <div class="user-icon">
+                <img src="user-icon.png" alt="Usuário">
+            </div>
+            <p class="confirmation-text">Você tem certeza que deseja excluir sua conta?</p>
+            <div class="actions">
+                <button class="cancel-btn" onclick="Cancelar()">Cancelar</button>
+                <button class="delete-btn" onclick="DeletarContaUsuario()">Deletar conta</button>
+            </div>
+        </div>
+</div>
+
+<script>
+
+    function Cancelar() {
+            window.location.href = '@Url.Action("Index", "Configuracao")';
+        }
+
+    function DeletarContaUsuario() {
+            
+        $.ajax({
+                url: '@Url.Action("DeletarContaUsuario", "Configuracao")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST",
+                success: function (retorno) {
+                    if (retorno.sucesso) {
+                        window.location.href = '@Url.Action("Index", "Login")';
+                    }
+                    else
+                    {
+                        alert('Não foi possível alterar o nome. ' + retorno.mensagem);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                         console.error(jqXHR.responseText);
+                    alert('Algo deu errado ao fazer o login: ' + textStatus);
+                }
+            });
+        }
+        
+</script>

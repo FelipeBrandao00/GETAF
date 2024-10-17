@@ -1,3 +1,102 @@
 ﻿@{
-    Layout = null;
+    Layout = "_LayoutTopMenu";
 }
+
+
+<link rel="stylesheet" href="/css/Configuracao/Index.css">
+
+<div class="content">
+    <h2 class="config">Configurações</h2>
+    <div class="profile-box">
+        <div class="profile-header">
+            <img src="user-avatar.png" alt="Foto de perfil" class="avatar">
+            <div id="edit">
+                <h2>Editar perfil</h2>
+                <p>Altere os campos abaixo para editar seu perfil.</p>
+            </div>
+            <span class="material-symbols-outlined camera-icon">photo_camera</span>
+        </div>
+        <form action="#"><!--enctype="multipart/form-data" method="post"-->
+            <section id="sec-nome">
+                <input type="text" id="nome" placeholder="Nome">
+            </section>
+            <div class="button-group">
+                <button type="button" class="cancel-btn">Cancelar</button>
+                <button type="submit" onclick="EditarNome()" class="confirm-btn">Confirmar</button>
+            </div>
+            <a href="#" class="change-password" onclick="AlterarSenha()">Alterar Senha</a>
+            <a href="#" class="delete-account" onclick="DeletarConta()">Deletar conta</a>
+        </form>
+    </div>
+</div>
+
+ 
+    <script>
+
+        function EditarNome() {
+            var nome = document.getElementById('nome');
+            if (nome.value.length == 0) {
+                alert('O nome não foi escrito!');
+                nome.focus();
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("EditarNome", "Configuracao")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST",
+                data: JSON.stringify({
+                    Nome: nome.value
+                }),
+                success: function (retorno) {
+                    if (retorno.sucesso) {
+                        window.location.href = '@Url.Action("Index", "Home")';
+                    }
+                    else
+                    {
+                        alert('Não foi possível alterar o nome. ' + retorno.mensagem);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error(jqXHR.responseText);
+                    alert('Algo deu errado ao fazer o login: ' + textStatus);
+                }
+            });
+        }
+
+    function EditarFoto() {
+        var fotoPerfil = document.getElementById('fotoPerfil').files[0];
+        var formData = new FormData();
+
+        formData.append('FotoPerfil', fotoPerfil);
+
+        $.ajax({
+            url: '@Url.Action("EditarFoto", "Configuracao")',
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    window.location.href = '@Url.Action("Index", "Home")';
+                }
+                else {
+                    alert('Não foi possível alterar a foto. ' + retorno.mensagem);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(jqXHR.responseText);
+                alert('Algo deu errado ao troca a foto: ' + textStatus);
+            }
+        });
+    }
+
+        function AlterarSenha() {
+            window.location.href = '@Url.Action("Index", "AlterarSenha")';
+        }
+
+        function DeletarConta() {
+            window.location.href = '@Url.Action("DeletarConta", "Configuracao")';
+        }
+    </script>
