@@ -1,0 +1,101 @@
+﻿@model GETAF.Models.Entities.GrupoUsuario
+
+@{
+    ViewData["Title"] = "Membros";
+    Layout = "_LayoutTopMenu";
+}
+
+<ul class="menu">
+    <li><a href="#">Tarefas</a></li>
+    <li><a href="#">Perguntas</a></li>
+    <li><a href="#">Ranking</a></li>
+    <li><a onclick="RedirecionarMembros(@Model.Grupo.Id)">Membros</a></li>
+    <li><a onclick="EntrarConfigGrupo(@Model.Grupo.Id)">Configurações</a></li>
+</ul>
+
+    <main>
+        <h2>Membros - @Model.Grupo.Nome</h2>
+        <section class="members-section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Função</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <td"><a href="#">@Model.Usuario.Nome</a></td>
+                    <td>Membro</td>
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <div id="deleteModal" class="modal" asp-action="DeletedConfirmed">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 class="modal-title">Confirmação de Exclusão</h2>
+            <p>Tem certeza de que deseja remover <span id="memberName"></span> do grupo?</p>
+            <div class="modal-buttons">
+                <button class="modal-button" onclick="confirmDelete()">Excluir</button>
+                <button class="modal-button" onclick="closeModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="inviteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeInviteModal()">&times;</span>
+            <h2 class="nome-grupo">@Model.Grupo.Nome</h2>
+            <h3 class="invite">Convite</h3>
+            <p class="texto">Digite o e-mail da pessoa para enviarmos um link de convite para o seu grupo.</p>
+            <input id="Email" type="email" placeholder="E-mail" required>
+            <button onclick="sendInvite() asp-action="GerarLink" class="invite-send">Enviar convite</button>
+            <hr>
+            <p class="or">OU</p>
+            <a href="#" type="button" onclick="copyLink()" class="invite-link">Copiar link</a>
+        </div>
+    </div>
+
+    <script>
+        const userMenu = document.getElementById("user-menu");
+
+        function toggleUserMenu() {
+            userMenu.classList.toggle("show");
+        }
+
+        function showModal(memberName) {
+            document.getElementById("memberName").textContent = memberName;
+            document.getElementById("deleteModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("deleteModal").style.display = "none";
+        }
+
+        function confirmDelete() {
+            alert('O membro foi removido com sucesso!');
+            closeModal();
+        }
+
+        function showInviteModal() {
+            document.getElementById("inviteModal").style.display = "block";
+        }
+
+        function closeInviteModal() {
+            document.getElementById("inviteModal").style.display = "none";
+        }
+
+        function sendInvite() {
+            alert('Convite enviado com sucesso!');
+            closeInviteModal();
+        }
+
+        function copyLink() {
+            alert('Link copiado!');
+        }
+    </script>

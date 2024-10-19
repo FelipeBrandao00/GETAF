@@ -60,7 +60,7 @@ namespace GETAF.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GrupoId,UsuarioId")] GrupoUsuario grupoUsuario)
+        public async Task<IActionResult> CreateGrupoUsuario([Bind("GrupoId,UsuarioId")] GrupoUsuario grupoUsuario)
         {
             if (ModelState.IsValid)
             {
@@ -186,6 +186,15 @@ namespace GETAF.Controllers
             }
 
             return Json(new { sucesso = resposta.Sucesso, mensagem = resposta.Mensagem });
+        }
+
+
+
+        public IActionResult Membros([FromQuery] int grupoId)
+        {
+            //var grupo = _context.Grupos.Find(grupoId);
+            var grupo = _context.GrupoUsuarios.Where(X => X.GrupoId == grupoId).FirstOrDefault(); //ERRO AQUI
+            return View(2);
         }
     }
 }
