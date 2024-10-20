@@ -192,9 +192,17 @@ namespace GETAF.Controllers
 
         public IActionResult Membros([FromQuery] int grupoId)
         {
-            //var grupo = _context.Grupos.Find(grupoId);
-            var grupo = _context.GrupoUsuarios.Where(X => X.GrupoId == grupoId).FirstOrDefault(); //ERRO AQUI
-            return View(2);
+            var grupo = _context.Grupos
+                .Include(x => x.Usuario)
+                .Where(X => X.Id == grupoId)
+                .FirstOrDefault();
+            return View(grupo);
+        }
+
+        public IActionResult ListarMembros(int grupoId) {
+            var criador = _context.Grupos.Where(x => x.Id == grupoId).Select(x => x.UsuarioId).FirstOrDefault();
+            var membros = _context.GrupoUsuarios.Include(x => x.Usuario).Where(x => x.GrupoId == grupoId && x.UsuarioId != criador).ToList();
+            return PartialView("_ListaMembros", membros);
         }
     }
 }

@@ -1,109 +1,47 @@
-﻿* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+﻿main{
+   text-align: center;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
-}
-
-.navbar {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #155967;
-    padding: 1rem 2rem;
-    color: white;
-    flex-direction: row;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-}
-
-.logo {
-    font-size: 1.5rem;
-    margin-right: 2rem;
-}
-
-.icons {
-    display: flex;
-    gap: 1rem;
-}
-
-.menu {
-    width: 100%;
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-    background-color: #e0e0e0;
-    padding: 0.5rem;
-    border-radius: 5px;
-}
-
-    .menu li a {
-        color: #333;
-        text-decoration: none;
-        font-size: 1rem;
-    }
-
-.user {
-    cursor: pointer;
-}
-
-    .user img {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-    }
-
-.user-menu {
-    display: none;
-    position: fixed;
-    right: 2rem;
-    top: 4rem;
-    background-color: #e0e0e0;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-    .user-menu ul {
-        list-style: none;
-        padding: 1rem;
-    }
-
-        .user-menu ul li {
-            margin-bottom: 1rem;
-        }
-
-            .user-menu ul li a {
-                color: #333;
-                text-decoration: none;
-                font-size: 1rem;
-            }
 
 .show {
     display: block;
 }
+
+a {
+    text-decoration: none;
+    font-size: 15px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
+    gap: 0.3rem;
+}
+
+
+.navbar a:hover {
+    background-color: #207283;
+    color: #fff;
+}
+
+.user-menu a:hover {
+    background-color: #c0c0c0;
+    color: #333;
+}
+
+.menu li a:hover {
+    background-color: #c0c0c0;
+    color: #333;
+}
+
 
 #excluir {
     color: #999999;
     cursor: pointer;
 }
 
-main {
-    text-align: center;
-    margin: 20px;
-}
-
 h2 {
     margin: 20px 0;
-    color: #1d7d83;
+    color: #155967;
 }
 
 .members-section {
@@ -145,12 +83,12 @@ th, td {
 
 th {
     background-color: #f2f2f2;
-    color: #1d7d83;
+    color: #155967;
     font-size: 18px;
 }
 
 td a {
-    color: #1d7d83;
+    color: #155967;
     text-decoration: none;
 }
 
@@ -200,27 +138,77 @@ td a {
     border: none; /* Remove borda */
     border-radius: 5px; /* Arredonda os cantos */
     cursor: pointer; /* Muda o cursor para pointer */
-    transition: background-color 0.3s; /* Transição para o efeito hover */
+    transition: background-color 0.3s;
+    font-size: 15px;
 }
 
-    .modal-button:nth-child(1) {
-        background-color: #d9534f; /* Cor do botão Excluir */
-        color: #fff; /* Texto branco */
+.modal-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.modal-button:nth-child(2) {
+    background-color: #bb3b37; /* Cor do botão Excluir */
+    color: #fff;
+}
+
+    .modal-button:nth-child(2):hover {
+        background-color: #c72a25; /* Cor do botão Excluir */
+        color: #fff;
     }
 
-    .modal-button:nth-child(2) {
-        background-color: #ccc; /* Cor do botão Cancelar */
+.modal-button:nth-child(1) { /* Cor do botão Cancelar */
+    background-color: #fff;
+    color: #155967;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    border: 1px solid #155967;
+}
+
+    .modal-button:nth-child(1):hover {
+        background-color: #e2e0e0; /* Cor do botão Cancelar */
+        color: #155967;
+        border: 1px solid #155967;
     }
 
+.close {
+    color: #aaa;
+    float: right;
+    top: 10px;
+    right: 10px;
+    font-size: 28px;
+    font-weight: bold;
+}
 
-.nome-grupo, .invite {
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+.nome-grupo {
+    text-align: center;
+    padding-bottom: 5px;
+    color: #155967;
+}
+
+.invite {
     text-align: center;
     color: #155967;
 }
 
 .invite-send {
     width: 150px;
-    background-color: #80c8d8;
+    background-color: #207283;
     color: white;
     border: none;
     padding: 10px;
@@ -232,7 +220,7 @@ td a {
 }
 
     .invite-send:hover {
-        background-color: #559da8;
+        background-color: #155967;
     }
 
 .invite-link {
@@ -243,11 +231,14 @@ td a {
     text-align: center;
 }
 
+    .invite-link:hover {
+        text-decoration: underline;
+    }
 
 .invite-container {
     position: absolute; /* Para que possamos posicioná-lo */
     top: 100px; /* Distância do topo */
-    right: 20px; /* Distância da direita */
+    right: 200px; /* Distância da direita */
 }
 
 #inviteButton {
@@ -256,6 +247,7 @@ td a {
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 20px; /* Ajuste o valor conforme necessário */
     transition: background-color 0.3s
 }
 
@@ -281,4 +273,8 @@ td a {
 hr {
     border: none; /* Remove a borda da linha */
     height: 0; /* Define a altura da linha como 0 */
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48
 }
