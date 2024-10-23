@@ -206,7 +206,7 @@ td a {
     color: #155967;
 }
 
-.invite-send {
+.convite {
     width: 150px;
     background-color: #207283;
     color: white;
@@ -219,7 +219,7 @@ td a {
     transition: background-color 0.3s
 }
 
-    .invite-send:hover {
+    .convite:hover {
         background-color: #155967;
     }
 

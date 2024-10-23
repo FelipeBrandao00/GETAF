@@ -17,7 +17,7 @@ public class AppDbContext : DbContext {
     public DbSet<QuizUsuario> QuizUsuarios { get; set; }
     public DbSet<Alternativa> Alternativas { get; set; }
 
-
+    public DbSet<Ranking> Ranking { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         if (!optionsBuilder.IsConfigured) {
@@ -28,6 +28,9 @@ public class AppDbContext : DbContext {
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Ranking>()
+        .HasKey(rk => new { rk.GrupoId, rk.UsuarioId });
 
         modelBuilder.Entity<GrupoUsuario>()
         .HasKey(gu => new { gu.GrupoId, gu.UsuarioId });
@@ -71,6 +74,18 @@ public class AppDbContext : DbContext {
       .WithMany(u => u.Quiz)
       .HasForeignKey(t => t.UsuarioId)
       .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Ranking>()
+            .HasOne(r => r.Usuario)
+            .WithMany(u => u.Ranking)
+            .HasForeignKey(r => r.UsuarioId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Ranking>()
+            .HasOne(r => r.Grupo)
+            .WithMany(g => g.Ranking)
+            .HasForeignKey(r => r.GrupoId)
+            .OnDelete(DeleteBehavior.Restrict);
 
     }
 }

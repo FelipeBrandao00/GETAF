@@ -10,4 +10,6 @@ public class Grupo {
 
     public virtual required Usuario Usuario { get; set; }
     public virtual List<GrupoUsuario> GrupoUsuarios { get; set; }
+
+    public virtual List<Ranking> Ranking { get; set; }
 }

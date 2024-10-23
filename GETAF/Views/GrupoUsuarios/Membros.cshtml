@@ -61,12 +61,13 @@
         <span class="close" onclick="closeInviteModal()">&times;</span>
         <h2 class="nome-grupo">@Model.Nome</h2>
         <h3 class="invite">Convite</h3>
-        <p class="texto">Digite o e-mail da pessoa para enviarmos um link de convite para o seu grupo.</p>
+        <p class="texto">Digite o e-mail da pessoa que você quer que faça parte do grupo.</p>
         <input id="Email" type="email" placeholder="E-mail" required>
-        <button onclick="sendInvite() asp-action="GerarLink" class="invite-send">Enviar convite</button>
+        <button onclick="AddMembros(@Model.Id)" class="invite-send">Convidar</button>
+        <!--
         <hr>
         <p class="or">OU</p>
-        <a href="#" type="button" onclick="copyLink()" class="invite-link">Copiar link</a>
+        <a href="#" type="button" onclick="copyLink()" class="invite-link">Copiar link</a>-->
     </div>
 </div>
 
@@ -111,11 +112,27 @@
 
     function ListarMembros(grupoId) {
         $.ajax({
-        url: `@Url.Action("ListarMembros", "GrupoUsuarios")?grupoId=` + grupoId,
+            url: `@Url.Action("ListarMembros", "GrupoUsuarios")? grupoId =` + grupoId,
             contentType: "application/json; charset=utf-8",
             type: "POST",
             success: function (data) {
-            document.querySelector(".members-section table tbody").innerHTML += data;
+                document.querySelector(".members-section table tbody").innerHTML += data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+    function AddMembros(grupoId) {
+        var usuarioEmail = document.getElementById('Email')
+        $.ajax({
+            url: `@Url.Action("AddMembros", "GrupoUsuarios")? grupoId =` + grupoId,
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({ Email: usuarioEmail }), //COMO PEGAR O EMAIL E PASSAR PRO C#?
+            success: function (retorno) {
+                ListarMembros(grupoId);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Algo deu errado');
@@ -128,9 +145,9 @@
     };
 
     function EntrarConfigGrupo(grupoId) {
-        window.location.href = `@Url.Action("EditarGrupo", "Grupo")?grupoId=` + grupoId;
+        window.location.href = `@Url.Action("EditarGrupo", "Grupo")? grupoId =` + grupoId;
     }
     function RedirecionarMembros(grupoId) {
-        window.location.href = `@Url.Action("Membros", "GrupoUsuarios")?grupoId=` + grupoId;
+        window.location.href = `@Url.Action("Membros", "GrupoUsuarios")? grupoId` + grupoId;
     }
 </script>

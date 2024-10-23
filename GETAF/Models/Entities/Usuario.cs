@@ -14,4 +14,5 @@ public class Usuario {
     public virtual List<QuizUsuario>? QuizUsuarios { get; set; }
     public virtual List<Quiz>? Quiz { get; set; }
     public virtual List<Tarefa> Tarefas { get; set; }
+    public virtual List<Ranking> Ranking { get; set; }
 }

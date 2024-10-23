@@ -8,13 +8,9 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\css\NovaPasta1\**" />
-    <Compile Remove="wwwroot\css\NovaPasta\**" />
     <Content Remove="wwwroot\css\NovaPasta1\**" />
-    <Content Remove="wwwroot\css\NovaPasta\**" />
     <EmbeddedResource Remove="wwwroot\css\NovaPasta1\**" />
-    <EmbeddedResource Remove="wwwroot\css\NovaPasta\**" />
     <None Remove="wwwroot\css\NovaPasta1\**" />
-    <None Remove="wwwroot\css\NovaPasta\**" />
   </ItemGroup>
 
   <ItemGroup>

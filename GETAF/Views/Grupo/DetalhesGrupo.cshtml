@@ -10,13 +10,14 @@
 <ul class="menu">
     <li><a href="#">Tarefas</a></li>
     <li><a href="#">Perguntas</a></li>
-    <li><a href="#">Ranking</a></li>
+    <li><a onclick="RedirecionarRanking()">Ranking</a></li>
     <li><a onclick="RedirecionarMembros(@Model.Id)">Membros</a></li>
     <li><a onclick="EntrarConfigGrupo(@Model.Id)">Configurações</a></li>
 </ul>
 
 <div class="group">
     @Model.Nome
+    <p>Descrição: @Model.Descricao</p>
 </div>
 
 <div class="back-to-groups" onclick="RedirecionarGrupos()">
@@ -30,5 +31,8 @@
     }
     function RedirecionarMembros(grupoId) {
         window.location.href = `@Url.Action("Membros", "GrupoUsuarios")?grupoId=` + grupoId;
+    }
+    function RedirecionarRanking(){
+        window.location.href = `@Url.Action("Ranking", "Ranking")`;
     }
 </script>
