@@ -1,6 +1,8 @@
-﻿using GETAF.Models.Context;
+﻿using Azure.Core;
+using GETAF.Models.Context;
 using GETAF.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace GETAF.Models.ViewModel
 {
@@ -8,22 +10,27 @@ namespace GETAF.Models.ViewModel
     {
         public int GrupoId { get; set; }
         public int UsuarioId { get; set; }
+        public string? UsuarioEmail { get; set; }
 
-        public Resposta AddMembro (AppDbContext _context, int userId, int grupoId)
+        public Resposta AddMembro (AppDbContext _context)
         {
             try
             {
-                var usuarioExistente = _context.Usuarios.Find(userId);
-                var grupo = _context.Grupos.Find(grupoId);
+                var novoMembro = _context.Usuarios.FirstOrDefault(u => u.Email.ToLower() == UsuarioEmail.ToLower());
 
-                var GrupoUsua = new GrupoUsuario()
+                if(novoMembro == null) return new Resposta(false, "Usuário não encontrado.");
+
+                GrupoUsuario grupoUsuario = _context.GrupoUsuarios.FirstOrDefault(u => u.UsuarioId == novoMembro.Id && u.GrupoId == GrupoId);
+
+                if(grupoUsuario != null) return new Resposta(false, "Usuário já vinculado a este grupo.");
+
+                grupoUsuario = new GrupoUsuario()
                 {
-                    GrupoId = grupoId,
-                    UsuarioId = usuarioExistente.Id
-                    // UsuaProp = 1
+                    GrupoId = GrupoId,
+                    UsuarioId = novoMembro.Id
                 };
 
-                _context.GrupoUsuarios.Add(GrupoUsua);
+                _context.GrupoUsuarios.Add(grupoUsuario);
                 _context.SaveChanges();
 
                 return new Resposta(true, "Sucesso ao vincular usuário ao grupo");
@@ -34,12 +41,15 @@ namespace GETAF.Models.ViewModel
             }
         }
 
-        public Resposta ExcluirMembro(AppDbContext _context, int gpId, int usuarioId)
+        public Resposta ExcluirMembro(AppDbContext _context)
         {
             try
             {
                 var gpUsua = _context.GrupoUsuarios.FirstOrDefault(
-                    gu => gu.GrupoId == gpId && gu.UsuarioId == usuarioId);
+                    gu => gu.GrupoId == GrupoId && gu.UsuarioId == UsuarioId);
+
+                if (gpUsua == null) return new Resposta(false, "Usuário não encontrado.");
+
                 _context.GrupoUsuarios.Remove(gpUsua);
                 _context.SaveChanges();
                 return new Resposta(true, "Sucesso ao excluir membro do grupo!");

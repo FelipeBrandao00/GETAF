@@ -63,7 +63,7 @@
         <h3 class="invite">Convite</h3>
         <p class="texto">Digite o e-mail da pessoa que você quer que faça parte do grupo.</p>
         <input id="Email" type="email" placeholder="E-mail" required>
-        <button onclick="AddMembros(@Model.Id)" class="invite-send">Convidar</button>
+        <button onclick="AddMembros(@Model.Id)" class="convite">Convidar</button>
         <!--
         <hr>
         <p class="or">OU</p>
@@ -79,8 +79,9 @@
         userMenu.classList.toggle("show");
     }
 
-    function showModal(memberName) {
-        document.getElementById("memberName").textContent = memberName;
+    function showModal(usuarioNome, usuarioId, grupoId) {
+        document.getElementById("memberName").textContent = usuarioNome;
+        document.getElementById("deleteModal").setAttribute('data-usuario-id', usuarioId);  
         document.getElementById("deleteModal").style.display = "block";
     }
 
@@ -89,7 +90,9 @@
     }
 
     function confirmDelete() {
-        alert('O membro foi removido com sucesso!');
+        const usuarioId = document.getElementById("deleteModal").getAttribute('data-usuario-id');  
+        const grupoId = @Model.Id;
+        RemoveMembros(usuarioId, grupoId);
         closeModal();
     }
 
@@ -112,11 +115,42 @@
 
     function ListarMembros(grupoId) {
         $.ajax({
-            url: `@Url.Action("ListarMembros", "GrupoUsuarios")? grupoId =` + grupoId,
+            url: `@Url.Action("ListarMembros", "GrupoUsuarios")?grupoId=` + grupoId,
             contentType: "application/json; charset=utf-8",
             type: "POST",
             success: function (data) {
-                document.querySelector(".members-section table tbody").innerHTML += data;
+                const tbody = document.querySelector(".members-section table tbody");
+                while (tbody.rows.length > 1) {
+                    tbody.deleteRow(1); 
+                }
+                tbody.innerHTML += data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado ao tentar listar os membros');
+            }
+        });
+    }
+
+
+    function AddMembros(grupoId) {
+        var usuarioEmail = document.getElementById('Email').value
+        $.ajax({
+            url: `@Url.Action("AddMembros", "GrupoUsuarios")`,
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({ 
+                UsuarioEmail: usuarioEmail,
+                GrupoId: grupoId
+            }), 
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    closeInviteModal();
+                    var usuarioEmail = document.getElementById('Email').value = ""
+                    ListarMembros(grupoId);
+                }
+                else {
+                    alert(retorno.mensagem);
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Algo deu errado');
@@ -124,15 +158,22 @@
         });
     }
 
-    function AddMembros(grupoId) {
-        var usuarioEmail = document.getElementById('Email')
+    function RemoveMembros(usuarioId, grupoId) {
         $.ajax({
-            url: `@Url.Action("AddMembros", "GrupoUsuarios")? grupoId =` + grupoId,
+            url: `@Url.Action("ExcluirMembros", "GrupoUsuarios")`,
             contentType: "application/json; charset=utf-8",
             type: "POST",
-            data: JSON.stringify({ Email: usuarioEmail }), //COMO PEGAR O EMAIL E PASSAR PRO C#?
+            data: JSON.stringify({
+                UsuarioId: usuarioId,
+                GrupoId: grupoId
+            }),
             success: function (retorno) {
-                ListarMembros(grupoId);
+                if (retorno.sucesso) {
+                    ListarMembros(grupoId);
+                }
+                else {
+                    alert(retorno.mensagem);
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Algo deu errado');
@@ -145,9 +186,10 @@
     };
 
     function EntrarConfigGrupo(grupoId) {
-        window.location.href = `@Url.Action("EditarGrupo", "Grupo")? grupoId =` + grupoId;
+        window.location.href = `@Url.Action("EditarGrupo", "Grupo")?grupoId =` + grupoId;
     }
     function RedirecionarMembros(grupoId) {
-        window.location.href = `@Url.Action("Membros", "GrupoUsuarios")? grupoId` + grupoId;
+        window.location.href = `@Url.Action("Membros", "GrupoUsuarios")?grupoId` + grupoId;
     }
+
 </script>
