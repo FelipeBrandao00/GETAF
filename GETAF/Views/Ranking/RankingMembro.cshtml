@@ -1,0 +1,55 @@
+﻿@model GETAF.Models.Entities.Ranking
+
+@{
+    ViewData["Title"] = "Ranking Membros";
+    Layout = "_LayoutTopMenu";
+}
+
+<link rel='stylesheet' href="~/css/Ranking/Index.css"/>
+
+<ul class="menu">
+    <li><a href="#">Tarefas</a></li>
+    <li><a href="#">Perguntas</a></li>
+    <li><a href="#">Ranking</a></li>
+    <li><a href="#">Membros</a></li>
+    <li><a href="#">Configurações</a></li>
+</ul>
+
+<main>
+    <div class="ranking-container">
+        <h1 class="nomeranking">Ranking</h1>
+        <div class="top-3">
+            <div class="rank">
+                <span class="medalha prata">🥈</span>
+                <p>@Model.Usuario.Nome</p>
+                <img src="@Model.Usuario.Foto" alt="@Model.Usuario.Nome" class="foto-perfil">
+                <p>@Model.Pontos</p>
+            </div>
+            <div class="rank">
+                <span class="medalha ouro">👑</span>
+                <p>@Model.Usuario.Nome</p>
+                <img src="@Model.Usuario.Foto" alt="@Model.Usuario.Nome" class="foto-perfil">
+                <p>@Model.Pontos</p>
+            </div>
+            <div class="rank">
+                <span class="medalha bronze">🥉</span>
+                <p>@Model.Usuario.Nome</p>
+                <img src="@Model.Usuario.Foto" alt="@Model.Usuario.Nome" class="foto-perfil">
+                <p>@Model.Pontos</p>
+            </div>
+        </div>
+
+        <section class="rank-lista-container">
+            <ul class="rank-lista">
+                    <li><img src="@Model.Usuario.Foto" alt="@Model.Usuario.Nome" class="foto-perfil-small"> Membro - @Model.Pontos</li>
+                </ul>
+        </section>
+    </div>
+</main>
+
+<script>
+    function toggleUserMenu() {
+        var menu = document.getElementById('user-menu');
+        menu.classList.toggle('show');
+    }
+</script>

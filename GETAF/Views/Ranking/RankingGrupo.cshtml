@@ -1,0 +1,56 @@
+﻿@model GETAF.Models.Entities.Ranking
+
+
+@{
+    ViewData["Title"] = "Ranking Grupos";
+    Layout = "_LayoutTopMenu";
+}
+
+<link rel='stylesheet' href="~/css/Ranking/Index.css" />
+
+<ul class="menu">
+    <li><a href="#">Tarefas</a></li>
+    <li><a href="#">Perguntas</a></li>
+    <li><a href="#">Ranking</a></li>
+    <li><a href="#">Membros</a></li>
+    <li><a href="#">Configurações</a></li>
+</ul>
+
+<main>
+    <div class="ranking-container">
+        <h1 class="nomeranking">Ranking</h1>
+        <div class="top-3">
+            <div class="rank">
+                <span class="medalha prata">🥈</span>
+                <p>@Model.Grupo.Nome</p>
+                <p>@Model.Pontos</p>
+            </div>
+            <div class="rank">
+                <span class="medalha ouro">👑</span>
+                <p>@Model.Grupo.Nome</p>
+                <p>@Model.Pontos</p>
+            </div>
+            <div class="rank">
+                <span class="medalha bronze">🥉</span>
+                <p>@Model.Grupo.Nome</p>
+                <p>@Model.Pontos</p>
+            </div>
+        </div>
+
+        <section class="rank-lista-container">
+           @*  @foreach (var index in Model.Grupos)
+            {
+                <ul class="rank-lista">
+                    <li> Grupo @Model.Grupo.Nome - @Model.Pontos</li>
+                </ul>
+            } *@
+        </section>
+    </div>
+</main>
+
+<script>
+    function toggleUserMenu() {
+        var menu = document.getElementById('user-menu');
+        menu.classList.toggle('show');
+    }
+</script>
