@@ -30,6 +30,7 @@ namespace GETAF.Controllers {
         public IActionResult CriarGrupo([FromBody] GrupoModel grupoModel) {
             var usuario = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
             var resposta = grupoModel.CriarGrupo(_context, usuario.Id);
+            
             return Json(new { sucesso = resposta.Sucesso, mensagem = resposta.Mensagem });
         }
 
@@ -51,7 +52,6 @@ namespace GETAF.Controllers {
             var grupos = _context.Grupos.ToList();
             return PartialView("_ListaGrupos", grupos);
         }
-
 
     }
 }

@@ -4,44 +4,20 @@
     Layout = "_LayoutTopMenu";
 }
 
-<style>
-    .group {
-        text-align: center;
-        color: #155967;
-        font-size: 30px;
-        padding: 15px;
-        font-weight: bold;
-    }
+<link rel="stylesheet" href="~/css/Grupo/DetalhesGrupo/Index.css" />
 
-    .back-to-groups {
-        display: flex;
-        align-items: center;
-        position: relative;
-        left: 50px;
-        bottom: 40px;
-        cursor: pointer;
-    }
-
-        .back-to-groups .material-symbols-outlined {
-            margin-right: 5px;
-        }
-
-    .groups {
-        color: #000000;
-        text-decoration: none;
-    }
-</style>
 
 <ul class="menu">
     <li><a href="#">Tarefas</a></li>
     <li><a href="#">Perguntas</a></li>
-    <li><a href="#">Ranking</a></li>
-    <li><a href="#">Membros</a></li>
+    <li><a onclick="RedirecionarRanking()">Ranking</a></li>
+    <li><a onclick="RedirecionarMembros(@Model.Id)">Membros</a></li>
     <li><a onclick="EntrarConfigGrupo(@Model.Id)">Configurações</a></li>
 </ul>
 
 <div class="group">
     @Model.Nome
+    <p>Descrição: @Model.Descricao</p>
 </div>
 
 <div class="back-to-groups" onclick="RedirecionarGrupos()">
@@ -52,5 +28,11 @@
 <script>
     function EntrarConfigGrupo(grupoId) {
         window.location.href = `@Url.Action("EditarGrupo", "Grupo")?grupoId=` + grupoId;
+    }
+    function RedirecionarMembros(grupoId) {
+        window.location.href = `@Url.Action("Membros", "GrupoUsuarios")?grupoId=` + grupoId;
+    }
+    function RedirecionarRanking(){
+        window.location.href = `@Url.Action("Ranking", "Ranking")`;
     }
 </script>

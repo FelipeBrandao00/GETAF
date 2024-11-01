@@ -1,0 +1,10 @@
+﻿@model List<GETAF.Models.Entities.GrupoUsuario>
+
+    @foreach (var usuario in Model) {
+        <tr>
+            <td><a href="#">@usuario.Usuario.Nome</a></td>
+            <td>Membro</td>
+            <td><a class="material-symbols-outlined" onclick="showModal('@usuario.Usuario.Nome',@usuario.UsuarioId)">delete_forever</a></td>
+        </tr>
+    }
+
