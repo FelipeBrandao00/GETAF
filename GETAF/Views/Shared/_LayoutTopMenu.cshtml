@@ -52,7 +52,7 @@
             </div>
 
             <div class="user" onclick="toggleUserMenu()">
-                <img src="https://i.pinimg.com/736x/14/4a/77/144a77448696e1047ba242c12aa522f0.jpg" alt="Ícone de usuário">
+                <img src="@Url.Action("GetUserImage", "Configuracao")" alt="Ícone de usuário">
             </div>
         </div>
     </header>
@@ -84,5 +84,9 @@
 
     function Configuracoes(){
         window, location.href = '@Url.Action("Index", "Configuracao")';
+    }
+
+    function atualizarImagemPerfil(urlNovaImagem) {
+        document.querySelector(".user img").src = urlNovaImagem;
     }
 </script>
