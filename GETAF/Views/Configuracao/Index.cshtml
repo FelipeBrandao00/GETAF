@@ -9,20 +9,13 @@
     <h2 class="config">Configurações</h2>
     <div class="profile-box">
         <div class="profile-header">
-            <label for="fotoPerfil" style="cursor: pointer;">
-                <img src="@Url.Action("GetUserImage", "Configuracao")" alt="Foto de perfil" class="avatar" id="avatarImg">
-                <span class="material-symbols-outlined camera-icon">photo_camera</span>
-            </label>
-
-            <input type="file" id="fotoPerfil" name="foto" style="display: none;" onchange="UploadImagem();"/>
-            
+            <img src="user-avatar.png" alt="Foto de perfil" class="avatar">
             <div id="edit">
                 <h2>Editar perfil</h2>
                 <p>Altere os campos abaixo para editar seu perfil.</p>
             </div>
-            
+            <span class="material-symbols-outlined camera-icon">photo_camera</span>
         </div>
-        
         <form action="#"><!--enctype="multipart/form-data" method="post"-->
             <section id="sec-nome">
                 <input type="text" id="nome" placeholder="Nome">
@@ -72,35 +65,31 @@
             });
         }
 
-    function UploadImagem() {
-        var input = document.getElementById("fotoPerfil");
-
-        if (input.files.length === 0) {
-            alert("Nenhum arquivo selecionado.");
-            return;
-        }
-
+    function EditarFoto() {
+        var fotoPerfil = document.getElementById('fotoPerfil').files[0];
         var formData = new FormData();
-        formData.append("foto", input.files[0]);
 
-        fetch('/Configuracao/UploadImagem', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.sucesso) {
-                    // Atualiza a imagem de perfil no layout
-                    const avatarImg = document.getElementById("avatarImg");
-                    avatarImg.src = "";
-                    setTimeout(() => {
-                        avatarImg.src = '/Configuracao/GetUserImage?' + new Date().getTime();
-                    }, 100);
-                } else {
-                    alert("Falha ao atualizar a imagem: " + data.mensagem);
+        formData.append('FotoPerfil', fotoPerfil);
+
+        $.ajax({
+            url: '@Url.Action("EditarFoto", "Configuracao")',
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    window.location.href = '@Url.Action("Index", "Home")';
                 }
-            })
-            .catch(error => console.error("Erro:", error));
+                else {
+                    alert('Não foi possível alterar a foto. ' + retorno.mensagem);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(jqXHR.responseText);
+                alert('Algo deu errado ao troca a foto: ' + textStatus);
+            }
+        });
     }
 
         function AlterarSenha() {
