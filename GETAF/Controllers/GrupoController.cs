@@ -3,6 +3,7 @@ using GETAF.Models.Context;
 using GETAF.Models.Entities;
 using GETAF.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 
 namespace GETAF.Controllers {
     public class GrupoController(AppDbContext _context, ISessao _sessao) : Controller {

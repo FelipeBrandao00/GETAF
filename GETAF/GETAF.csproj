@@ -18,6 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Imagens\42881b54-f9a2-4520-823a-e198abb732f5.jpg" />
+    <Content Remove="wwwroot\Imagens\4f2581ee-f1a4-4e85-a2ba-2e1594f79f20.png" />
+    <Content Remove="wwwroot\Imagens\6eabfb3d-928d-4579-a129-7f83fb679267.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
@@ -32,6 +38,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SendGrid" Version="9.29.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Imagens\" />
   </ItemGroup>
 
 </Project>

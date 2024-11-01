@@ -30,6 +30,350 @@
         color: #000000;
         text-decoration: none;
     }
+
+    /*COMEÇO DAS TAREFAS*/
+
+    .title {
+        color: #155967;
+        text-align: center;
+        font-size: 30px;
+        margin-top: 20px;
+        padding-bottom: 15px;
+    }
+
+    .subtitle {
+        color: #999;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 300;
+    }
+
+    button.primary {
+        border: none;
+        background-color: #207283;
+        color: #FFF;
+        font-size: 16px;
+        padding: 9px 22px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        button.primary:hover {
+            background-color: #155967;
+            color: #FFF;
+        }
+
+    .container {
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+        align-items: center;
+        padding: 50px 0;
+    }
+
+    .column {
+        width: 250px;
+        height: 600px;
+        background-color: #FFF;
+        border-radius: 10px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .body::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .body::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 5px;
+    }
+
+        .body::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+
+    .headfazer {
+        background-color: #BF8585;
+        color: #FFF;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .headprog {
+        background-color: #8592BF;
+        color: #FFF;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .headfinish {
+        background-color: #85BF8E;
+        color: #FFF;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .headarq {
+        background-color: #72bbdd;
+        color: #FFF;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .container .column .body {
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+        .container .column .body .cards_list {
+            display: flex;
+            flex-direction: column;
+        }
+
+    .add_btn {
+        background: none;
+        border: 1px solid;
+        border-radius: 10px;
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        cursor: pointer;
+        color: #444;
+        transition: background-color 0.3s;
+        margin-bottom: 8px;
+    }
+
+        .add_btn:hover {
+            background-color: #e7e7e7;
+        }
+
+    .container .column .body .card {
+        background-color: #EEE;
+        border-radius: 7px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+        .container .column .body .card .info {
+            font-size: 14px;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+    #modal, #modalExcluir {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0,0,0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+
+        #modal .box, #modalExcluir .box {
+            background-color: #FFF;
+            width: 400px;
+            border-radius: 7px;
+            overflow: hidden;
+        }
+
+            #modal .box .head, #modalExcluir .box .head {
+                display: flex;
+                justify-content: space-between;
+                padding: 15px 20px;
+                border-bottom: 1px solid #DDD;
+            }
+
+                #modal .box .head span, #modalExcluir .box .head span {
+                    font-size: 25px;
+                    color: #155967;
+                    font-weight: bold;
+                }
+
+                #modal .box .head button, #modalExcluir .box .head button {
+                    border: none;
+                    background: none;
+                    font-size: 24px;
+                    font-weight: 700;
+                    cursor: pointer;
+                    color: #aaa;
+                }
+
+                    #modal .box .head button:hover, #modalExcluir .box .head button:hover {
+                        color: black;
+                        text-decoration: none;
+                        cursor: pointer;
+                    }
+
+
+            #modal .box .form {
+                padding: 20px;
+            }
+
+                #modal .box .form .form-group {
+                    margin-bottom: 15px;
+                }
+
+                #modal .box .form label {
+                    display: block;
+                    font-size: 14px;
+                    color: #333;
+                    margin-bottom: 5px;
+                }
+
+                #modal .box .form textarea,
+                #modal .box .form select,
+                #modal .box .form input {
+                    width: 100%;
+                    border-radius: 7px;
+                    font-size: 14px;
+                    border: 1px solid #999;
+                    color: #333;
+                }
+
+                #modal .box .form textarea {
+                    padding: 10px 15px;
+                    max-height: 120px;
+                    max-width: 100%;
+                    overflow-y: auto;
+                }
+
+                #modal .box .form select {
+                    padding: 10px;
+                }
+
+                #modal .box .form input {
+                    padding: 10px;
+                }
+
+                #modal .box .form button, #modalExcluir .box .form button {
+                    display: block;
+                    margin-left: auto;
+                }
+
+    #divEditingBtns {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+        #divEditingBtns > button {
+            margin: 0 !important;
+        }
+
+    #deleteModeBtn {
+        background-color: #fff;
+        color: #155967;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        border: 1px solid #155967;
+    }
+
+        #deleteModeBtn:hover {
+            background-color: #e2e0e0; /* Cor do botão Cancelar */
+            color: #155967;
+            border: 1px solid #155967;
+        }
+
+    .modalExcluirbuttons {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 40px;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    #btnDelete {
+        background-color: #bb3b37; /* Cor do botão Excluir */
+        color: #fff;
+    }
+
+        #btnDelete:hover {
+            background-color: #c72a25; /* Cor do botão Excluir */
+            color: #fff;
+        }
+
+    #btnCancelDelete {
+        background-color: #fff;
+        color: #155967;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        border: 1px solid #155967;
+    }
+
+        #btnCancelDelete:hover {
+            background-color: #e2e0e0; /* Cor do botão Cancelar */
+            color: #155967;
+            border: 1px solid #155967;
+        }
+
+
+    #modalExcluir p {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .back-to-groups {
+        display: flex;
+        align-items: center;
+        position: relative;
+        left: 50px;
+        top: 30px;
+        cursor: pointer;
+        width: 10%;
+    }
+
+        .back-to-groups .material-symbols-outlined {
+            margin-right: 5px;
+        }
+
+    .groups {
+        color: #000000;
+        text-decoration: none;
+    }
+
+    .infoGroup {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        left: 25%;
+    }
+
+    .group {
+        text-align: center;
+        color: #155967;
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .descGroup {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 15px;
+        padding: 15px;
+        max-height: 200px;
+        overflow-y: auto;
+    }
 </style>
 
 <ul class="menu">
@@ -48,6 +392,145 @@
     <span id="back" class="material-symbols-outlined">arrow_back_ios</span>
     <a class="groups">Grupos</a>
 </div>
+
+<h1 class="title">Tarefas</h1>
+<h6 class="subtitle">Clique duas vezes na tarefa para editá-la!</h6>
+    </div>
+<body>
+<div class="container">
+    <div class="column" data-column="1" ondrop="drop_handler(event)" ondragover="dragover_handler(event)">
+        <div class="headfazer">
+            <span>A Fazer</span>
+        </div>
+        <div class="body">
+            <button class="add_btn" onclick="openModal(1)">
+                <span class="material-icons"></span>
+                Adicionar item
+            </button>
+            <div class="cards_list"></div>
+        </div>
+    </div>
+
+    <div class="column" data-column="2" ondrop="drop_handler(event)" ondragover="dragover_handler(event)">
+        <div class="headprog">
+            <span>Em andamento</span>
+        </div>
+        <div class="body">
+            <button class="add_btn" onclick="openModal(2)">
+                <span class="material-icons"></span>
+                Adicionar item
+            </button>
+            <div class="cards_list"></div>
+        </div>
+    </div>
+
+    <div class="column" data-column="3" ondrop="drop_handler(event)" ondragover="dragover_handler(event)">
+        <div class="headfinish">
+            <span>Finalizado</span>
+        </div>
+        <div class="body">
+            <button class="add_btn" onclick="openModal(3)">
+                <span class="material-icons"></span>
+                Adicionar item
+            </button>
+            <div class="cards_list"></div>
+        </div>
+    </div>
+
+    <div class="column" data-column="4" ondrop="drop_handler(event)" ondragover="dragover_handler(event)">
+        <div class="headarq">
+            <span>Arquivado</span>
+        </div>
+        <div class="body">
+            <button class="add_btn" onclick="openModal(4)">
+                <span class="material-icons"></span>
+                Adicionar item
+            </button>
+            <div class="cards_list"></div>
+        </div>
+    </div>
+</div>
+
+<div id="modal">
+    <div class="box">
+        <div class="head">
+            <span id="creationModeTitle">Nova tarefa</span>
+            <span id="editingModeTitle">Editar tarefa</span>
+            <button class="material-icons" onclick="closeModal()">
+                close
+            </button>
+        </div>
+
+        <div class="form">
+            <input type="hidden" id="idInput">
+
+            <div class="form-group">
+                <label for="title">Título</label>
+                <input id="title" placeholder="Digite o título..." />
+            </div>
+
+            <div class="form-group">
+                <label for="description">Descrição</label>
+                <textarea id="description" rows="3" placeholder="Digite a descrição..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="priority">Prioridade</label>
+                <select id="priority">
+                    <option value="-1">Selecione</option>
+                    <option>Baixa</option>
+                    <option>Média</option>
+                    <option>Alta</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="column">Card</label>
+                <select id="column">
+                    <option value="1">A Fazer</option>
+                    <option value="2">Em andamento</option>
+                    <option value="3">Finalizado</option>
+                    <option value="4">Arquivado</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="deadline">Prazo</label>
+                <input type="date" id="deadline">
+            </div>
+
+            <button class="primary" onclick="createTask()" id="creationModeBtn">Cadastrar</button>
+            <div id="divEditingBtns">
+                <button class="primary" onclick="openModalExcluir()" id="deleteModeBtn">Excluir tarefa</button>
+                <button class="primary" onclick="updateTask()" id="editingModeBtn">Salvar alterações</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="modalExcluir">
+    <div class="box">
+        <div class="head">
+            <span>Confirmação de exclusão</span>
+            <button class="material-icons" onclick="closeModalExcluir()">
+                close
+            </button>
+        </div>
+
+        <p>Tem certeza que deseja excluir a tarefa {titulo}?</p>
+        <div class="modalExcluirbuttons">
+            <button class="primary" id="btnCancelDelete" onclick="closeModalExcluir()">Cancelar</button>
+            <button class="primary" id="btnDelete" onclick="confirmDelete()">Excluir</button>
+        </div>
+    </div>
+</div>
+
+<script src="./scripts/moment.min.js"></script>
+<script src="./scripts/grupovisu.js"></script>
+</body>
+</html>
+
 
 <script>
     function EntrarConfigGrupo(grupoId) {
