@@ -4,12 +4,12 @@
 <link rel="stylesheet" href="/css/Configuracao/DeletarConta.css">
 
 <div class="content">
-    <h1>Configurações</h1>
+    <h2>Configurações</h2>
         <div class="delete-account">
             <h3>Deletar conta</h3>
             <p class="p"><span class="material-symbols-outlined info-icon">info</span> Esta ação é irreversível.</p>
             <div class="user-icon">
-                <img src="user-icon.png" alt="Usuário">
+            <img src="@Url.Action("GetUserImage", "Configuracao")" alt="Foto de perfil" class="avatar" id="avatarImg">
             </div>
             <p class="confirmation-text">Você tem certeza que deseja excluir sua conta?</p>
             <div class="actions">

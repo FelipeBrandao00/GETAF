@@ -6,12 +6,16 @@
     align-items: center;
     min-height: 100vh;
     margin: 0;
+    background-image: url('../../Imagens/backgroud-unifocus.png');
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
 }
 
 .container {
     background-color: #fff;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: rgba(21, 89, 103, 0.4) 5px 5px, rgba(21, 89, 103, 0.3) 10px 10px, rgba(21, 89, 103, 0.2) 15px 15px, rgba(21, 89, 103, 0.1) 20px 20px, rgba(21, 89, 103, 0.05) 25px 25px;
     padding: 30px;
     width: 350px;
 }
@@ -22,17 +26,11 @@
 }
 
     .logo img {
-        width: 100px;
+        width: 90px;
     }
 
 .formulario {
     margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
 }
 
 input[type="email"],
@@ -42,10 +40,11 @@ input[type="password"] {
     border: 1px solid #ccc;
     border-radius: 6px;
     box-sizing: border-box;
+    padding: 15px;
 }
 
 .submit {
-    background-color: #80c8d8;
+    background-color: #207283;
     color: white;
     transition: background-color 0.3s ease;
     padding: 12px 14px;
@@ -58,7 +57,7 @@ input[type="password"] {
 }
 
     .submit:hover {
-        background-color: #559da8;
+        background-color: #155967;
     }
 
 .login {
@@ -91,6 +90,7 @@ input[type="submit"]:hover {
 
         .esqueci-senha a:hover {
             text-decoration: underline;
+            color: #559da8;
         }
 
 .conta {
@@ -101,17 +101,19 @@ input[type="submit"]:hover {
 
 .criar-conta {
     text-align: center;
-    cursor: pointer;
 }
 
-    .criar-conta a {
-        
+.criar-conta a {
         color: #559da8;
         text-decoration: none;
     }
 
-        .criar-conta a:hover {
+.criar-conta a:hover {
+            color: #559da8;
             text-decoration: underline;
         }
 
-
+input::placeholder {
+    color: #999;
+    font-size: 16px;
+}

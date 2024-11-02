@@ -1,21 +1,16 @@
-﻿body {
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
     overflow-x: hidden;
-}
-
-.icone-menu {
-    font-size: 30px;
-    cursor: pointer;
-    padding: 10px;
-    background-color: #80c8d8;
-    color: #fff;
-    position: fixed;
-    z-index: 2;
-    top: 15px;
-    left: 7px;
 }
 
 .titulo {
@@ -28,7 +23,7 @@
     font-size: 30px;
     text-align: center;
     margin-top: 10px;
-    color: #155967;
+    color: #3f3f3f;
 }
 
 .texto {
@@ -40,76 +35,10 @@
     margin: 0 auto;
     max-width: 800px;
     padding: 20px;
+    color: #3f3f3f;
+    font-weight: bold;
+    font-size: 30px;
 }
-
-.sidebar {
-    height: 100%;
-    width: 60px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #80c8d8;
-    overflow-x: hidden;
-    transition: width 0.3s;
-    padding-top: 20px;
-    z-index: 1;
-}
-
-    .sidebar.aberto {
-        width: 250px;
-    }
-
-    .sidebar .logo {
-        display: flex;
-        align-items: center;
-        padding: 10px 15px;
-        color: #fff;
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-
-        .sidebar .logo img {
-            width: 40px;
-            height: auto;
-            margin-right: 10px;
-        }
-
-        .sidebar .logo .logo-texto {
-            display: none;
-        }
-
-    .sidebar.aberto .logo .logo-texto {
-        display: inline;
-    }
-
-    .sidebar a {
-        padding: 15px 20px;
-        text-decoration: none;
-        font-size: 18px;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        transition: background-color 0.3s;
-    }
-
-        .sidebar a .link-texto {
-            display: none;
-        }
-
-    .sidebar.aberto a .link-texto {
-        display: inline;
-        margin-left: 10px;
-    }
-
-    .sidebar a:hover {
-        background-color: #559da8;
-    }
-
-    .sidebar .botao-links {
-        position: absolute;
-        bottom: 20px;
-        width: 100%;
-    }
 
 .content {
     padding: 20px;
@@ -117,8 +46,146 @@
     max-width: 1000px;
 }
 
-.icone-perfil {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48
 }
+
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #155967;
+    padding: 1rem 2rem;
+    color: white;
+    flex-direction: row;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    cursor: pointer;
+    margin-right: 40px;
+}
+
+    .logo img {
+        height: 40px;
+    }
+
+.icons {
+    display: flex;
+    gap: 1rem;
+}
+
+    .icons a {
+        padding: 0.5rem 0.4rem;
+        border-radius: 6px;
+    }
+
+.icon {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+    .icon img {
+        width: 40px;
+        height: 40px;
+    }
+
+
+.user {
+    cursor: pointer;
+}
+
+    .user img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+    }
+
+.user-menu {
+    display: none;
+    position: absolute;
+    right: 2rem;
+    top: 4rem;
+    background-color: #e0e0e0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+    .user-menu ul {
+        list-style: none;
+        padding: 1rem;
+    }
+
+        .user-menu ul li {
+            margin-bottom: 1rem;
+        }
+
+            .user-menu ul li a {
+                color: #000000;
+                text-decoration: none;
+                font-size: 15px;
+                padding: 5px 5px 0px 5px;
+            }
+
+
+.show {
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    font-size: 15px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
+    gap: 0.3rem;
+}
+
+
+.navbar a:hover {
+    background-color: #207283;
+    color: #fff;
+}
+
+.user-menu a:hover {
+    background-color: #c0c0c0;
+    color: #333;
+}
+
+.menu li a:hover {
+    background-color: #c0c0c0;
+    color: #333;
+}
+
+.container-botao {
+    display: flex;
+    justify-content: center; /* Alinha horizontalmente */
+    align-items: center; /* Alinha verticalmente */
+    margin-top: 30px; /* Ajusta a distância do conteúdo acima */
+}
+
+.comecaragora {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 25px;
+    transition: background-color 0.3s ease;
+    background-color: #207283;
+    color: #fff;
+    align-items: center;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+    .comecaragora:hover {
+        background-color: #155967;
+        color: #fff;
+    }

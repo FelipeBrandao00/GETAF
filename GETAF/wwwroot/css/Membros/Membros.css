@@ -1,7 +1,118 @@
-﻿main{
-   text-align: center;
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    overflow-x: hidden; 
+}
+/*Início da header/topbar/navbar*/
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #155967;
+    padding: 1rem 2rem;
+    color: white;
+    flex-direction: row;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    cursor: pointer;
+    margin-right: 40px;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.icons {
+    display: flex;
+    gap: 1rem;
+}
+
+.icons a {
+    padding: 0.5rem 0.4rem; 
+    border-radius: 6px;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.icon img {
+    width: 40px;
+    height: 40px;
+}
+
+.menu {
+    width: 100%;
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    background-color: #e0e0e0;
+    padding: 0.5rem;
+    color: #333;
+}
+
+.menu li a {
+    display: flex; 
+    align-items: center; 
+    padding: 0.2rem 0.4rem; 
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s; 
+}
+
+.user {
+    cursor: pointer;
+}
+
+.user img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.user-menu {
+    display: none;
+    position: absolute;
+    right: 2rem;
+    top: 4rem;
+    background-color: #e0e0e0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.user-menu ul {
+    list-style: none;
+    padding: 1rem;
+}
+
+.user-menu ul li {
+    margin-bottom: 1rem;
+}
+
+.user-menu ul li a {
+    color: #000000;
+    text-decoration: none;
+    font-size: 15px; 
+    padding: 5px 5px 0px 5px; 
+}
 
 .show {
     display: block;
@@ -21,22 +132,28 @@ a {
 .navbar a:hover {
     background-color: #207283;
     color: #fff;
+    
 }
-
 .user-menu a:hover {
-    background-color: #c0c0c0;
+    background-color: #c0c0c0; 
     color: #333;
+    
 }
 
 .menu li a:hover {
-    background-color: #c0c0c0;
-    color: #333;
+    background-color: #c0c0c0; 
+    color: #333; 
 }
 
 
 #excluir {
     color: #999999;
     cursor: pointer;
+}
+
+main {
+    text-align: center;
+    margin: 20px;
 }
 
 h2 {
@@ -53,22 +170,22 @@ h2 {
     margin: 0 auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
-    max-height: 400px;
+    max-height: 400px; 
 }
 
-    /* Scroll */
-    .members-section::-webkit-scrollbar {
-        width: 8px;
-    }
+/* Scroll */
+.members-section::-webkit-scrollbar {
+    width: 8px;
+}
 
-    .members-section::-webkit-scrollbar-thumb {
-        background-color: #888;
-        border-radius: 5px;
-    }
+.members-section::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+}
 
-        .members-section::-webkit-scrollbar-thumb:hover {
-            background-color: #555;
-        }
+.members-section::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
 
 table {
     width: 100%;
@@ -107,20 +224,54 @@ td a {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
+    margin: 15% auto; 
     border: 1px solid #888;
-    width: 30%;
+    width: 400px; 
+    text-align: center;
     border-radius: 8px;
-    text-align: center; /* Centraliza o texto dentro da modal */
+    padding-bottom: 10px;
 }
 
-.close {
+.modal-content .head {
+    display: flex;
+    justify-content: space-between; 
+    border-bottom: 1px solid #DDD;
+    padding: 19px;
+  }
+
+    .modal-content p {
+        padding: 20px 20px 0 20px;
+    }
+
+    .modal-content .head span {
+      font-size: 25px;
+      color: #155967;
+      font-weight: bold;
+    }
+
+    .modal-content .head button {
+      border: none;
+      background: none;
+      font-size: 24px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #aaa;
+    }
+
+    .modal-content .head button:hover{
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+.div-close {
     color: #aaa;
     float: right;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: bold;
-    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .modal-buttons {
@@ -131,15 +282,13 @@ td a {
 }
 
 .modal-button {
-    width: 100%; /* Garante que os botões ocupem a largura completa */
-    max-width: 150px; /* Limita a largura máxima dos botões */
     margin: 5px 0; /* Adiciona espaço entre os botões */
-    padding: 10px; /* Padding para os botões */
     border: none; /* Remove borda */
     border-radius: 5px; /* Arredonda os cantos */
     cursor: pointer; /* Muda o cursor para pointer */
-    transition: background-color 0.3s;
+    transition: background-color 0.3s; 
     font-size: 15px;
+    padding: 9px 22px;
 }
 
 .modal-buttons {
@@ -154,13 +303,13 @@ td a {
 
 .modal-button:nth-child(2) {
     background-color: #bb3b37; /* Cor do botão Excluir */
-    color: #fff;
+    color: #fff; 
 }
 
-    .modal-button:nth-child(2):hover {
-        background-color: #c72a25; /* Cor do botão Excluir */
-        color: #fff;
-    }
+.modal-button:nth-child(2):hover {
+    background-color: #c72a25; /* Cor do botão Excluir */
+    color: #fff; 
+}
 
 .modal-button:nth-child(1) { /* Cor do botão Cancelar */
     background-color: #fff;
@@ -169,44 +318,34 @@ td a {
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    margin-bottom: 10px;
     border: 1px solid #155967;
 }
 
-    .modal-button:nth-child(1):hover {
-        background-color: #e2e0e0; /* Cor do botão Cancelar */
-        color: #155967;
-        border: 1px solid #155967;
-    }
-
-.close {
-    color: #aaa;
-    float: right;
-    top: 10px;
-    right: 10px;
-    font-size: 28px;
-    font-weight: bold;
+.modal-button:nth-child(1):hover {
+    background-color: #e2e0e0; /* Cor do botão Cancelar */
+    color: #155967;
+    border: 1px solid #155967;
 }
 
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 
-.nome-grupo {
+.nome-grupo{
     text-align: center;
     padding-bottom: 5px;
     color: #155967;
 }
 
-.invite {
+.invite{
     text-align: center;
     color: #155967;
 }
 
-.convite {
+.invite-send{
     width: 150px;
     background-color: #207283;
     color: white;
@@ -219,11 +358,29 @@ td a {
     transition: background-color 0.3s
 }
 
-    .convite:hover {
-        background-color: #155967;
-    }
+.invite-send:hover{
+    background-color: #155967;
+}
 
-.invite-link {
+.exit-button {
+    width: 150px;
+    background-color: #bb3b37; /* Cor do botão Excluir */
+    color: #fff; 
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s
+}
+
+.exit-button:hover{
+    background-color: #c72a25; /* Cor do botão Excluir */
+    color: #fff; 
+}
+
+.invite-link{
     color: #155967;
     font-size: 16px;
     text-decoration: none;
@@ -231,9 +388,9 @@ td a {
     text-align: center;
 }
 
-    .invite-link:hover {
-        text-decoration: underline;
-    }
+.invite-link:hover{
+    text-decoration: underline;
+}
 
 .invite-container {
     position: absolute; /* Para que possamos posicioná-lo */
@@ -241,29 +398,44 @@ td a {
     right: 200px; /* Distância da direita */
 }
 
-#inviteButton {
-    background-color: #D1D1D1;
-    border: none;
-    padding: 10px;
+#inviteButton, #exitButton {
+    background-color: #D1D1D1; 
+    border: none; 
+    padding: 10px; 
     border-radius: 5px;
-    cursor: pointer;
+    cursor: pointer; 
     margin-top: 20px; /* Ajuste o valor conforme necessário */
     transition: background-color 0.3s
+    
 }
 
-    #inviteButton:hover {
-        background-color: #b6b6b6;
-    }
+#inviteButton:hover, #exitButton:hover{
+    background-color: #b6b6b6;
+}
 
-.texto, .or {
+.texto {
     text-align: center;
     padding: 10px;
 }
 
+.or {
+    text-align: center;
+    padding: 0 10px 0 10px;
+    color: #999;
+    font-style: italic;
+    margin-bottom: 12px;
+}
+
+.linha {
+    border-top: 1px solid #999;
+    width: 25px;
+    margin-top: 8px;
+}
+
 #Email {
-    width: 100%;
-    max-width: 300px;
-    margin: 10px 0;
+    width: 100%; 
+    max-width: 300px; 
+    margin: 10px 0; 
     padding: 12px;
     font-size: 14px;
     border: 1px solid #ccc;
@@ -276,5 +448,10 @@ hr {
 }
 
 .material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48
 }
+
