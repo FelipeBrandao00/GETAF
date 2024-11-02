@@ -2,28 +2,14 @@
 @{
     Layout = "_LayoutTopMenu";
 }
+<link rel="stylesheet" href="/css/Home/Index.css">
 
     <div class="content" id="content">
         <h1 class="titulo">Olá, @ViewBag.UsuarioNome!</h1>
     </div>
-    <p class="texto-inicial">
-        <strong>Pronto para começar?</strong>
-    </p>
-    <p class="texto">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    </p>
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('aberto');
-        }
-    </script>
+<p class="texto">Bem-vindo ao UniFocus, a solução para potencializar seus estudos!</p>
+<p class="texto-inicial">Pronto para começar?</p>
+<div class="container-botao">
+    <button type="button" class="comecaragora" onclick="window.location.href='./grupos.html'">Começar agora</button>
+</div>
+
