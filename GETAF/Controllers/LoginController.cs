@@ -28,9 +28,7 @@ namespace GETAF.Controllers {
                 _sessao.CriarSessaoUsuario("SessaoUsuarioLogado", usuario);
                 return Json(new { sucesso = true });
             }
-
-            ViewBag.Erro = resposta.Mensagem;
-            return View("Index");
+            return Json(new { sucesso = false, mensagem = resposta.Mensagem });
         }
     }
 }

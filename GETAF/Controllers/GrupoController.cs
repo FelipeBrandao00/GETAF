@@ -14,6 +14,10 @@ namespace GETAF.Controllers {
         public IActionResult DetalhesGrupo([FromQuery]int grupoId) {
 
             var grupo = _context.Grupos.Find(grupoId);
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+
+            ViewBag.IdUsuarioLogado = usuarioLogado.Id;
+
             return View(grupo);
         }
 
@@ -50,8 +54,15 @@ namespace GETAF.Controllers {
         }
 
         public IActionResult ListarGrupos() {
-            var grupos = _context.Grupos.ToList();
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+            var grupos = _context.Grupos
+                   .Where(g => g.GrupoUsuarios.Any(gu => gu.UsuarioId == usuarioLogado.Id))
+                   .ToList();
             return PartialView("_ListaGrupos", grupos);
+        }
+
+        public IActionResult BuscarQuadroTarefas() {
+            return PartialView("_QuadroTarefas");
         }
 
     }

@@ -14,14 +14,31 @@
     <li><a href="#">Perguntas</a></li>
     <li><a href="#">Ranking</a></li>
     <li><a onclick="RedirecionarMembros(@Model.Id)">Membros</a></li>
-    <li><a onclick="EntrarConfigGrupo(@Model.Id)">Configurações</a></li>
+    @{
+        var isAdmin = Model.UsuarioId == ViewBag.IdUsuarioLogado;
+    }
+
+    @if (isAdmin) {
+        <li><a onclick="EntrarConfigGrupo(@Model.Id)">Configurações</a></li>
+    }
 </ul>
 
-<div class="invite-container">
-    <button id="inviteButton" onclick="showInviteModal()">
-        <span class="material-symbols-outlined">person_add</span>
-    </button>
-</div>
+    <div class="invite-container">
+    @if (isAdmin)
+    {
+        <button id="inviteButton" onclick="showInviteModal()">
+            <span class="material-symbols-outlined">person_add</span>
+        </button>
+    }
+    else
+    {
+        <button id="exitButton" onclick="showExitGroup()">
+            <span class="material-symbols-outlined">logout</span>
+        </button>
+    }
+    </div>
+
+
 
 <h2>Membros - @Model.Nome</h2>
 <section class="members-section">
@@ -30,14 +47,18 @@
             <tr>
                 <th>Nome</th>
                 <th>Função</th>
-                <th>Ações</th>
+                @if (isAdmin) {
+                    <th>Ações</th>
+                }
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><a href="#">@Model.Usuario.Nome</a></td>
                 <td>Criador</td>
-                <td></td>
+                @if (isAdmin) {
+                    <td></td>                    
+                }
             </tr>
             <tr>
             </tr>
@@ -65,11 +86,23 @@
         <h3 class="invite">Convite</h3>
         <p class="texto">Digite o e-mail da pessoa que você quer que faça parte do grupo.</p>
         <input id="Email" type="email" placeholder="E-mail" required>
-        <button onclick="AddMembros(@Model.Id)" class="convite">Convidar</button>
+        <button onclick="AddMembros(@Model.Id)" class="invite-send">Convidar</button>
         <!--
         <hr>
         <p class="or">OU</p>
         <a href="#" type="button" onclick="copyLink()" class="invite-link">Copiar link</a>-->
+    </div>
+</div>
+
+<div id="exitModal" class="modal">
+    <div class="modal-content">
+        <div class="head">
+            <span>Sair do grupo</span>
+            <span class="close" onclick="closeExitGroup()">&times;</span>
+        </div>
+        <p>Tem certeza que deseja sair do grupo?</p>
+        <br />
+        <button onclick="exitGroup()" class="exit-button">Sair</button>
     </div>
 </div>
 
@@ -113,6 +146,40 @@
 
     function copyLink() {
         alert('Link copiado!');
+    }
+
+    function showExitGroup() {
+        document.getElementById("exitModal").style.display = "block";
+    }
+
+    function closeExitGroup() {
+        document.getElementById("exitModal").style.display = "none";
+    }
+
+    function exitGroup() {
+        const IdUsuarioLogado = @ViewBag.IdUsuarioLogado;
+        const grupoId = @Model.Id;
+
+        $.ajax({
+            url: `@Url.Action("ExcluirMembros", "GrupoUsuarios")`,
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                UsuarioId: IdUsuarioLogado,
+                GrupoId: grupoId
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    retornarGrupos();
+                }
+                else {
+                    alert(retorno.mensagem);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
     }
 
     function ListarMembros(grupoId) {
@@ -190,8 +257,10 @@
     function EntrarConfigGrupo(grupoId) {
         window.location.href = `@Url.Action("EditarGrupo", "Grupo")?grupoId =` + grupoId;
     }
+    function retornarGrupos() {
+        window.location.href = `@Url.Action("Index", "Grupo")`;
+    }
     function RedirecionarMembros(grupoId) {
         window.location.href = `@Url.Action("Membros", "GrupoUsuarios")?grupoId` + grupoId;
     }
-
 </script>
