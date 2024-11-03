@@ -10,9 +10,9 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
-    overflow-x: hidden;
 }
-/*Início da header/topbar/navbar*/
+
+/* NAVBAR */
 .navbar {
     width: 100%;
     display: flex;
@@ -30,14 +30,23 @@ body {
 }
 
 .logo {
-    font-size: 1.5rem;
-    margin-right: 2rem;
+    cursor: pointer !important;
+    margin-right: 40px !important;
 }
+
+    .logo img {
+        height: 40px !important;
+    }
 
 .icons {
     display: flex;
     gap: 1rem;
 }
+
+    .icons a {
+        padding: 0.5rem 0.4rem;
+        border-radius: 6px;
+    }
 
 .icon {
     display: flex;
@@ -77,12 +86,11 @@ body {
         width: 35px;
         height: 35px;
         border-radius: 50%;
-        object-fit: cover;
     }
 
 .user-menu {
     display: none;
-    position: fixed;
+    position: absolute;
     right: 2rem;
     top: 4rem;
     background-color: #e0e0e0;

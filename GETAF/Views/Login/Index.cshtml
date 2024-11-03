@@ -80,7 +80,7 @@
                     window.location.href = '@Url.Action("Index", "Home")';
                     return;
                 }
-                alert('Não foi possível realizar o login. ' + retorno.mensagem);
+                alert(retorno.mensagem);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(jqXHR.responseText);

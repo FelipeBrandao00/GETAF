@@ -1,9 +1,300 @@
-﻿.group {
-    text-align: center;
+﻿.title {
     color: #155967;
+    text-align: center;
     font-size: 30px;
+    margin-top: 20px;
+    padding-bottom: 15px;
+}
+
+.subtitle {
+    color: #999;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+button.primary {
+    border: none;
+    background-color: #207283;
+    color: #FFF;
+    font-size: 16px;
+    padding: 9px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    button.primary:hover {
+        background-color: #155967;
+        color: #FFF;
+    }
+
+.container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.column {
+    width: 250px;
+    height: 600px;
+    background-color: #FFF;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.body::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+}
+
+    .body::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+
+.headfazer {
+    background-color: #BF8585;
+    color: #FFF;
     padding: 15px;
-    font-weight: bold;
+    text-align: center;
+}
+
+.headprog {
+    background-color: #8592BF;
+    color: #FFF;
+    padding: 15px;
+    text-align: center;
+}
+
+.headfinish {
+    background-color: #85BF8E;
+    color: #FFF;
+    padding: 15px;
+    text-align: center;
+}
+
+.headarq {
+    background-color: #72bbdd;
+    color: #FFF;
+    padding: 15px;
+    text-align: center;
+}
+
+.container .column .body {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+    .container .column .body .cards_list {
+        display: flex;
+        flex-direction: column;
+    }
+
+.add_btn {
+    background: none;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    color: #444;
+    transition: background-color 0.3s;
+    margin-bottom: 8px;
+}
+
+    .add_btn:hover {
+        background-color: #e7e7e7;
+    }
+
+.container .column .body .card {
+    background-color: #EEE;
+    border-radius: 7px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+    .container .column .body .card .info {
+        font-size: 14px;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+    }
+
+#modal, #modalExcluir {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+    #modal .box, #modalExcluir .box {
+        background-color: #FFF;
+        width: 400px;
+        border-radius: 7px;
+        overflow: hidden;
+    }
+
+        #modal .box .head, #modalExcluir .box .head {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border-bottom: 1px solid #DDD;
+        }
+
+            #modal .box .head span, #modalExcluir .box .head span {
+                font-size: 25px;
+                color: #155967;
+                font-weight: bold;
+            }
+
+            #modal .box .head button, #modalExcluir .box .head button {
+                border: none;
+                background: none;
+                font-size: 24px;
+                font-weight: 700;
+                cursor: pointer;
+                color: #aaa;
+            }
+
+                #modal .box .head button:hover, #modalExcluir .box .head button:hover {
+                    color: black;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+
+
+        #modal .box .form {
+            padding: 20px;
+        }
+
+            #modal .box .form .form-group {
+                margin-bottom: 15px;
+            }
+
+            #modal .box .form label {
+                display: block;
+                font-size: 14px;
+                color: #333;
+                margin-bottom: 5px;
+            }
+
+            #modal .box .form textarea,
+            #modal .box .form select,
+            #modal .box .form input {
+                width: 100%;
+                border-radius: 7px;
+                font-size: 14px;
+                border: 1px solid #999;
+                color: #333;
+            }
+
+            #modal .box .form textarea {
+                padding: 10px 15px;
+                max-height: 120px;
+                max-width: 100%;
+                overflow-y: auto;
+            }
+
+            #modal .box .form select {
+                padding: 10px;
+            }
+
+            #modal .box .form input {
+                padding: 10px;
+            }
+
+            #modal .box .form button, #modalExcluir .box .form button {
+                display: block;
+                margin-left: auto;
+            }
+
+#divEditingBtns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+    #divEditingBtns > button {
+        margin: 0 !important;
+    }
+
+#deleteModeBtn {
+    background-color: #fff;
+    color: #155967;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    border: 1px solid #155967;
+}
+
+    #deleteModeBtn:hover {
+        background-color: #e2e0e0; /* Cor do botão Cancelar */
+        color: #155967;
+        border: 1px solid #155967;
+    }
+
+.modalExcluirbuttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#btnDelete {
+    background-color: #bb3b37; /* Cor do botão Excluir */
+    color: #fff;
+}
+
+    #btnDelete:hover {
+        background-color: #c72a25; /* Cor do botão Excluir */
+        color: #fff;
+    }
+
+#btnCancelDelete {
+    background-color: #fff;
+    color: #155967;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid #155967;
+}
+
+    #btnCancelDelete:hover {
+        background-color: #e2e0e0; /* Cor do botão Cancelar */
+        color: #155967;
+        border: 1px solid #155967;
+    }
+
+
+#modalExcluir p {
+    text-align: center;
+    padding: 20px;
 }
 
 .back-to-groups {
@@ -11,8 +302,9 @@
     align-items: center;
     position: relative;
     left: 50px;
-    bottom: 40px;
+    top: 30px;
     cursor: pointer;
+    width: 10%;
 }
 
     .back-to-groups .material-symbols-outlined {
@@ -22,4 +314,28 @@
 .groups {
     color: #000000;
     text-decoration: none;
+}
+
+.infoGroup {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    left: 25%;
+}
+
+.group {
+    text-align: center;
+    color: #155967;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.descGroup {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 15px;
+    padding: 15px;
+    max-height: 200px;
+    overflow-y: auto;
 }

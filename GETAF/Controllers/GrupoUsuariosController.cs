@@ -8,18 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using GETAF.Models.Context;
 using GETAF.Models.Entities;
 using GETAF.Models.ViewModel;
+using GETAF.Helper;
 
 namespace GETAF.Controllers
 {
-    public class GrupoUsuariosController : Controller
+    public class GrupoUsuariosController(AppDbContext _context, ISessao _sessao) : Controller
     {
-        private readonly AppDbContext _context;
-
-        public GrupoUsuariosController(AppDbContext context)
-        {
-            _context = context;
-        }
-
         public async Task<IActionResult> AddMembros ([FromBody] GrupoUsuariosModel request )
         {            
             var resposta = request.AddMembro(_context);
@@ -38,12 +32,20 @@ namespace GETAF.Controllers
                 .Include(x => x.Usuario)
                 .Where(X => X.Id == grupoId)
                 .FirstOrDefault();
+
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+            ViewBag.IdUsuarioLogado = usuarioLogado.Id;
             return View(grupo);
         }
 
         public IActionResult ListarMembros(int grupoId) {
             var criador = _context.Grupos.Where(x => x.Id == grupoId).Select(x => x.UsuarioId).FirstOrDefault();
             var membros = _context.GrupoUsuarios.Include(x => x.Usuario).Where(x => x.GrupoId == grupoId && x.UsuarioId != criador).ToList();
+
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+            ViewBag.IdUsuarioLogado = usuarioLogado.Id;
+            ViewBag.CriadorId = criador;
+
             return PartialView("_ListaMembros", membros);
         }
     }
