@@ -48,7 +48,7 @@
                     </li>
 
                     <li>
-                        <a href="#sair" onclick="RedirecionarLogin()">
+                        <a href="#sair" onclick="OpenExitUniFocus()">
                             Sair
                             <span class="material-symbols-outlined">logout</span>
                         </a>
@@ -63,6 +63,19 @@
     </header>
     <div>
         <main>
+            <div id="exitUniFocus" class="modal">
+                <div class="modal-content">
+                    <div class="head">
+                        <span>Sair do UniFocus</span>
+                        <button class="material-icons" onclick="closeExitUniFocus()">
+                            close
+                        </button>
+                    </div>
+                <p>Tem certeza que deseja sair do UniFocus?</p>
+                <br/>
+                <button onclick="exitUniFocus()" class="exit-button">Sair</button>
+                </div>
+            </div>
             @RenderBody()
         </main>
     </div>
@@ -74,6 +87,21 @@
 </html>
 
 <script>
+
+    function OpenExitUniFocus(){
+        var menu = document.getElementById('exitUniFocus');
+        menu.style.display = 'block';
+    }
+
+    function closeExitUniFocus(){
+        var menu = document.getElementById('exitUniFocus');
+        menu.style.display = 'none';
+    }
+
+    function exitUniFocus(){
+        RedirecionarLogin();
+    }
+
     function toggleUserMenu() {
         var menu = document.getElementById('user-menu');
         menu.classList.toggle('show');

@@ -18,11 +18,15 @@
 
 <div id="createGroupModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeCreateGroupModal()">&times;</span>
-        <h2 class="titulo-novo-grupo">Criar Novo Grupo</h2>
-        <input type="text" class="groupInputModal" id="groupName" placeholder="Nome do grupo" required>
-        <input type="text" class="groupInputModal" id="groupDesc" placeholder="Descrição do grupo">
-        <button id=criar onclick="createGroup()">Criar grupo</button>
+        <div class="head">
+            <span>Criar novo grupo</span>
+            <button class="material-icons" onclick="closeCreateGroupModal()">
+                close
+            </button>
+        </div>
+        <input type="text" id="groupName" placeholder="Nome do grupo" required />
+        <textarea id="groupDesc" placeholder="Descrição do grupo" required></textarea>
+        <button id="criar" onclick="createGroup()">Criar grupo</button>
     </div>
 </div>
 
@@ -41,8 +45,18 @@
     }
 
     function createGroup() {
-        var nome = document.getElementById("groupName").value;
-        var descricao = document.getElementById("groupDesc").value;
+        var nome = document.getElementById("groupName");
+        if (nome.value.length == 0) {
+            alert('O Nome não foi escrito!');
+            nome.focus();
+            return;
+        }
+        var descricao = document.getElementById("groupDesc");
+        if (descricao.value.length == 0) {
+            alert('A descrição não foi escrita!');
+            descricao.focus();
+            return;
+        }
 
         $.ajax({
             url: '@Url.Action("CriarGrupo", "Grupo")',
@@ -50,8 +64,8 @@
             dataType: "json",
             type: "POST",
             data: JSON.stringify({
-                nome: nome,
-                descricao: descricao
+                nome: nome.value,
+                descricao: descricao.value
             }),
             success: function (retorno) {
                 if (retorno.sucesso) {
