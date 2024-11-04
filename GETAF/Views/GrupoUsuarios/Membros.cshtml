@@ -55,9 +55,9 @@
         <tbody>
             <tr>
                 <td><a href="#">@Model.Usuario.Nome</a></td>
-                <td>Criador</td>
+                <td>Proprietário</td>
                 @if (isAdmin) {
-                    <td></td>                    
+                    <td style="cursor: pointer;"><a class="material-symbols-outlined" onclick="showModal('@Model.Usuario.Nome','@Model.UsuarioId','@Model.Id')">delete_forever</a></td>
                 }
             </tr>
             <tr>
@@ -66,31 +66,35 @@
     </table>
 </section>
 
-<div id="deleteModal" class="modal" asp-action="DeletedConfirmed">
+<div id="deleteModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2 class="modal-title">Confirmação de Exclusão</h2>
+        <div class="head">
+            <span>Confirmação de exclusão</span>
+            <button class="material-icons" onclick="closeModal()">
+                close
+            </button>
+        </div>
         <p>Tem certeza de que deseja remover <span id="memberName"></span> do grupo?</p>
         <div class="modal-buttons">
-            <button class="modal-button" onclick="confirmDelete()">Excluir</button>
             <button class="modal-button" onclick="closeModal()">Cancelar</button>
+            <button class="modal-button" onclick="confirmDelete()">Excluir</button>
         </div>
     </div>
 </div>
 
-
 <div id="inviteModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeInviteModal()">&times;</span>
-        <h2 class="nome-grupo">@Model.Nome</h2>
-        <h3 class="invite">Convite</h3>
-        <p class="texto">Digite o e-mail da pessoa que você quer que faça parte do grupo.</p>
+        <div class="head">
+            <span>Convite</span>
+            <button class="material-icons" onclick="closeInviteModal()">
+                close
+            </button>
+        </div>
+        <br />
+        <h3 class="invite">@Model.Nome</h3>
+        <p class="texto">Digite o e-mail da pessoa para enviarmos um link de convite para o seu grupo.</p>
         <input id="Email" type="email" placeholder="E-mail" required>
-        <button onclick="AddMembros(@Model.Id)" class="invite-send">Convidar</button>
-        <!--
-        <hr>
-        <p class="or">OU</p>
-        <a href="#" type="button" onclick="copyLink()" class="invite-link">Copiar link</a>-->
+        <button onclick="sendInvite()" class="invite-send">Enviar convite</button>
     </div>
 </div>
 
@@ -98,7 +102,9 @@
     <div class="modal-content">
         <div class="head">
             <span>Sair do grupo</span>
-            <span class="close" onclick="closeExitGroup()">&times;</span>
+            <button class="material-icons" onclick="closeExitGroup()">
+                close
+            </button>
         </div>
         <p>Tem certeza que deseja sair do grupo?</p>
         <br />
