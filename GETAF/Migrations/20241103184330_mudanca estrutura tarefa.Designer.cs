@@ -4,6 +4,7 @@ using GETAF.Models.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GETAF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241103184330_mudanca estrutura tarefa")]
+    partial class mudancaestruturatarefa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -211,6 +214,9 @@ namespace GETAF.Migrations
                     b.Property<int>("GrupoId")
                         .HasColumnType("int");
 
+                    b.Property<int>("MateriaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -223,6 +229,8 @@ namespace GETAF.Migrations
                     b.HasIndex("DificuldadeId");
 
                     b.HasIndex("GrupoId");
+
+                    b.HasIndex("MateriaId");
 
                     b.HasIndex("UsuarioId");
 
@@ -383,6 +391,12 @@ namespace GETAF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GETAF.Models.Entities.Materia", "Materia")
+                        .WithMany()
+                        .HasForeignKey("MateriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GETAF.Models.Entities.Usuario", "Usuario")
                         .WithMany("Tarefas")
                         .HasForeignKey("UsuarioId")
@@ -392,6 +406,8 @@ namespace GETAF.Migrations
                     b.Navigation("Dificuldade");
 
                     b.Navigation("Grupo");
+
+                    b.Navigation("Materia");
 
                     b.Navigation("Usuario");
                 });
