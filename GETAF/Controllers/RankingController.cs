@@ -1,4 +1,5 @@
-﻿using GETAF.Models.Context;
+﻿using GETAF.Helper;
+using GETAF.Models.Context;
 using GETAF.Models.Entities;
 using GETAF.Models.Rankings;
 using GETAF.Models.ViewModel;
@@ -9,27 +10,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GETAF.Controllers
 {
-    public class RankingController : Controller
-    {
-        private readonly AppDbContext _context;
+    public class RankingController(AppDbContext _context, ISessao _sessao) : Controller {
 
-        public RankingController (AppDbContext context)
-        {
-            _context = context;
-        }
-
-        //public async Task<IActionResult> Pontuar([FromBody] RankingAluno request)
-        //{
-        //    var resposta = 
-       // }
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult RankingTodosGrupos()
+        public IActionResult RankingMembro()
         {
             return View();
+        }
+
+        public IActionResult VerRanking(int grupoId) {
+            return View("_Ranking");
         }
 
         public IActionResult RankingMembros(int grupoId)

@@ -2,28 +2,17 @@
 @{
     ViewData["Title"] = "Detalhes do Grupo";
     Layout = "_LayoutTopMenu";
+
+    var isAdmin = Model.UsuarioId == ViewBag.IdUsuarioLogado;
+    var idUsuarioLogado = ViewBag.IdUsuarioLogado;
 }
 
 <link rel="stylesheet" href="~/css/Grupo/DetalhesGrupo/Index.css" />
 <script src="~/lib/Moment/moment.min.js"></script>
 
-<ul class="menu">
-    <li><a href="#">Tarefas</a></li>
-    <li><a href="#">Perguntas</a></li>
-    <li><a onclick="RedirecionarRanking()">Ranking</a></li>
-    <li><a onclick="RedirecionarMembros(@Model.Id)">Membros</a></li>
-    @{
-        var idUsuarioLogado = ViewBag.IdUsuarioLogado;
-    }
-
-    @if (Model.UsuarioId == idUsuarioLogado) {
-        <li><a onclick="EntrarConfigGrupo(@Model.Id)">Configurações</a></li>
-    }
-
-</ul>
+@Html.Partial("_LayoutTopGrupo", new GETAF.Models.ViewModel.MenuViewModel { Id = Model.Id, IsAdmin = isAdmin });
 
 <div class="main-content">
-
     <div class="header">
         <div class="back-to-groups" onclick="RedirecionarGrupos()">
             <span id="back" class="material-symbols-outlined">arrow_back_ios</span>
@@ -121,22 +110,7 @@
 
 </div>
 
-
-
-
-
-
 <script>
-    function EntrarConfigGrupo(grupoId) {
-        window.location.href = `@Url.Action("EditarGrupo", "Grupo")?grupoId=` + grupoId;
-    }
-    function RedirecionarMembros(grupoId) {
-        window.location.href = `@Url.Action("Membros", "GrupoUsuarios")?grupoId=` + grupoId;
-    }
-    function RedirecionarRanking(){
-        window.location.href = `@Url.Action("Ranking", "Ranking")`;
-    }
-
     function buscarTarefas() {
         $.ajax({
             url: '@Url.Action("ListarTarefas", "Tarefa")',

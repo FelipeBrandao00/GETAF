@@ -5,12 +5,20 @@
     font-family: Arial, sans-serif;
 }
 
+html {
+    height: 100% !important;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
     overflow-x: hidden;
+    height: 100% !important;
+}
+
+main {
+    height: 80% !important;
 }
 
 .navbar {
@@ -134,6 +142,47 @@ a {
 .menu li a:hover {
     background-color: #c0c0c0;
     color: #333;
+}
+
+.tituloRanking {
+    font-size: 30px;
+    margin-top: 10px;
+    color: #155967;
+    text-align: center;
+    padding: 10px;
+}
+
+#mainRanking {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 80%;
+}
+
+#_listaGrupos {
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    overflow-y: auto;
+    background-color: white;
+    width: 50%;
+}
+
+#tituloMeusGrupos {
+    color: #155967;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+#_rankingGrupo {
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    overflow-y: auto;
+    background-color: white;
+    width: 50%;
 }
 
 .nomeranking {
