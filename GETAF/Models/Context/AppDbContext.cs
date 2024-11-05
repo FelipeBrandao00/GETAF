@@ -15,6 +15,7 @@ public class AppDbContext : DbContext {
     public DbSet<GrupoUsuario> GrupoUsuarios { get; set; }
     public DbSet<Quiz> Quiz { get; set; }
     public DbSet<QuizUsuario> QuizUsuarios { get; set; }
+    public DbSet<Pergunta> Perguntas { get; set; } 
     public DbSet<Alternativa> Alternativas { get; set; }
 
     public DbSet<Ranking> Ranking { get; set; }
@@ -37,6 +38,28 @@ public class AppDbContext : DbContext {
 
         modelBuilder.Entity<QuizUsuario>()
        .HasKey(gu => new { gu.QuizId, gu.UsuarioId });
+
+        modelBuilder.Entity<Quiz>()
+            .HasKey(qz => qz.Id);
+        modelBuilder.Entity<Pergunta>()
+            .HasKey(p => p.Id);
+        modelBuilder.Entity<Alternativa>()
+            .HasKey(a => a.Id);
+
+        modelBuilder.Entity<Quiz>()
+            .HasOne(q => q.Grupo)
+            .WithMany(p => p.Quizzes)
+            .HasForeignKey(g => g.GrupoId);
+
+        modelBuilder.Entity<Pergunta>()
+            .HasOne(p => p.Quiz)
+            .WithMany(p => p.Perguntas)
+            .HasForeignKey(q => q.QuizId);
+
+        modelBuilder.Entity<Alternativa>()
+            .HasOne(a => a.Pergunta)
+            .WithMany(a => a.Alternativas)
+            .HasForeignKey(p => p.PerguntaId);
 
         modelBuilder.Entity<QuizUsuario>()
             .HasOne(q => q.Quiz)

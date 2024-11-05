@@ -7,12 +7,14 @@ namespace GETAF.Models.Entities {
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public required string Titulo { get; set; }
-        public int TarefaId { get; set; }
         public int UsuarioId { get; set; }
-
-        public virtual Tarefa? Tarefa { get; set; }
+        public int GrupoId { get; set; }
+        public required string Titulo { get; set; }
+        public string Descricao { get; set; }
+        
+        public virtual Grupo? Grupo { get; set; }
         public virtual Usuario? Usuario { get; set; }
+        public virtual List<Pergunta> Perguntas { get; set; }
         public virtual List<QuizUsuario>? QuizUsuarios { get; set; }
     }
 }
