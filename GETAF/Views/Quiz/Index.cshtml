@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = "_LayoutTopMenu";
+}
+
+<link rel="stylesheet" href="~/css/Quiz/Index.css" />
+
+    <body>
+        <ul class="menu">
+            <li><a href="#">Tarefas</a></li>
+            <li><a href="#">Perguntas</a></li>
+            <li><a href="#">Ranking</a></li>
+            <li><a href="#">Membros</a></li>
+            <li><a href="#">Configurações</a></li>
+        </ul>
+    <div class="content">
+        <h2>Quiz</h2>
+        <div class="quiz-content">
+            <h3 id="group-name">{nomegrupo}</h3>
+            <p>Você deseja responder um quiz do grupo ou criar um novo?</p>
+            <div class="btns">
+                <button class="start-btn" id="btn1" onclick="window.location.href='./responderquiz.html'">Responder quiz</button>
+                <button class="start-btn" id="btn2" onclick="window.location.href='./fazerquiz.html'">Criar quiz</button>
+            </div>
+        </div>
+    </div>
+    <!--Modelo para fazer requisição na API-->
+    <!--<script>
+        // Faz uma requisição à API para obter os dados do quiz
+        fetch('/api/quiz/1')  // Você pode passar o ID do grupo aqui
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('group-name').innerText = data.GroupName;
+                document.getElementById('question-count').innerText = `Este quiz contém ${data.QuestionCount} questões`;
+            })
+            .catch(error => console.error('Erro ao carregar os dados:', error));
+    </script>-->
+    <script>
+        function toggleUserMenu() {
+            var menu = document.getElementById('user-menu');
+            menu.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

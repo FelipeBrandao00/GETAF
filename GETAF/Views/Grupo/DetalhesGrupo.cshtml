@@ -9,7 +9,7 @@
 
 <ul class="menu">
     <li><a href="#">Tarefas</a></li>
-    <li><a href="#">Perguntas</a></li>
+    <li><a onclick="RedirecionarQuiz(@Model.Id)">Perguntas</a></li>
     <li><a onclick="RedirecionarRanking()">Ranking</a></li>
     <li><a onclick="RedirecionarMembros(@Model.Id)">Membros</a></li>
     @{
@@ -135,6 +135,9 @@
     }
     function RedirecionarRanking(){
         window.location.href = `@Url.Action("Ranking", "Ranking")`;
+    }
+    function RedirecionarQuiz(grupoId){
+        window.location.href = `@Url.Action("Index", "Quiz")?grupoId=` + grupoId;
     }
 
     function buscarTarefas() {
