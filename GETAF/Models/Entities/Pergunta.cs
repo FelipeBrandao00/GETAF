@@ -10,8 +10,7 @@ public class Pergunta
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public int QuizId { get; set; }
-    public required string Descricao { get; set; }
+    public required string Descricao { get; set; } = "";
     public virtual Quiz? Quiz { get; set; }
-    public virtual List<Quiz> Quizzes { get; set; }
     public virtual List<Alternativa> Alternativas { get; set; }
 }

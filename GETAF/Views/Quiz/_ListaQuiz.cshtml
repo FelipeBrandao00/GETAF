@@ -1,0 +1,16 @@
+﻿@model List<GETAF.Models.Entities.Quiz>
+
+
+
+<h2>Quizzes Abertos Para criar perguntas</h2>
+<div class="group-list">
+    @foreach (var quiz in Model) {
+        <div class="group">
+            @quiz.Titulo
+            <button class="material-symbols-outlined" style="background-color: transparent; border: none;color: white;" onclick="showEditQuizModal(@quiz.Id, '@quiz.Titulo','@quiz.Descricao')">
+                edit
+            </button>
+        </div>
+    }
+</div>
+

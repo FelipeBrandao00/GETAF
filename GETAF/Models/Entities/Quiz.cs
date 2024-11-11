@@ -10,8 +10,9 @@ namespace GETAF.Models.Entities {
         public int UsuarioId { get; set; }
         public int GrupoId { get; set; }
         public required string Titulo { get; set; }
-        public string Descricao { get; set; }
-        
+        public string? Descricao { get; set; }
+        public bool IsAbertoResposta { get; set; } = false;
+
         public virtual Grupo? Grupo { get; set; }
         public virtual Usuario? Usuario { get; set; }
         public virtual List<Pergunta> Perguntas { get; set; }

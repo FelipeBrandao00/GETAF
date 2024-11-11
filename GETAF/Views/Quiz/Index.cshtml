@@ -1,45 +1,168 @@
-﻿
-@{
+﻿@{
+    ViewData["Title"] = "Quiz";
     Layout = "_LayoutTopMenu";
+    int grupoId = ViewBag.grupoId;
 }
 
 <link rel="stylesheet" href="~/css/Quiz/Index.css" />
 
-    <body>
-        <ul class="menu">
-            <li><a href="#">Tarefas</a></li>
-            <li><a href="#">Perguntas</a></li>
-            <li><a href="#">Ranking</a></li>
-            <li><a href="#">Membros</a></li>
-            <li><a href="#">Configurações</a></li>
-        </ul>
-    <div class="content">
-        <h2>Quiz</h2>
-        <div class="quiz-content">
-            <h3 id="group-name">{nomegrupo}</h3>
-            <p>Você deseja responder um quiz do grupo ou criar um novo?</p>
-            <div class="btns">
-                <button class="start-btn" id="btn1" onclick="window.location.href='./responderquiz.html'">Responder quiz</button>
-                <button class="start-btn" id="btn2" onclick="window.location.href='./fazerquiz.html'">Criar quiz</button>
-            </div>
-        </div>
+<div class="content">
+    <h1 class="grupos">Quizes</h1>
+    <div class="create-group">
+        <a href="#" onclick="showCreateQuizModal()">+ Criar Quiz</a>
     </div>
-    <!--Modelo para fazer requisição na API-->
-    <!--<script>
-        // Faz uma requisição à API para obter os dados do quiz
-        fetch('/api/quiz/1')  // Você pode passar o ID do grupo aqui
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('group-name').innerText = data.GroupName;
-                document.getElementById('question-count').innerText = `Este quiz contém ${data.QuestionCount} questões`;
-            })
-            .catch(error => console.error('Erro ao carregar os dados:', error));
-    </script>-->
-    <script>
-        function toggleUserMenu() {
-            var menu = document.getElementById('user-menu');
-            menu.classList.toggle('show');
+    <div class="groups-section" id="ListaQuizAbertoPerguntas"></div>
+    <div class="groups-section" id="ListaQuizAbertoResposta"></div>
+</div>
+
+<div id="createQuizModal" class="modal">
+    <div class="modal-content">
+        <div class="head">
+            <span>Criar novo quiz</span>
+            <button class="material-icons" onclick="closecreateQuizModal()">
+                close
+            </button>
+        </div>
+        <input class="QuizName" type="text" id="QuizName" placeholder="Nome do grupo" required />
+        <textarea class="QuizDesc" id="QuizDesc" placeholder="Descrição do grupo"></textarea>
+        <button id="criar" onclick="createQuiz()">Criar quiz</button>
+    </div>
+</div>
+
+<div id="EditarQuizModal" class="modal">
+    <div class="modal-content">
+        <div class="head">
+            <span>Editando quiz {nome}</span>
+            <button class="material-icons" onclick="closeEditQuizModal()">
+                close
+            </button>
+        </div>
+        <input class="QuizName" type="text" id="QuizNameEdit" placeholder="Nome do grupo" required />
+        <textarea class="QuizDesc" id="QuizDescEdit" placeholder="Descrição do grupo"></textarea>
+        <button id="criar" onclick="EditQuiz()">Salvar</button>
+    </div>
+</div>
+
+<script>
+
+    function showCreateQuizModal() {
+        document.getElementById("createQuizModal").style.display = "block";
+    }
+
+    function closecreateQuizModal() {
+        document.getElementById("createQuizModal").style.display = "none";
+    }
+
+    function showEditQuizModal(id,titulo,desc) {
+        document.getElementById("EditarQuizModal").setAttribute('data-id', id);
+        document.getElementById("QuizNameEdit").value = titulo;
+        document.getElementById("QuizDescEdit").value = desc;
+
+        document.getElementById("EditarQuizModal").style.display = "block";
+    }
+
+    function closeEditQuizModal() {
+                document.getElementById("EditarQuizModal").style.display = "none";
+    }
+
+    function createQuiz() {
+        var nome = document.getElementById("QuizName");
+        if (nome.value.length == 0) {
+            alert('O Nome não foi escrito!');
+            nome.focus();
+            return;
         }
-    </script>
-</body>
-</html>
+        var descricao = document.getElementById("QuizDesc");
+
+        $.ajax({
+            url: '@Url.Action("CriarQuiz", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                titulo: nome.value,
+                descricao: descricao.value,
+                grupoId: @grupoId
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    closecreateQuizModal();
+                    ListarQuizes();
+                }
+                else alert(retorno.mensagem)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+    function EditQuiz() {
+        var nome = document.getElementById("QuizNameEdit");
+        if (nome.value.length == 0) {
+            alert('O Nome não foi escrito!');
+            nome.focus();
+            return;
+        }
+        var descricao = document.getElementById("QuizDescEdit");
+        const id = document.getElementById("EditarQuizModal").getAttribute('data-id');
+
+        $.ajax({
+            url: '@Url.Action("EditarQuiz", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                id: id,
+                titulo: nome.value,
+                descricao: descricao.value,
+                grupoId: @grupoId
+                }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    closeEditQuizModal();
+                    ListarQuizes();
+                }
+                else alert(retorno.mensagem)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+
+    // Fechar modal ao clicar fora dele
+    window.onclick = function (event) {
+        const modal = document.getElementById("createQuizModal");
+        if (event.target == modal) {
+            closecreateQuizModal();
+        }
+    };
+
+    function toggleUserMenu() {
+        var menu = document.getElementById('user-menu');
+        menu.classList.toggle('show');
+    }
+
+    function ListarQuizes() {
+        $.ajax({
+            url: '@Url.Action("ListarQuizesAbertosPerguntas", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                GrupoId: @grupoId
+            }),
+            success: function (data) {
+                document.getElementById("ListaQuizAbertoPerguntas").innerHTML = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+    window.onload = function () {
+        ListarQuizes();
+    };
+</script>

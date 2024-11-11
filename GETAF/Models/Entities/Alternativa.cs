@@ -8,9 +8,8 @@ namespace GETAF.Models.Entities {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int PerguntaId { get; set; }
-        public string? Descricao { get; set; }
+        public required string Descricao { get; set; }
         public bool IsCorreta { get; set; }
-        public int QuizId { get; set; }
         public virtual Pergunta? Pergunta { get; set; }
     }
 }

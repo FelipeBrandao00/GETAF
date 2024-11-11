@@ -4,6 +4,7 @@ using GETAF.Models.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GETAF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241110160718_criando perguntas")]
+    partial class criandoperguntas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,13 +34,15 @@ namespace GETAF.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Descricao")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsCorreta")
                         .HasColumnType("bit");
 
                     b.Property<int>("PerguntaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuizId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -152,13 +157,14 @@ namespace GETAF.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Descricao")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GrupoId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsAbertoResposta")
-                        .HasColumnType("bit");
+                    b.Property<int?>("PerguntaId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
@@ -170,6 +176,8 @@ namespace GETAF.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GrupoId");
+
+                    b.HasIndex("PerguntaId");
 
                     b.HasIndex("UsuarioId");
 
@@ -352,6 +360,10 @@ namespace GETAF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GETAF.Models.Entities.Pergunta", null)
+                        .WithMany("Quizzes")
+                        .HasForeignKey("PerguntaId");
+
                     b.HasOne("GETAF.Models.Entities.Usuario", "Usuario")
                         .WithMany("Quiz")
                         .HasForeignKey("UsuarioId")
@@ -448,6 +460,8 @@ namespace GETAF.Migrations
             modelBuilder.Entity("GETAF.Models.Entities.Pergunta", b =>
                 {
                     b.Navigation("Alternativas");
+
+                    b.Navigation("Quizzes");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Quiz", b =>

@@ -5,16 +5,15 @@ using System.Net.NetworkInformation;
 
 namespace GETAF.Models.ViewModel
 {
-    public class QuizModel
+    public class QuizViewModel
     {
         public int Id { get; set; }
         public int UsuarioId { get; set; }
         public int GrupoId { get; set; }
-        [Required]
-        public required string Titulo { get; set; }
+        public string Titulo { get; set; }
         public string Descricao { get; set; }
 
-        public Quiz? CriarQuiz(AppDbContext _context)
+        public Resposta CriarQuiz(AppDbContext _context)
         {
             try
             {
@@ -27,13 +26,13 @@ namespace GETAF.Models.ViewModel
                 };
                 _context.Quiz.Add(quiz);
                 _context.SaveChanges();
-                return quiz;
             }
             catch (Exception ex)
             {
-
-                return null;
+                return new Resposta(false, "Algo deu errado ao tentar criar o quiz");
             }
+            return new Resposta(true, "Quiz criado com sucesso!");
+
         }
 
         public List<Quiz> ListarQuiz(AppDbContext _context)
@@ -48,7 +47,7 @@ namespace GETAF.Models.ViewModel
             }
         }
 
-        public Quiz? UpdateQuiz(AppDbContext _context)
+        public Resposta UpdateQuiz(AppDbContext _context)
         {
             try
             {
@@ -62,12 +61,12 @@ namespace GETAF.Models.ViewModel
 
                 _context.Quiz.Update(quiz);
                 _context.SaveChanges();
-                return quiz;
             }
             catch (Exception ex)
             {
-                return null;
+                return new Resposta(false, "Algo deu errado ao tentar editar o quiz");
             }
+            return new Resposta(true, "Quiz editado com sucesso!");
         }
 
         public Quiz? ExcluirQuiz(AppDbContext _context)
