@@ -1,4 +1,6 @@
-﻿@{
+﻿@model int;
+
+@{
     ViewData["Title"] = "Quiz";
     Layout = "_LayoutTopMenu";
 }
@@ -55,7 +57,7 @@
         <div class="form-group classificacao">
             <label for="classificacao">Selecione a classificação da pergunta</label>
             <select id="classificacao" name="classificacao" class="classificacao" required>
-                <option value="">Selecione uma classificacão</option>
+                <option value="0">Selecione uma classificacão</option>
                 <option value="1">Fácil</option>
                 <option value="2">Médio</option>
                 <option value="3">Difícil</option>
@@ -71,6 +73,11 @@
 
 <script type="text/javascript">
     document.getElementById('remover-alternativa').classList.add('disabled');
+
+    document.querySelector('form').onsubmit = function (e) {
+        e.preventDefault();
+        createPergunta();
+    };
 
     function toggleUserMenu() {
         var menu = document.getElementById('user-menu');
@@ -123,5 +130,75 @@
         if (alternativas.length == 4) {
             document.getElementById('remover-alternativa').classList.add('disabled');
         }
+    }
+
+
+    function createPergunta() {
+        // Validação da pergunta
+        var pergunta = document.getElementById("pergunta");
+        if (pergunta.value.length == 0) {
+            alert('A pergunta não foi escrita!');
+            pergunta.focus();
+            return;
+        }
+
+        var dificuldade = document.getElementById("classificacao");
+        if (dificuldade.value == 0) {
+            alert('Selecione uma Classificação');
+            dificuldade.focus();
+            return;
+        }
+
+
+            // Pegar todas as alternativas
+        var alternativas = [];
+        var listaAlternativas = document.getElementsByClassName('lista-perguntas')[0].getElementsByClassName('form-group');
+        var alternativaCorreta = document.getElementById('alternativa-correta').value;
+
+        // Validar se uma alternativa correta foi selecionada
+        if (!alternativaCorreta) {
+            alert('Selecione a alternativa correta!');
+            return;
+        }
+
+        // Criar array de alternativas
+        for (var i = 0; i < listaAlternativas.length; i++) {
+            var input = listaAlternativas[i].getElementsByTagName('input')[0];
+            if (input.value.length == 0) {
+                alert('Preencha todas as alternativas!');
+                input.focus();
+                return;
+            }
+
+            alternativas.push({
+                descricao: input.value,
+                isCorreta: (i + 1) == parseInt(alternativaCorreta)
+            });
+        }
+
+        // Fazer a requisição AJAX
+        $.ajax({
+            url: '@Url.Action("CriarPergunta", "Pergunta")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                quizId: @Model,
+                descricao: pergunta.value,
+                alternativas: alternativas,
+                dificuldade: dificuldade.value
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    alert('Pergunta criada com sucesso!');
+                    window.location.href = '@Url.Action("Index", "Pergunta")?quizId=' + @Model;
+                } else {
+                    alert(retorno.mensagem);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado ao salvar a pergunta');
+            }
+        });
     }
 </script>

@@ -16,6 +16,5 @@ namespace GETAF.Models.Entities {
         public virtual Grupo? Grupo { get; set; }
         public virtual Usuario? Usuario { get; set; }
         public virtual List<Pergunta> Perguntas { get; set; }
-        public virtual List<QuizUsuario>? QuizUsuarios { get; set; }
     }
 }

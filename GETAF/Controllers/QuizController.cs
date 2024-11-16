@@ -9,11 +9,6 @@ namespace GETAF.Controllers {
             ViewBag.grupoId = 1;
             return View();
         }
-
-        public IActionResult CriarPergunta() {
-            return View();
-        }
-
         public IActionResult CriarQuiz([FromBody] QuizViewModel quizModel) {
             var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
             quizModel.UsuarioId = usuarioLogado.Id;
@@ -34,6 +29,14 @@ namespace GETAF.Controllers {
                    .Where(q => q.GrupoId == quizModel.GrupoId && q.IsAbertoResposta == false)
                    .ToList();
             return PartialView("_ListaQuiz", quizes);
+        }
+
+        public IActionResult ListarQuizesAbertosRespostas([FromBody] QuizViewModel quizModel) {
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+            var quizes = _context.Quiz
+                   .Where(q => q.GrupoId == quizModel.GrupoId && q.IsAbertoResposta == true)
+                   .ToList();
+            return PartialView("_ListaQuizResposta", quizes);
         }
 
         public IActionResult UpdateQuiz([FromBody] QuizViewModel quizModel) {

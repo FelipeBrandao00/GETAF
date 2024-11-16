@@ -1,0 +1,246 @@
+﻿@using GETAF.Models.Entities
+@model List<Pergunta>
+@{
+    ViewData["Title"] = "Quiz";
+    Layout = "_LayoutTopMenu";
+}
+
+<link rel="stylesheet" href="~/css/pergunta/ResponderPergunta.css" />
+
+<div class="quiz-container">
+    <h2>Quiz</h2>
+    <h3 id="group-name">@ViewBag.QuizName</h3>
+
+    @{
+        int contadorPerguntas = 1;
+        int totalPerguntas = Model.Count;
+    }
+    @foreach (var pergunta in Model) {
+        <div class="question" id="question@(pergunta.Id)">
+            <p id="qtd-perguntas"><strong>Questão @contadorPerguntas de @totalPerguntas</strong></p>
+            <p id="pergunta">@pergunta.Descricao</p>
+            @{
+                    int contadorAlternativa = 1;
+                }
+                @foreach (var alternativa in pergunta.Alternativas) {
+                    <label>
+                        <input type="radio" name="question" data-alternativa="@alternativa.Id" value="@contadorAlternativa" id="alternativa'@contadorAlternativa'">
+                        @alternativa.Descricao
+                    </label>
+                    <br>
+                    contadorAlternativa++;
+                }
+        </div>
+        contadorPerguntas++;
+    }
+    <div class="buttons">
+        <button type="button" class="btn-back">Voltar</button>
+        <button type="submit" class="btn-next">Avançar</button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let currentQuestion = 1;
+        const questions = document.querySelectorAll('.question');
+        const totalQuestions = questions.length;
+        const answeredQuestions = new Set();
+        const userAnswers = new Map(); // Mapa para armazenar todas as respostas
+
+        console.log('Total de questões:', totalQuestions);
+
+        if (questions.length === 0) {
+            console.error('Nenhuma questão encontrada');
+            return;
+        }
+
+        // Adiciona listeners para todos os radio buttons
+        questions.forEach(question => {
+            const radios = question.querySelectorAll('input[type="radio"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    const questionId = question.id.replace('question', '');
+                    answeredQuestions.add(parseInt(questionId));
+                    // Armazena a resposta no mapa
+                    userAnswers.set(parseInt(questionId), parseInt(this.dataset.alternativa));
+                    console.log('Questão respondida:', questionId, 'Alternativa:', this.dataset.alternativa);
+                    console.log('Todas as respostas até agora:', userAnswers);
+                });
+
+                // Verifica se o radio já está marcado (caso de reload da página)
+                if (radio.checked) {
+                    const questionId = question.id.replace('question', '');
+                    answeredQuestions.add(parseInt(questionId));
+                    userAnswers.set(parseInt(questionId), parseInt(radio.dataset.alternativa));
+                }
+            });
+        });
+
+        function showQuestion(questionNumber) {
+            questions.forEach((question, index) => {
+                const questionId = question.id.replace('question', '');
+                if (index + 1 === questionNumber) {
+                    question.style.display = '';
+
+                    // Restaura a resposta selecionada se existir
+                    if (userAnswers.has(parseInt(questionId))) {
+                        const savedAnswer = userAnswers.get(parseInt(questionId));
+                        const radioToCheck = question.querySelector(`input[type="radio"][data-alternativa="${savedAnswer}"]`);
+                        if (radioToCheck) {
+                            radioToCheck.checked = true;
+                        }
+                    }
+
+                    console.log(`Mostrando questão ${questionNumber}`);
+                } else {
+                    question.style.display = 'none';
+                    console.log(`Escondendo questão ${index + 1}`);
+                }
+            });
+
+            // Atualiza o estado dos botões
+            updateNavigationButtons(questionNumber);
+        }
+
+        function updateNavigationButtons(currentQuestionNumber) {
+            const btnBack = document.querySelector('.btn-back');
+            const btnNext = document.querySelector('.btn-next');
+
+            if (btnBack) {
+                btnBack.disabled = currentQuestionNumber === 1;
+            }
+
+            if (btnNext) {
+                btnNext.textContent = currentQuestionNumber === totalQuestions ? 'Finalizar' : 'Avançar';
+            }
+        }
+
+        // Inicializa mostrando a primeira questão
+        showQuestion(1);
+
+        // Botão Avançar
+        const btnNext = document.querySelector('.btn-next');
+        if (btnNext) {
+            btnNext.addEventListener('click', function () {
+                console.log('Clique no botão Avançar. Questão atual:', currentQuestion);
+
+                if (currentQuestion < totalQuestions) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                } else {
+                    submitQuiz();
+                }
+            });
+        }
+
+        // Botão Voltar
+        const btnBack = document.querySelector('.btn-back');
+        if (btnBack) {
+            btnBack.addEventListener('click', function () {
+                console.log('Clique no botão Voltar. Questão atual:', currentQuestion);
+
+                if (currentQuestion > 1) {
+                    currentQuestion--;
+                    showQuestion(currentQuestion);
+                }
+            });
+        }
+
+        function submitQuiz() {
+            console.log('Iniciando submissão do quiz...');
+            console.log('Respostas armazenadas:', userAnswers);
+
+            // Verifica se todas as questões foram respondidas
+            if (userAnswers.size !== totalQuestions) {
+                const unansweredQuestions = [];
+                for (let i = 1; i <= totalQuestions; i++) {
+                    if (!userAnswers.has(i)) {
+                        unansweredQuestions.push(i);
+                    }
+                }
+                alert(`Por favor, responda todas as questões antes de finalizar.\nQuestões não respondidas: ${unansweredQuestions.join(', ')}`);
+
+                // Volta para a primeira questão não respondida
+                if (unansweredQuestions.length > 0) {
+                    currentQuestion = unansweredQuestions[0];
+                    showQuestion(currentQuestion);
+                }
+                return;
+            }
+
+            // Prepara o array de respostas no formato esperado pelo backend
+            const answers = Array.from(userAnswers, ([perguntaId, alternativaId]) => ({
+                perguntaId,
+                alternativaId
+            }));
+
+            console.log('Respostas formatadas para envio:', answers);
+
+            // Obtém o token CSRF
+            const token = $('input[name="__RequestVerificationToken"]').val();
+
+            // Mostra loader ou desabilita botão
+            $('.btn-next').prop('disabled', true);
+
+            // Envia as respostas usando AJAX
+            $.ajax({
+                url: '/Pergunta/SubmitAnswers',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(answers),
+                headers: {
+                    'RequestVerificationToken': token
+                },
+                success: function (response) {
+                    console.log('Resposta do servidor:', response);
+                    if (response.success) {
+                        if (typeof Swal !== 'undefined') {
+                            Swal.fire({
+                                title: 'Sucesso!',
+                                text: 'Quiz finalizado com sucesso!',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                window.location.href = response.redirectUrl || '/';
+                            });
+                        } else {
+                            alert('Quiz finalizado com sucesso!');
+                            window.location.href = response.redirectUrl || '/';
+                        }
+                    } else {
+                        if (typeof Swal !== 'undefined') {
+                            Swal.fire({
+                                title: 'Erro!',
+                                text: response.message || 'Erro ao enviar respostas',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+                            alert('Erro ao enviar respostas: ' + (response.message || 'Erro desconhecido'));
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Erro na requisição:', error);
+                    console.error('Status:', status);
+                    console.error('Resposta:', xhr.responseText);
+
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            title: 'Erro!',
+                            text: 'Erro ao enviar respostas. Por favor, tente novamente.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        alert('Erro ao enviar respostas. Por favor, tente novamente.');
+                    }
+                },
+                complete: function () {
+                    // Reabilita o botão após a conclusão
+                    $('.btn-next').prop('disabled', false);
+                }
+            });
+        }
+    });
+</script>

@@ -97,7 +97,8 @@
         });
     }
 
-    function EditQuiz() {
+     function EditQuiz() 
+     {
         var nome = document.getElementById("QuizNameEdit");
         if (nome.value.length == 0) {
             alert('O Nome não foi escrito!');
@@ -145,7 +146,7 @@
         menu.classList.toggle('show');
     }
 
-    function ListarQuizes() {
+    function ListarQuizesPergunta() {
         $.ajax({
             url: '@Url.Action("ListarQuizesAbertosPerguntas", "Quiz")',
             contentType: "application/json; charset=utf-8",
@@ -162,7 +163,29 @@
         });
     }
 
+    function ListarQuizesResposta() {
+        $.ajax({
+            url: '@Url.Action("ListarQuizesAbertosRespostas", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                GrupoId: @grupoId
+            }),
+            success: function (data) {
+                document.getElementById("ListaQuizAbertoResposta").innerHTML = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+    function ListarQuizes(){
+        ListarQuizesPergunta();
+        ListarQuizesResposta();
+    }
+
     window.onload = function () {
-        ListarQuizes();
+       ListarQuizes();
     };
 </script>
