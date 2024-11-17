@@ -22,7 +22,7 @@
                         <span class="material-symbols-outlined">groups</span>
                         <span class="link-texto">Grupos</span>
                     </a>
-                    <a href="#cronometro" onclick="window.location.href='./pomodoro.html'">
+                    <a href="#cronometro" onclick="RedirecionarPomodoro()">
                         <span class="material-symbols-outlined">alarm</span>
                         <span class="link-texto">Cronômetro</span>
                     </a>
@@ -111,6 +111,10 @@
 
     function RedirecionarHome() {
         window.location.href = '@Url.Action("Index", "Home")';
+    }
+
+    function RedirecionarPomodoro() {
+        window.location.href = '@Url.Action("Index", "Cronometro")';
     }
 
     function Configuracoes(){
