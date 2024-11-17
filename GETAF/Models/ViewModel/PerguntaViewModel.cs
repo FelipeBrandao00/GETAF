@@ -19,6 +19,7 @@ namespace GETAF.Models.ViewModel {
             {
                 Descricao = Descricao,
                 QuizId = QuizId,
+                Dificuldade = Dificuldade,
             };
 
             _context.Perguntas.Add(pergunta);
