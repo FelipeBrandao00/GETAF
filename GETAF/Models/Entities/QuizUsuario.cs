@@ -1,5 +1,5 @@
 ﻿namespace GETAF.Models.Entities {
-    public class PerguntaUsuario {
+    public class RespostaUsuario {
         public int PerguntaId { get; set; }
         public int UsuarioId { get; set; }
         public int AlternativaId { get; set; }

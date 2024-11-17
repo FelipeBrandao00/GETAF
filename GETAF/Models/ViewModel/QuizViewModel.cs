@@ -69,6 +69,23 @@ namespace GETAF.Models.ViewModel
             return new Resposta(true, "Quiz editado com sucesso!");
         }
 
+        public Resposta HabilitarQuizRespostas(AppDbContext _context) {
+            try {
+                var quiz = _context.Quiz.Find(Id);
+                if (quiz == null) return null;
+
+                quiz.IsAbertoResposta = true;
+
+                _context.Quiz.Update(quiz);
+                _context.SaveChanges();
+            }
+            catch (Exception ex) {
+                return new Resposta(false, "Algo deu errado ao tentar editar o quiz");
+            }
+            return new Resposta(true, "Quiz editado com sucesso!");
+        }
+
+
         public Quiz? ExcluirQuiz(AppDbContext _context)
         {
             try

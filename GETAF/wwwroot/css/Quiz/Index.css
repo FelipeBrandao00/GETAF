@@ -223,7 +223,18 @@ a {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    width: 150px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+}
+
+#habilitarRespostas {
+    background-color: #207283;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
     padding: 10px 20px;
     margin-bottom: 10px;
 }

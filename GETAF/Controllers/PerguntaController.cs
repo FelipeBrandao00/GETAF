@@ -13,14 +13,7 @@ namespace GETAF.Controllers {
         public IActionResult ResponderPerguntas([FromQuery] int quizId) {
             var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
 
-            var perguntasNaoRespondidas = _context.Perguntas
-            .Where(p => p.QuizId == quizId)
-            .Where(p => !_context.RespostaUsuario
-                .Where(ru => ru.UsuarioId == usuarioLogado.Id)
-                .Select(ru => ru.PerguntaId)
-                .Contains(p.Id))
-            .Include(p => p.Alternativas)
-            .ToList();
+            var perguntasNaoRespondidas = PerguntaViewModel.ListarPerguntasNaoRespondidas(_context, quizId,usuarioLogado.Id);
 
             ViewBag.QuizName = _context.Quiz.Where(x => x.Id == quizId).Select(x => x.Titulo).FirstOrDefault();
 
@@ -32,21 +25,11 @@ namespace GETAF.Controllers {
             return Json(new { sucesso = resposta.Sucesso, mensagem = resposta.Mensagem });
         }
 
-        public async Task<IActionResult> SubmitAnswers([FromBody] List<RespostaQuizDTO> respostas) {
-            try {
-                // Processa as respostas aqui
-                // Salva no banco de dados, etc.
-
-                return Json(new { success = true, redirectUrl = "/Quiz/Resultado" });
-            }
-            catch (Exception ex) {
-                return Json(new { success = false, message = ex.Message });
-            }
+        public async Task<IActionResult> EnviarResposta([FromBody] List<RespostaQuizDTO> respostas) {
+            PerguntaViewModel perguntaModel = new PerguntaViewModel{ Respostas = respostas };
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+            var resposta = perguntaModel.GravarResposta(_context, usuarioLogado.Id);
+            return Json(new { sucesso = resposta.Sucesso, mensagem = resposta.Mensagem });
         }
-    }
-
-    public class RespostaQuizDTO {
-        public int PerguntaId { get; set; }
-        public int AlternativaId { get; set; }
     }
 }

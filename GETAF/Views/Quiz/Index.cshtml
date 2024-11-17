@@ -13,6 +13,7 @@
     </div>
     <div class="groups-section" id="ListaQuizAbertoPerguntas"></div>
     <div class="groups-section" id="ListaQuizAbertoResposta"></div>
+    <div class="groups-section" id="ListaQuizRespondidos"></div>
 </div>
 
 <div id="createQuizModal" class="modal">
@@ -32,16 +33,34 @@
 <div id="EditarQuizModal" class="modal">
     <div class="modal-content">
         <div class="head">
-            <span>Editando quiz {nome}</span>
+            <span>Editando quiz</span>
             <button class="material-icons" onclick="closeEditQuizModal()">
                 close
             </button>
         </div>
         <input class="QuizName" type="text" id="QuizNameEdit" placeholder="Nome do grupo" required />
         <textarea class="QuizDesc" id="QuizDescEdit" placeholder="Descrição do grupo"></textarea>
-        <button id="criar" onclick="EditQuiz()">Salvar</button>
+        <div style="    display: flex;flex-direction: column; padding: 10px 20px;">
+             <button id="habilitarRespostas" onclick="habilitarRespostas()">Disponibilizar Quiz</button>
+             <button id="criar" onclick="EditQuiz()">Salvar</button>
+        </div>
     </div>
 </div>
+
+<div id="EditarQuizModalResposta" class="modal">
+    <div class="modal-content">
+        <div class="head">
+            <span>Editando quiz</span>
+            <button class="material-icons" onclick="closeEditQuizModalResposta()">
+                close
+            </button>
+        </div>
+        <input class="QuizName" type="text" id="QuizNameEditResposta" placeholder="Nome do grupo" required />
+        <textarea class="QuizDesc" id="QuizDescEditResposta" placeholder="Descrição do grupo"></textarea>
+        <button id="criar" onclick="EditQuizResposta()">Salvar</button>
+    </div>
+</div>
+
 
 <script>
 
@@ -63,6 +82,18 @@
 
     function closeEditQuizModal() {
                 document.getElementById("EditarQuizModal").style.display = "none";
+    }
+
+    function showEditQuizModalResposta(id,titulo,desc) {
+        document.getElementById("EditarQuizModalResposta").setAttribute('data-id', id);
+        document.getElementById("QuizNameEditResposta").value = titulo;
+        document.getElementById("QuizDescEditResposta").value = desc;
+
+        document.getElementById("EditarQuizModalResposta").style.display = "block";
+    }
+
+    function closeEditQuizModalResposta() {
+                document.getElementById("EditarQuizModalResposta").style.display = "none";
     }
 
     function createQuiz() {
@@ -122,6 +153,43 @@
             success: function (retorno) {
                 if (retorno.sucesso) {
                     closeEditQuizModal();
+                    closeEditQuizModalResposta();
+                    ListarQuizes();
+                }
+                else alert(retorno.mensagem)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+    function EditQuizResposta() 
+     {
+        var nome = document.getElementById("QuizNameEditResposta");
+        if (nome.value.length == 0) {
+            alert('O Nome não foi escrito!');
+            nome.focus();
+            return;
+        }
+        var descricao = document.getElementById("QuizDescEditResposta");
+        const id = document.getElementById("EditarQuizModalResposta").getAttribute('data-id');
+
+        $.ajax({
+            url: '@Url.Action("EditarQuiz", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                id: id,
+                titulo: nome.value,
+                descricao: descricao.value,
+                grupoId: @grupoId
+                }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    closeEditQuizModal();
+                    closeEditQuizModalResposta();
                     ListarQuizes();
                 }
                 else alert(retorno.mensagem)
@@ -180,9 +248,51 @@
         });
     }
 
+     function ListarQuizesRespondidos() {
+        $.ajax({
+            url: '@Url.Action("ListarQuizesRespondidos", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                GrupoId: @grupoId
+            }),
+            success: function (data) {
+                document.getElementById("ListaQuizRespondidos").innerHTML = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+    function habilitarRespostas(){
+        const id = document.getElementById("EditarQuizModal").getAttribute('data-id');
+         $.ajax({
+            url: '@Url.Action("HabilitarQuizRespostas", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                id: id
+                }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    closeEditQuizModal();
+                    ListarQuizes();
+                }
+                else alert(retorno.mensagem)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+
     function ListarQuizes(){
         ListarQuizesPergunta();
         ListarQuizesResposta();
+        ListarQuizesRespondidos();
     }
 
     window.onload = function () {

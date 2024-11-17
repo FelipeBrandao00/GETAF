@@ -47,7 +47,7 @@
         const answeredQuestions = new Set();
         const userAnswers = new Map(); // Mapa para armazenar todas as respostas
 
-        console.log('Total de questões:', totalQuestions);
+        //console.log('Total de questões:', totalQuestions);
 
         if (questions.length === 0) {
             console.error('Nenhuma questão encontrada');
@@ -63,8 +63,8 @@
                     answeredQuestions.add(parseInt(questionId));
                     // Armazena a resposta no mapa
                     userAnswers.set(parseInt(questionId), parseInt(this.dataset.alternativa));
-                    console.log('Questão respondida:', questionId, 'Alternativa:', this.dataset.alternativa);
-                    console.log('Todas as respostas até agora:', userAnswers);
+                    // console.log('Questão respondida:', questionId, 'Alternativa:', this.dataset.alternativa);
+                    // console.log('Todas as respostas até agora:', userAnswers);
                 });
 
                 // Verifica se o radio já está marcado (caso de reload da página)
@@ -91,10 +91,10 @@
                         }
                     }
 
-                    console.log(`Mostrando questão ${questionNumber}`);
+                    //console.log(`Mostrando questão ${questionNumber}`);
                 } else {
                     question.style.display = 'none';
-                    console.log(`Escondendo questão ${index + 1}`);
+                    //console.log(`Escondendo questão ${index + 1}`);
                 }
             });
 
@@ -122,7 +122,7 @@
         const btnNext = document.querySelector('.btn-next');
         if (btnNext) {
             btnNext.addEventListener('click', function () {
-                console.log('Clique no botão Avançar. Questão atual:', currentQuestion);
+                //console.log('Clique no botão Avançar. Questão atual:', currentQuestion);
 
                 if (currentQuestion < totalQuestions) {
                     currentQuestion++;
@@ -137,7 +137,7 @@
         const btnBack = document.querySelector('.btn-back');
         if (btnBack) {
             btnBack.addEventListener('click', function () {
-                console.log('Clique no botão Voltar. Questão atual:', currentQuestion);
+                //console.log('Clique no botão Voltar. Questão atual:', currentQuestion);
 
                 if (currentQuestion > 1) {
                     currentQuestion--;
@@ -147,8 +147,8 @@
         }
 
         function submitQuiz() {
-            console.log('Iniciando submissão do quiz...');
-            console.log('Respostas armazenadas:', userAnswers);
+            // console.log('Iniciando submissão do quiz...');
+            // console.log('Respostas armazenadas:', userAnswers);
 
             // Verifica se todas as questões foram respondidas
             if (userAnswers.size !== totalQuestions) {
@@ -174,7 +174,7 @@
                 alternativaId
             }));
 
-            console.log('Respostas formatadas para envio:', answers);
+            //console.log('Respostas formatadas para envio:', answers);
 
             // Obtém o token CSRF
             const token = $('input[name="__RequestVerificationToken"]').val();
@@ -184,57 +184,19 @@
 
             // Envia as respostas usando AJAX
             $.ajax({
-                url: '/Pergunta/SubmitAnswers',
+                url: '/Pergunta/EnviarResposta',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(answers),
-                headers: {
-                    'RequestVerificationToken': token
-                },
-                success: function (response) {
-                    console.log('Resposta do servidor:', response);
-                    if (response.success) {
-                        if (typeof Swal !== 'undefined') {
-                            Swal.fire({
-                                title: 'Sucesso!',
-                                text: 'Quiz finalizado com sucesso!',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                window.location.href = response.redirectUrl || '/';
-                            });
-                        } else {
-                            alert('Quiz finalizado com sucesso!');
-                            window.location.href = response.redirectUrl || '/';
-                        }
-                    } else {
-                        if (typeof Swal !== 'undefined') {
-                            Swal.fire({
-                                title: 'Erro!',
-                                text: response.message || 'Erro ao enviar respostas',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            });
-                        } else {
-                            alert('Erro ao enviar respostas: ' + (response.message || 'Erro desconhecido'));
-                        }
+                success: function (retorno) {
+                    if (retorno.sucesso) {
+                        alert(retorno.mensagem);
+                        history.back();
                     }
+                    else alert(retorno.mensagem)
                 },
-                error: function (xhr, status, error) {
-                    console.error('Erro na requisição:', error);
-                    console.error('Status:', status);
-                    console.error('Resposta:', xhr.responseText);
-
-                    if (typeof Swal !== 'undefined') {
-                        Swal.fire({
-                            title: 'Erro!',
-                            text: 'Erro ao enviar respostas. Por favor, tente novamente.',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    } else {
-                        alert('Erro ao enviar respostas. Por favor, tente novamente.');
-                    }
+                error: function (xhr, status, error) {               
+                    alert('Erro ao enviar respostas. Por favor, tente novamente.');
                 },
                 complete: function () {
                     // Reabilita o botão após a conclusão

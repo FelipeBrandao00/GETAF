@@ -14,7 +14,7 @@ public class AppDbContext : DbContext {
     public DbSet<Tarefa> Tarefas { get; set; }
     public DbSet<GrupoUsuario> GrupoUsuarios { get; set; }
     public DbSet<Quiz> Quiz { get; set; }
-    public DbSet<PerguntaUsuario> RespostaUsuario { get; set; }
+    public DbSet<RespostaUsuario> RespostaUsuario { get; set; }
     public DbSet<Pergunta> Perguntas { get; set; } 
     public DbSet<Alternativa> Alternativas { get; set; }
 
@@ -36,7 +36,7 @@ public class AppDbContext : DbContext {
         modelBuilder.Entity<GrupoUsuario>()
         .HasKey(gu => new { gu.GrupoId, gu.UsuarioId });
 
-        modelBuilder.Entity<PerguntaUsuario>()
+        modelBuilder.Entity<RespostaUsuario>()
        .HasKey(gu => new { gu.PerguntaId, gu.UsuarioId });
 
         modelBuilder.Entity<Quiz>()
@@ -61,13 +61,13 @@ public class AppDbContext : DbContext {
             .WithMany(a => a.Alternativas)
             .HasForeignKey(p => p.PerguntaId);
 
-        modelBuilder.Entity<PerguntaUsuario>()
+        modelBuilder.Entity<RespostaUsuario>()
             .HasOne(q => q.Pergunta)
             .WithMany(g => g.RespostaUsuarios)
-            .HasForeignKey(gu => gu.UsuarioId)
+            .HasForeignKey(gu => gu.PerguntaId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<PerguntaUsuario>()
+        modelBuilder.Entity<RespostaUsuario>()
            .HasOne(q => q.Usuario)
            .WithMany(g => g.RespostaUsuarios)
            .HasForeignKey(gu => gu.UsuarioId)

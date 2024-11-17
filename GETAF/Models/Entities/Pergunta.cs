@@ -13,6 +13,6 @@ public class Pergunta
     public required string Descricao { get; set; } = "";
     public virtual Quiz? Quiz { get; set; }
     public virtual List<Alternativa> Alternativas { get; set; }
-    public virtual List<PerguntaUsuario>? RespostaUsuarios { get; set; }
+    public virtual List<RespostaUsuario>? RespostaUsuarios { get; set; }
 
 }
