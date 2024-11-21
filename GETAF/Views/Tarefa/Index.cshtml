@@ -1,0 +1,129 @@
+﻿@{
+    Layout = "_LayoutTopMenu";
+}
+
+<link rel="stylesheet" href="~/css/Grupo/DetalhesGrupo/Index.css" />
+<script src="~/lib/Moment/moment.min.js"></script>
+
+
+<div class="main-content">
+    <div class="header">
+        <div class="back-to-groups" onclick="RedirecionarGrupos()">
+            <span id="back" class="material-symbols-outlined">arrow_back_ios</span>
+            <a class="groups">Grupos</a>
+        </div>
+        <div class="infoGroup">
+            <div class="group">VAIII</div>
+            <div class="descGroup">
+                AAAAAA
+            </div>
+        </div>
+
+        <br />
+
+        <h1 class="title">Tarefas</h1>
+        <h6 class="subtitle">Clique duas vezes na tarefa para editá-la!</h6>
+    </div>
+
+    <div id="quadroTarefas" class="container"></div>
+
+    <div id="modal">
+        <div class="box">
+            <div class="head">
+                <span id="creationModeTitle">Nova tarefa</span>
+                <span id="editingModeTitle">Editar tarefa</span>
+                <button class="material-icons" onclick="closeModal()">
+                    close
+                </button>
+            </div>
+
+            <div class="form">
+                <input type="hidden" id="idInput">
+
+                <div class="form-group">
+                    <label for="title">Título</label>
+                    <input id="title" placeholder="Digite o título..." />
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Descrição</label>
+                    <textarea id="description" rows="3" placeholder="Digite a descrição..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="priority">Prioridade</label>
+                    <select id="priority">
+                        <option value="-1">Selecione</option>
+                        <option value="1">Baixa</option>
+                        <option value="2">Média</option>
+                        <option value="3">Alta</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="column">Card</label>
+                    <select id="column">
+                        <option value="1">A Fazer</option>
+                        <option value="2">Em andamento</option>
+                        <option value="3">Finalizado</option>
+                        <option value="4">Arquivado</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="deadline">Prazo</label>
+                    <input type="date" id="deadline">
+                </div>
+
+                <button class="primary" onclick="createTask()" id="creationModeBtn">Cadastrar</button>
+                <div id="divEditingBtns">
+                    <button class="primary" onclick="openModalExcluir()" id="deleteModeBtn">Excluir tarefa</button>
+                    <button class="primary" onclick="updateTask()" id="editingModeBtn">Salvar alterações</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modalExcluir">
+        <div class="box">
+            <div class="head">
+                <span>Confirmação de exclusão</span>
+                <button class="material-icons" onclick="closeModalExcluir()">
+                    close
+                </button>
+            </div>
+
+            <p>Tem certeza que deseja excluir a tarefa {titulo}?</p>
+            <div class="modalExcluirbuttons">
+                <button class="primary" id="btnCancelDelete" onclick="closeModalExcluir()">Cancelar</button>
+                <button class="primary" id="btnDelete" onclick="confirmDelete()">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    function BuscarQuadroTarefas() {
+        $.ajax({
+            url: `@Url.Action("BuscarQuadroTarefas", "Grupo")`,
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            success: function (data) {
+                const quadroTarefasContainer = document.getElementById("quadroTarefas");
+                quadroTarefasContainer.innerHTML = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado ao tentar buscar o quadro de tarefas');
+            }
+        });
+    }
+
+    window.onload = function () {
+        BuscarQuadroTarefas();
+    };
+
+
+</script>

@@ -32,7 +32,7 @@ namespace GETAF.Controllers
             return Json(new { sucesso = (tarefa != null), mensagem = tarefa == null ? "Erro ao tentar excluir a tarefa" : "Sucesso" });
         }
 
-        public IActionResult TarefasGeral ()
+        public IActionResult Index()
         {
             return View();
         }
