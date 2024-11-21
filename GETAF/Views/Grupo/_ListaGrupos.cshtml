@@ -1,8 +1,6 @@
 ﻿@model List<GETAF.Models.Entities.Grupo>
 
-
-
-<h2>Meus grupos</h2>
+<h2 id="tituloMeusGrupos">Meus grupos</h2>
 <div class="group-list">
     @foreach (var grupo in Model) {
         <div class="group" onclick="EntrarNoGrupo(@grupo.Id)">@grupo.Nome</div>

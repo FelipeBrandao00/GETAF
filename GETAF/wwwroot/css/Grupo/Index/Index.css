@@ -153,11 +153,11 @@ a {
     margin-top: 40px;
 }
 
-    .groups-section h2 {
-        color: #155967;
-        font-size: 1.5em;
-        text-align: center;
-    }
+#tituloMeusGrupos {
+    color: #155967;
+    font-size: 1.5em;
+    text-align: center;
+}
 
 .group-list {
     display: flex;

@@ -1,0 +1,26 @@
+﻿@model GETAF.Models.ViewModel.MenuViewModel
+
+<ul class="menu">
+    <li><a onclick="RedirecionarTarefas(@Model.Id)">Tarefas</a></li>
+    <li><a href="#">Perguntas</a></li>
+    <li><a href="#">Ranking</a></li>
+    <li><a onclick="RedirecionarMembros(@Model.Id)">Membros</a></li>
+    @if (Model.IsAdmin) {
+        <li><a onclick="EntrarConfigGrupo(@Model.Id)">Configurações</a></li>
+    }
+</ul>
+
+<script type="text/javascript">
+    function EntrarConfigGrupo(grupoId) {
+        window.location.href = `@Url.Action("EditarGrupo", "Grupo")?grupoId=` + grupoId;
+    }
+    function retornarGrupos() {
+        window.location.href = `@Url.Action("Index", "Grupo")`;
+    }
+    function RedirecionarMembros(grupoId) {
+        window.location.href = `@Url.Action("Membros", "GrupoUsuarios")?grupoId=` + grupoId;
+    }
+    function RedirecionarTarefas(grupoId) {
+        window.location.href = `@Url.Action("DetalhesGrupo", "Grupo")?grupoId=` + grupoId;
+    }
+</script>
