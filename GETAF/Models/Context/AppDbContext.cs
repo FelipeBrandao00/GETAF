@@ -14,14 +14,15 @@ public class AppDbContext : DbContext {
     public DbSet<Tarefa> Tarefas { get; set; }
     public DbSet<GrupoUsuario> GrupoUsuarios { get; set; }
     public DbSet<Quiz> Quiz { get; set; }
-    public DbSet<QuizUsuario> QuizUsuarios { get; set; }
+    public DbSet<RespostaUsuario> RespostaUsuario { get; set; }
+    public DbSet<Pergunta> Perguntas { get; set; } 
     public DbSet<Alternativa> Alternativas { get; set; }
 
     public DbSet<Ranking> Ranking { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         if (!optionsBuilder.IsConfigured) {
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-HDNU4UN;Initial Catalog=GETAF;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=GETAF;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             //optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=GETAF;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
         }
     }
@@ -35,19 +36,41 @@ public class AppDbContext : DbContext {
         modelBuilder.Entity<GrupoUsuario>()
         .HasKey(gu => new { gu.GrupoId, gu.UsuarioId });
 
-        modelBuilder.Entity<QuizUsuario>()
-       .HasKey(gu => new { gu.QuizId, gu.UsuarioId });
+        modelBuilder.Entity<RespostaUsuario>()
+       .HasKey(gu => new { gu.PerguntaId, gu.UsuarioId });
 
-        modelBuilder.Entity<QuizUsuario>()
-            .HasOne(q => q.Quiz)
-            .WithMany(g => g.QuizUsuarios)
-            .HasForeignKey(gu => gu.UsuarioId)
+        modelBuilder.Entity<Quiz>()
+            .HasKey(qz => qz.Id);
+        modelBuilder.Entity<Pergunta>()
+            .HasKey(p => p.Id);
+        modelBuilder.Entity<Alternativa>()
+            .HasKey(a => a.Id);
+
+        modelBuilder.Entity<Quiz>()
+            .HasOne(q => q.Grupo)
+            .WithMany(p => p.Quizzes)
+            .HasForeignKey(g => g.GrupoId);
+
+        modelBuilder.Entity<Pergunta>()
+            .HasOne(p => p.Quiz)
+            .WithMany(p => p.Perguntas)
+            .HasForeignKey(q => q.QuizId);
+
+        modelBuilder.Entity<Alternativa>()
+            .HasOne(a => a.Pergunta)
+            .WithMany(a => a.Alternativas)
+            .HasForeignKey(p => p.PerguntaId);
+
+        modelBuilder.Entity<RespostaUsuario>()
+            .HasOne(q => q.Pergunta)
+            .WithMany(g => g.RespostaUsuarios)
+            .HasForeignKey(gu => gu.PerguntaId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<QuizUsuario>()
+        modelBuilder.Entity<RespostaUsuario>()
            .HasOne(q => q.Usuario)
-           .WithMany(g => g.QuizUsuarios)
-           .HasForeignKey(gu => gu.QuizId)
+           .WithMany(g => g.RespostaUsuarios)
+           .HasForeignKey(gu => gu.UsuarioId)
            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<GrupoUsuario>()

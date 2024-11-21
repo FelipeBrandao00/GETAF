@@ -1,0 +1,14 @@
+﻿@model List<(string,string)>
+
+<h2>Quizzes Respondidos</h2>
+<div class="group-list">
+    @foreach (var quiz in Model) {
+        <div class="group">
+            @quiz.Item1
+            <button 
+                style="background-color: transparent; border: none;color: white;">
+                @quiz.Item2
+            </button>
+        </div>
+    }
+</div>

@@ -4,6 +4,7 @@ using GETAF.Models.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GETAF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241116020226_atualizando estrutura respostas perguntas")]
+    partial class atualizandoestruturarespostasperguntas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,9 +136,6 @@ namespace GETAF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Dificuldade")
-                        .HasColumnType("int");
-
                     b.Property<int>("QuizId")
                         .HasColumnType("int");
 
@@ -144,6 +144,26 @@ namespace GETAF.Migrations
                     b.HasIndex("QuizId");
 
                     b.ToTable("Perguntas");
+                });
+
+            modelBuilder.Entity("GETAF.Models.Entities.PerguntaUsuario", b =>
+                {
+                    b.Property<int>("PerguntaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AlternativaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PerguntaId", "UsuarioId");
+
+                    b.HasIndex("AlternativaId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("RespostaUsuario");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Quiz", b =>
@@ -195,26 +215,6 @@ namespace GETAF.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Ranking");
-                });
-
-            modelBuilder.Entity("GETAF.Models.Entities.RespostaUsuario", b =>
-                {
-                    b.Property<int>("PerguntaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AlternativaId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PerguntaId", "UsuarioId");
-
-                    b.HasIndex("AlternativaId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("RespostaUsuario");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Tarefa", b =>
@@ -347,6 +347,33 @@ namespace GETAF.Migrations
                     b.Navigation("Quiz");
                 });
 
+            modelBuilder.Entity("GETAF.Models.Entities.PerguntaUsuario", b =>
+                {
+                    b.HasOne("GETAF.Models.Entities.Alternativa", "Alternativa")
+                        .WithMany()
+                        .HasForeignKey("AlternativaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GETAF.Models.Entities.Pergunta", "Pergunta")
+                        .WithMany("RespostaUsuarios")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GETAF.Models.Entities.Usuario", "Usuario")
+                        .WithMany("RespostaUsuarios")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Alternativa");
+
+                    b.Navigation("Pergunta");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("GETAF.Models.Entities.Quiz", b =>
                 {
                     b.HasOne("GETAF.Models.Entities.Grupo", "Grupo")
@@ -381,33 +408,6 @@ namespace GETAF.Migrations
                         .IsRequired();
 
                     b.Navigation("Grupo");
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("GETAF.Models.Entities.RespostaUsuario", b =>
-                {
-                    b.HasOne("GETAF.Models.Entities.Alternativa", "Alternativa")
-                        .WithMany()
-                        .HasForeignKey("AlternativaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GETAF.Models.Entities.Pergunta", "Pergunta")
-                        .WithMany("RespostaUsuarios")
-                        .HasForeignKey("PerguntaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("GETAF.Models.Entities.Usuario", "Usuario")
-                        .WithMany("RespostaUsuarios")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Alternativa");
-
-                    b.Navigation("Pergunta");
 
                     b.Navigation("Usuario");
                 });

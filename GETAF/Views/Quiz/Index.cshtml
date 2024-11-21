@@ -1,0 +1,301 @@
+﻿@{
+    ViewData["Title"] = "Quiz";
+    Layout = "_LayoutTopMenu";
+    int grupoId = ViewBag.grupoId;
+}
+
+<link rel="stylesheet" href="~/css/Quiz/Index.css" />
+
+<div class="content">
+    <h1 class="grupos">Quizes</h1>
+    <div class="create-group">
+        <a href="#" onclick="showCreateQuizModal()">+ Criar Quiz</a>
+    </div>
+    <div class="groups-section" id="ListaQuizAbertoPerguntas"></div>
+    <div class="groups-section" id="ListaQuizAbertoResposta"></div>
+    <div class="groups-section" id="ListaQuizRespondidos"></div>
+</div>
+
+<div id="createQuizModal" class="modal">
+    <div class="modal-content">
+        <div class="head">
+            <span>Criar novo quiz</span>
+            <button class="material-icons" onclick="closecreateQuizModal()">
+                close
+            </button>
+        </div>
+        <input class="QuizName" type="text" id="QuizName" placeholder="Nome do grupo" required />
+        <textarea class="QuizDesc" id="QuizDesc" placeholder="Descrição do grupo"></textarea>
+        <button id="criar" onclick="createQuiz()">Criar quiz</button>
+    </div>
+</div>
+
+<div id="EditarQuizModal" class="modal">
+    <div class="modal-content">
+        <div class="head">
+            <span>Editando quiz</span>
+            <button class="material-icons" onclick="closeEditQuizModal()">
+                close
+            </button>
+        </div>
+        <input class="QuizName" type="text" id="QuizNameEdit" placeholder="Nome do grupo" required />
+        <textarea class="QuizDesc" id="QuizDescEdit" placeholder="Descrição do grupo"></textarea>
+        <div style="    display: flex;flex-direction: column; padding: 10px 20px;">
+             <button id="habilitarRespostas" onclick="habilitarRespostas()">Disponibilizar Quiz</button>
+             <button id="criar" onclick="EditQuiz()">Salvar</button>
+        </div>
+    </div>
+</div>
+
+<div id="EditarQuizModalResposta" class="modal">
+    <div class="modal-content">
+        <div class="head">
+            <span>Editando quiz</span>
+            <button class="material-icons" onclick="closeEditQuizModalResposta()">
+                close
+            </button>
+        </div>
+        <input class="QuizName" type="text" id="QuizNameEditResposta" placeholder="Nome do grupo" required />
+        <textarea class="QuizDesc" id="QuizDescEditResposta" placeholder="Descrição do grupo"></textarea>
+        <button id="criar" onclick="EditQuizResposta()">Salvar</button>
+    </div>
+</div>
+
+
+<script>
+
+    function showCreateQuizModal() {
+        document.getElementById("createQuizModal").style.display = "block";
+    }
+
+    function closecreateQuizModal() {
+        document.getElementById("createQuizModal").style.display = "none";
+    }
+
+    function showEditQuizModal(id,titulo,desc) {
+        document.getElementById("EditarQuizModal").setAttribute('data-id', id);
+        document.getElementById("QuizNameEdit").value = titulo;
+        document.getElementById("QuizDescEdit").value = desc;
+
+        document.getElementById("EditarQuizModal").style.display = "block";
+    }
+
+    function closeEditQuizModal() {
+                document.getElementById("EditarQuizModal").style.display = "none";
+    }
+
+    function showEditQuizModalResposta(id,titulo,desc) {
+        document.getElementById("EditarQuizModalResposta").setAttribute('data-id', id);
+        document.getElementById("QuizNameEditResposta").value = titulo;
+        document.getElementById("QuizDescEditResposta").value = desc;
+
+        document.getElementById("EditarQuizModalResposta").style.display = "block";
+    }
+
+    function closeEditQuizModalResposta() {
+                document.getElementById("EditarQuizModalResposta").style.display = "none";
+    }
+
+    function createQuiz() {
+        var nome = document.getElementById("QuizName");
+        if (nome.value.length == 0) {
+            alert('O Nome não foi escrito!');
+            nome.focus();
+            return;
+        }
+        var descricao = document.getElementById("QuizDesc");
+
+        $.ajax({
+            url: '@Url.Action("CriarQuiz", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                titulo: nome.value,
+                descricao: descricao.value,
+                grupoId: @grupoId
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    closecreateQuizModal();
+                    ListarQuizes();
+                }
+                else alert(retorno.mensagem)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+     function EditQuiz() 
+     {
+        var nome = document.getElementById("QuizNameEdit");
+        if (nome.value.length == 0) {
+            alert('O Nome não foi escrito!');
+            nome.focus();
+            return;
+        }
+        var descricao = document.getElementById("QuizDescEdit");
+        const id = document.getElementById("EditarQuizModal").getAttribute('data-id');
+
+        $.ajax({
+            url: '@Url.Action("EditarQuiz", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                id: id,
+                titulo: nome.value,
+                descricao: descricao.value,
+                grupoId: @grupoId
+                }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    closeEditQuizModal();
+                    closeEditQuizModalResposta();
+                    ListarQuizes();
+                }
+                else alert(retorno.mensagem)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+    function EditQuizResposta() 
+     {
+        var nome = document.getElementById("QuizNameEditResposta");
+        if (nome.value.length == 0) {
+            alert('O Nome não foi escrito!');
+            nome.focus();
+            return;
+        }
+        var descricao = document.getElementById("QuizDescEditResposta");
+        const id = document.getElementById("EditarQuizModalResposta").getAttribute('data-id');
+
+        $.ajax({
+            url: '@Url.Action("EditarQuiz", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                id: id,
+                titulo: nome.value,
+                descricao: descricao.value,
+                grupoId: @grupoId
+                }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    closeEditQuizModal();
+                    closeEditQuizModalResposta();
+                    ListarQuizes();
+                }
+                else alert(retorno.mensagem)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+
+    // Fechar modal ao clicar fora dele
+    window.onclick = function (event) {
+        const modal = document.getElementById("createQuizModal");
+        if (event.target == modal) {
+            closecreateQuizModal();
+        }
+    };
+
+    function toggleUserMenu() {
+        var menu = document.getElementById('user-menu');
+        menu.classList.toggle('show');
+    }
+
+    function ListarQuizesPergunta() {
+        $.ajax({
+            url: '@Url.Action("ListarQuizesAbertosPerguntas", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                GrupoId: @grupoId
+            }),
+            success: function (data) {
+                document.getElementById("ListaQuizAbertoPerguntas").innerHTML = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+    function ListarQuizesResposta() {
+        $.ajax({
+            url: '@Url.Action("ListarQuizesAbertosRespostas", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                GrupoId: @grupoId
+            }),
+            success: function (data) {
+                document.getElementById("ListaQuizAbertoResposta").innerHTML = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+     function ListarQuizesRespondidos() {
+        $.ajax({
+            url: '@Url.Action("ListarQuizesRespondidos", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                GrupoId: @grupoId
+            }),
+            success: function (data) {
+                document.getElementById("ListaQuizRespondidos").innerHTML = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+    function habilitarRespostas(){
+        const id = document.getElementById("EditarQuizModal").getAttribute('data-id');
+         $.ajax({
+            url: '@Url.Action("HabilitarQuizRespostas", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                id: id
+                }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    closeEditQuizModal();
+                    ListarQuizes();
+                }
+                else alert(retorno.mensagem)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+
+    function ListarQuizes(){
+        ListarQuizesPergunta();
+        ListarQuizesResposta();
+        ListarQuizesRespondidos();
+    }
+
+    window.onload = function () {
+       ListarQuizes();
+    };
+</script>

@@ -4,6 +4,7 @@ using GETAF.Models.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GETAF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241103184330_mudanca estrutura tarefa")]
+    partial class mudancaestruturatarefa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,18 +34,17 @@ namespace GETAF.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Descricao")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsCorreta")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PerguntaId")
+                    b.Property<int>("QuizId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PerguntaId");
+                    b.HasIndex("QuizId");
 
                     b.ToTable("Alternativas");
                 });
@@ -121,31 +123,6 @@ namespace GETAF.Migrations
                     b.ToTable("Materias");
                 });
 
-            modelBuilder.Entity("GETAF.Models.Entities.Pergunta", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Dificuldade")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuizId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuizId");
-
-                    b.ToTable("Perguntas");
-                });
-
             modelBuilder.Entity("GETAF.Models.Entities.Quiz", b =>
                 {
                     b.Property<int>("Id")
@@ -154,14 +131,8 @@ namespace GETAF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Descricao")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("GrupoId")
+                    b.Property<int>("TarefaId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsAbertoResposta")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
@@ -172,11 +143,31 @@ namespace GETAF.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GrupoId");
+                    b.HasIndex("TarefaId");
 
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Quiz");
+                });
+
+            modelBuilder.Entity("GETAF.Models.Entities.QuizUsuario", b =>
+                {
+                    b.Property<int>("QuizId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AlternativaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("QuizId", "UsuarioId");
+
+                    b.HasIndex("AlternativaId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("QuizUsuarios");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Ranking", b =>
@@ -195,26 +186,6 @@ namespace GETAF.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Ranking");
-                });
-
-            modelBuilder.Entity("GETAF.Models.Entities.RespostaUsuario", b =>
-                {
-                    b.Property<int>("PerguntaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AlternativaId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PerguntaId", "UsuarioId");
-
-                    b.HasIndex("AlternativaId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("RespostaUsuario");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Tarefa", b =>
@@ -243,6 +214,9 @@ namespace GETAF.Migrations
                     b.Property<int>("GrupoId")
                         .HasColumnType("int");
 
+                    b.Property<int>("MateriaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -255,6 +229,8 @@ namespace GETAF.Migrations
                     b.HasIndex("DificuldadeId");
 
                     b.HasIndex("GrupoId");
+
+                    b.HasIndex("MateriaId");
 
                     b.HasIndex("UsuarioId");
 
@@ -297,13 +273,13 @@ namespace GETAF.Migrations
 
             modelBuilder.Entity("GETAF.Models.Entities.Alternativa", b =>
                 {
-                    b.HasOne("GETAF.Models.Entities.Pergunta", "Pergunta")
-                        .WithMany("Alternativas")
-                        .HasForeignKey("PerguntaId")
+                    b.HasOne("GETAF.Models.Entities.Quiz", "Quiz")
+                        .WithMany()
+                        .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Pergunta");
+                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Grupo", b =>
@@ -336,22 +312,11 @@ namespace GETAF.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("GETAF.Models.Entities.Pergunta", b =>
-                {
-                    b.HasOne("GETAF.Models.Entities.Quiz", "Quiz")
-                        .WithMany("Perguntas")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Quiz");
-                });
-
             modelBuilder.Entity("GETAF.Models.Entities.Quiz", b =>
                 {
-                    b.HasOne("GETAF.Models.Entities.Grupo", "Grupo")
-                        .WithMany("Quizzes")
-                        .HasForeignKey("GrupoId")
+                    b.HasOne("GETAF.Models.Entities.Tarefa", "Tarefa")
+                        .WithMany()
+                        .HasForeignKey("TarefaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -361,7 +326,34 @@ namespace GETAF.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Grupo");
+                    b.Navigation("Tarefa");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("GETAF.Models.Entities.QuizUsuario", b =>
+                {
+                    b.HasOne("GETAF.Models.Entities.Alternativa", "Alternativa")
+                        .WithMany()
+                        .HasForeignKey("AlternativaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GETAF.Models.Entities.Usuario", "Usuario")
+                        .WithMany("QuizUsuarios")
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GETAF.Models.Entities.Quiz", "Quiz")
+                        .WithMany("QuizUsuarios")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Alternativa");
+
+                    b.Navigation("Quiz");
 
                     b.Navigation("Usuario");
                 });
@@ -385,33 +377,6 @@ namespace GETAF.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("GETAF.Models.Entities.RespostaUsuario", b =>
-                {
-                    b.HasOne("GETAF.Models.Entities.Alternativa", "Alternativa")
-                        .WithMany()
-                        .HasForeignKey("AlternativaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GETAF.Models.Entities.Pergunta", "Pergunta")
-                        .WithMany("RespostaUsuarios")
-                        .HasForeignKey("PerguntaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("GETAF.Models.Entities.Usuario", "Usuario")
-                        .WithMany("RespostaUsuarios")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Alternativa");
-
-                    b.Navigation("Pergunta");
-
-                    b.Navigation("Usuario");
-                });
-
             modelBuilder.Entity("GETAF.Models.Entities.Tarefa", b =>
                 {
                     b.HasOne("GETAF.Models.Entities.Dificuldade", "Dificuldade")
@@ -426,6 +391,12 @@ namespace GETAF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GETAF.Models.Entities.Materia", "Materia")
+                        .WithMany()
+                        .HasForeignKey("MateriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GETAF.Models.Entities.Usuario", "Usuario")
                         .WithMany("Tarefas")
                         .HasForeignKey("UsuarioId")
@@ -436,6 +407,8 @@ namespace GETAF.Migrations
 
                     b.Navigation("Grupo");
 
+                    b.Navigation("Materia");
+
                     b.Navigation("Usuario");
                 });
 
@@ -443,21 +416,12 @@ namespace GETAF.Migrations
                 {
                     b.Navigation("GrupoUsuarios");
 
-                    b.Navigation("Quizzes");
-
                     b.Navigation("Ranking");
-                });
-
-            modelBuilder.Entity("GETAF.Models.Entities.Pergunta", b =>
-                {
-                    b.Navigation("Alternativas");
-
-                    b.Navigation("RespostaUsuarios");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Quiz", b =>
                 {
-                    b.Navigation("Perguntas");
+                    b.Navigation("QuizUsuarios");
                 });
 
             modelBuilder.Entity("GETAF.Models.Entities.Usuario", b =>
@@ -466,9 +430,9 @@ namespace GETAF.Migrations
 
                     b.Navigation("Quiz");
 
-                    b.Navigation("Ranking");
+                    b.Navigation("QuizUsuarios");
 
-                    b.Navigation("RespostaUsuarios");
+                    b.Navigation("Ranking");
 
                     b.Navigation("Tarefas");
                 });

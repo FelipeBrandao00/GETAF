@@ -14,7 +14,7 @@ public class Usuario {
     public byte[]? Foto { get; set; }
     public byte[]? Salt { get; set; }
     public virtual List<GrupoUsuario> GrupoUsuarios { get; set; }
-    public virtual List<QuizUsuario>? QuizUsuarios { get; set; }
+    public virtual List<RespostaUsuario>? RespostaUsuarios { get; set; }
     public virtual List<Quiz>? Quiz { get; set; }
     public virtual List<Tarefa> Tarefas { get; set; }
     public virtual List<Ranking> Ranking { get; set; }

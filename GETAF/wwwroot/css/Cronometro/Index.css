@@ -1,0 +1,170 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    overflow-x: hidden;
+    background-image: url(/Imagens/clock.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-position: 47% -80%;
+}
+
+
+.container {
+    display: flex;
+    width: 100%;
+    align-items: start;
+    text-align: left;
+}
+
+.menu-item {
+    margin: 20px 0;
+}
+
+    .menu-item img {
+        width: 30px;
+        cursor: pointer;
+    }
+
+    .menu-item.active img {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 5px;
+    }
+
+/* Main content */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+    .header p {
+        font-size: 30px;
+        color: #666;
+        display: flex;
+        align-items: left;
+        text-align: left;
+        margin: 0 auto;
+        max-width: 800px;
+        padding: 45px;
+    }
+
+/* Timer Box */
+.timer-box {
+    padding: 95px;
+    text-align: center;
+}
+
+/* Timer Display */
+#circularProgressBar {
+    width: 300px;
+    height: 200px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.progress-value {
+    font-size: 90px;
+    color: #403f3f;
+    font-weight: bold;
+}
+
+
+.btn {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    height: 45px;
+}
+
+    .btn.start {
+        background-color: #96d78a;
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn.start:hover {
+            background-color: #76b36e;
+            color: white;
+        }
+
+    .btn.pause {
+        background-color: #dfe862;
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn.pause:hover {
+            background-color: #c4cd4a;
+            color: white;
+        }
+
+    .btn.resume {
+        background-color: #8a96d7;
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn.resume:hover {
+            background-color: #7c8bde;
+            color: white;
+        }
+
+    .btn.add-time {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
+
+    .btn.reset {
+        background-color: #403f3f;
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn.add-time {
+        background-color: #71b4f7;
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn.add-time:hover {
+            background-color: #66a0db;
+            color: white;
+        }
+
+    .btn.reset:hover {
+        background-color: #585858;
+        color: white;
+    }
+
+.controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    height: 40px;
+}
+

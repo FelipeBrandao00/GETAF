@@ -9,7 +9,7 @@
 
 <ul class="menu">
     <li><a href="#">Tarefas</a></li>
-    <li><a href="#">Perguntas</a></li>
+    <li><a onclick="RedirecionarQuiz(@Model.Id)">Perguntas</a></li>
     <li><a onclick="RedirecionarRanking()">Ranking</a></li>
     <li><a onclick="RedirecionarMembros(@Model.Id)">Membros</a></li>
     @{
@@ -71,9 +71,9 @@
                     <label for="priority">Prioridade</label>
                     <select id="priority">
                         <option value="-1">Selecione</option>
-                        <option>Baixa</option>
-                        <option>Média</option>
-                        <option>Alta</option>
+                        <option value="1">Baixa</option>
+                        <option value="2">Média</option>
+                        <option value="3">Alta</option>
                     </select>
                 </div>
 
@@ -136,6 +136,40 @@
     function RedirecionarRanking(){
         window.location.href = `@Url.Action("Ranking", "Ranking")`;
     }
+    function RedirecionarQuiz(grupoId){
+        window.location.href = `@Url.Action("Index", "Quiz")?grupoId=` + grupoId;
+    }
+
+    function buscarTarefas() {
+        $.ajax({
+            url: '@Url.Action("ListarTarefas", "Tarefa")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                grupoId: @Model.Id
+            }),
+            success: function (retorno) {
+                 taskList = retorno.tarefas.map(tarefa => {
+                    return {
+                        id: tarefa.id,                     
+                        title: tarefa.nome.trim(),         
+                        description: tarefa.descricao.trim(), 
+                        priority: tarefa.dificuldadeId,    
+                        deadline: tarefa.dtFim,            
+                        column: tarefa.cdStatus            
+                    };
+                });
+
+                generateCards();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Erro ao buscar as tarefas');
+            }
+        });
+    }
+
+
 
     function BuscarQuadroTarefas() {
         $.ajax({
@@ -143,8 +177,8 @@
             contentType: "application/json; charset=utf-8",
             type: "POST",
             success: function (data) {
-                const tbody = document.getElementById("quadroTarefas");
-                tbody.innerHTML = data;
+                const quadroTarefasContainer = document.getElementById("quadroTarefas");
+                quadroTarefasContainer.innerHTML = data;
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Algo deu errado ao tentar buscar o quadro de tarefas');
@@ -154,6 +188,7 @@
 
     window.onload = function () {
         BuscarQuadroTarefas();
+        buscarTarefas();
     };
 
     
@@ -216,12 +251,12 @@
 
         idtarefa = index;
         const task = taskList[index];
-
         $idInput.value = task.id;
         $titleInput.value = task.title;
         $descriptionInput.value = task.description;
         $priorityInput.value = task.priority;
-        $deadlineInput.value = task.deadline;
+        const deadlineDate = task.deadline.split('T')[0];
+        $deadlineInput.value = deadlineDate; 
         $columnInput.value = task.column;
     }
 
@@ -245,65 +280,86 @@
     }
 
     function confirmDelete() {
-        closeModalExcluir();
-        closeModal();
-
-        taskList.splice(idtarefa, 1);
-        idtarefa = null;
-
-        alert('Tarefa deletada com sucesso!');
-        generateCards();
+        $.ajax({
+            url: '@Url.Action("ExcluirTarefa", "Tarefa")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                id: $idInput.value
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    closeModalExcluir();
+                    closeModal();
+                    taskList.splice(idtarefa, 1);
+                    idtarefa = null;
+                    generateCards();
+                }
+                else {
+                    alert(retorno.mensagem)
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });     
     }
 
     function resetColumns() {
-        document.querySelector('[data-column="1"] .body .cards_list').innerHTML = '';
-        document.querySelector('[data-column="2"] .body .cards_list').innerHTML = '';
-        document.querySelector('[data-column="3"] .body .cards_list').innerHTML = '';
-        document.querySelector('[data-column="4"] .body .cards_list').innerHTML = '';
+        const columns = [1, 2, 3, 4];
+        columns.forEach(columnNumber => {
+            const column = document.querySelector(`[data-column="${columnNumber}"] .body .cards_list`);
+            if (column) { // Verifica se o elemento existe
+                column.innerHTML = '';
+            }
+        });
     }
 
     function generateCards() {
-
         resetColumns();
 
         taskList.forEach(function (task) {
             const formattedDate = moment(task.deadline).format('DD/MM/YYYY');
 
             const columnBody = document.querySelector(`[data-column="${task.column}"] .body .cards_list`);
+            if (!columnBody) { // Verifica se columnBody existe
+                console.warn(`Elemento com data-column="${task.column}" não encontrado no DOM.`);
+                return;
+            }
+            const niveis = ['Baixa', 'Média', 'Alta'];
 
             const card = `
-          <div
-            id="${task.id}"
-            class="card"
-            ondblclick="openModalToEdit(${task.id})"
-            draggable="true"
-            ondragstart="dragstart_handler(event)"
-          >
-            <div class="info">
-              <b>Título</b>
-              <span>${task.title}</span>
-            </div>
-
-            <div class="info">
-              <b>Descrição</b>
-              <span>${task.description}</span>
-            </div>
-
-            <div class="info">
-              <b>Prioridade</b>
-              <span>${task.priority}</span>
-            </div>
-
-            <div class="info">
-              <b>Prazo</b>
-              <span>${formattedDate}</span>
-            </div>
-          </div>
-        `;
+                <div
+                    id="${task.id}"
+                    class="card"
+                    ondblclick="openModalToEdit(${task.id})"
+                    draggable="true"
+                    ondragstart="dragstart_handler(event)"
+                >
+                    <div class="info">
+                        <b>Título</b>
+                        <span>${task.title}</span>
+                    </div>
+                    <div class="info">
+                        <b>Descrição</b>
+                        <span>${task.description}</span>
+                    </div>
+                    <div class="info">
+                        <b>Prioridade</b>
+                        <span>${niveis[task.priority-1]}</span>
+                    </div>
+                    <div class="info">
+                        <b>Prazo</b>
+                        <span>${formattedDate}</span>
+                    </div>
+                </div>
+            `;
 
             columnBody.innerHTML += card;
         });
     }
+
 
     function createTask() {
         if (!validarCampos()) {
@@ -319,6 +375,34 @@
             deadline: $deadlineInput.value,
             column: $columnInput.value,
         }
+
+
+        $.ajax({
+            url: '@Url.Action("AddTarefa", "Tarefa")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                nome: $titleInput.value,
+                descricao: $descriptionInput.value,
+                dtFim: $deadlineInput.value,
+                cdStatus: $columnInput.value,
+                usuarioId: @idUsuarioLogado,
+                grupoId: @Model.Id,
+                dificuldadeId: $priorityInput.value
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    buscarTarefas();
+                }
+                else {
+                    alert(retorno.mensagem)
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
 
         taskList.push(newTask);
 
@@ -348,10 +432,35 @@
 
         taskList[index] = task;
 
-        // localStorage.setItem("tasks", JSON.stringify(taskList));
-
-        closeModal();
-        generateCards();
+        $.ajax({
+            url: '@Url.Action("UpdateTarefa", "Tarefa")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                id: task.id,
+                nome: task.title,
+                descricao: task.description,
+                dtFim: task.deadline,
+                cdStatus: task.cdStatus,
+                usuarioId: @idUsuarioLogado,
+                grupoId: @Model.Id,
+                dificuldadeId: task.priority
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    closeModal();
+                    generateCards();
+                }
+                else {
+                    alert(retorno.mensagem)
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+        // localStorage.setItem("tasks", JSON.stringify(taskList));   
     }
 
     function changeColumn(task_id, column_id) {
@@ -366,9 +475,27 @@
             });
         }
 
-        // localStorage.setItem("tasks", JSON.stringify(taskList));
-
-        generateCards();
+        $.ajax({
+            url: '@Url.Action("AtualizarStatusTarefa", "Tarefa")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                id: task_id,
+                cdStatus: column_id,
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    generateCards();
+                }
+                else {
+                    alert(retorno.mensagem)
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
     }
 
     function validarCampos() {
