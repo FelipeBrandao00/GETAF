@@ -1,44 +1,26 @@
 ﻿@model GETAF.Models.Entities.Grupo
-
 @{
     ViewData["Title"] = "Membros";
     Layout = "_LayoutTopMenu";
+
+    var isAdmin = Model.UsuarioId == ViewBag.IdUsuarioLogado;
 }
 
 <link rel="stylesheet" href="~/css/Membros/Membros.css" />
 
+@Html.Partial("_LayoutTopGrupo", new GETAF.Models.ViewModel.MenuViewModel { Id = Model.Id, IsAdmin = isAdmin })
 
-
-<ul class="menu">
-    <li><a href="#">Tarefas</a></li>
-    <li><a href="#">Perguntas</a></li>
-    <li><a href="#">Ranking</a></li>
-    <li><a onclick="RedirecionarMembros(@Model.Id)">Membros</a></li>
-    @{
-        var isAdmin = Model.UsuarioId == ViewBag.IdUsuarioLogado;
-    }
-
+<div class="invite-container">
     @if (isAdmin) {
-        <li><a onclick="EntrarConfigGrupo(@Model.Id)">Configurações</a></li>
-    }
-</ul>
-
-    <div class="invite-container">
-    @if (isAdmin)
-    {
         <button id="inviteButton" onclick="showInviteModal()">
             <span class="material-symbols-outlined">person_add</span>
         </button>
-    }
-    else
-    {
+    } else {
         <button id="exitButton" onclick="showExitGroup()">
             <span class="material-symbols-outlined">logout</span>
         </button>
     }
-    </div>
-
-
+</div>
 
 <h2>Membros - @Model.Nome</h2>
 <section class="members-section">
@@ -256,17 +238,7 @@
         });
     }
 
-    window.onload = function () {
+    window.onload = function() {
         ListarMembros(@Model.Id);
     };
-
-    function EntrarConfigGrupo(grupoId) {
-        window.location.href = `@Url.Action("EditarGrupo", "Grupo")?grupoId =` + grupoId;
-    }
-    function retornarGrupos() {
-        window.location.href = `@Url.Action("Index", "Grupo")`;
-    }
-    function RedirecionarMembros(grupoId) {
-        window.location.href = `@Url.Action("Membros", "GrupoUsuarios")?grupoId` + grupoId;
-    }
 </script>

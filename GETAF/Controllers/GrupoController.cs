@@ -12,7 +12,6 @@ namespace GETAF.Controllers {
         }
 
         public IActionResult DetalhesGrupo([FromQuery]int grupoId) {
-
             var grupo = _context.Grupos.Find(grupoId);
             var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
 
@@ -23,11 +22,17 @@ namespace GETAF.Controllers {
 
         public IActionResult EditarGrupo([FromQuery] int grupoId) {
             var grupo = _context.Grupos.Find(grupoId);
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+
+            ViewBag.IdUsuarioLogado = usuarioLogado.Id;
             return View(grupo);
         }
 
         public IActionResult ExcluirGrupo([FromQuery] int grupoId) {
             var grupo = _context.Grupos.Find(grupoId);
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+
+            ViewBag.IdUsuarioLogado = usuarioLogado.Id;
             return View(grupo);
         }
 
@@ -43,6 +48,8 @@ namespace GETAF.Controllers {
         public IActionResult EditarGrupo([FromBody] GrupoModel grupoModel) {
             var usuario = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
             var resposta = grupoModel.EditarGrupo(_context);
+
+            ViewBag.IdUsuarioLogado = usuario.Id;
             return Json(new { sucesso = resposta.Sucesso, mensagem = resposta.Mensagem });
         }
 
@@ -50,6 +57,9 @@ namespace GETAF.Controllers {
         public IActionResult ExcluirGrupo([FromBody] GrupoModel grupoModel) {
             var usuario = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
             var resposta = grupoModel.ExcluirGrupo(_context);
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+
+            ViewBag.IdUsuarioLogado = usuarioLogado.Id;
             return Json(new { sucesso = resposta.Sucesso, mensagem = resposta.Mensagem });
         }
 

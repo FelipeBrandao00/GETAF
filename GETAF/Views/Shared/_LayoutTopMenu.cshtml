@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -26,7 +26,9 @@
                         <span class="material-symbols-outlined">alarm</span>
                         <span class="link-texto">Cronômetro</span>
                     </a>
-                    <a href="#ranking" onclick="window.location.href='./ranking.html'">
+                 
+                    <a href="#ranking" onclick="RedirecionarRanking()">
+         
                         <span class="material-symbols-outlined">star</span>
                         <span class="link-texto">Ranking</span>
                     </a>
@@ -60,24 +62,22 @@
             </div>
         </div>
     </header>
-    <div>
-        <main>
-            <div id="exitUniFocus" class="modal">
-                <div class="modal-content">
-                    <div class="head">
-                        <span>Sair do UniFocus</span>
-                        <button class="material-icons" onclick="closeExitUniFocus()">
-                            close
-                        </button>
-                    </div>
-                <p>Tem certeza que deseja sair do UniFocus?</p>
-                <br/>
-                <button onclick="exitUniFocus()" class="exit-button">Sair</button>
+    <main>
+        <div id="exitUniFocus" class="modal">
+            <div class="modal-content">
+                <div class="head">
+                    <span>Sair do UniFocus</span>
+                    <button class="material-icons" onclick="closeExitUniFocus()">
+                        close
+                    </button>
                 </div>
+                <p>Tem certeza que deseja sair do UniFocus?</p>
+                <br />
+                <button onclick="exitUniFocus()" class="exit-button">Sair</button>
             </div>
-            @RenderBody()
-        </main>
-    </div>
+        </div>
+        @RenderBody()
+    </main>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -107,6 +107,10 @@
 
     function RedirecionarGrupos() {
         window.location.href = '@Url.Action("Index", "Grupo")';
+    }
+
+    function RedirecionarRanking() {
+        window.location.href = '@Url.Action("RankingMembro", "Ranking")';
     }
 
     function RedirecionarHome() {
