@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GETAF.Controllers {
     public class QuizController(AppDbContext _context, ISessao _sessao) : Controller {
-        public IActionResult Index() {
-            ViewBag.grupoId = 1;
+        public IActionResult Index(int grupoId) {
+            ViewBag.grupoId = grupoId;
             return View();
         }
         public IActionResult CriarQuiz([FromBody] QuizViewModel quizModel) {

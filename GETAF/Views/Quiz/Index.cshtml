@@ -4,6 +4,8 @@
     int grupoId = ViewBag.grupoId;
 }
 
+@Html.Partial("_LayoutTopGrupo", new GETAF.Models.ViewModel.MenuViewModel { Id = ViewBag.grupoId, IsAdmin = true })
+
 <link rel="stylesheet" href="~/css/Quiz/Index.css" />
 
 <div class="content">
