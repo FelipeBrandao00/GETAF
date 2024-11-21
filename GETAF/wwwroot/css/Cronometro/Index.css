@@ -13,16 +13,16 @@ body {
     overflow-x: hidden;
     background-image: url(/Imagens/clock.png);
     background-repeat: no-repeat;
-    background-position: center;
-    background-position: 47% -80%;
+    background-position: center 200px;
 }
 
 
 .container {
     display: flex;
     width: 100%;
-    align-items: start;
-    text-align: left;
+    justify-content: center;
+    margin-top: 121px;
+    margin-left: 6px;
 }
 
 .menu-item {

@@ -28,7 +28,7 @@
 
     function DelGroup(idGrupo) {
         event.preventDefault();
-
+        alert(idGrupo);
         $.ajax({
             url: '@Url.Action("ExcluirGrupo", "Grupo")',
             contentType: "application/json; charset=utf-8",
