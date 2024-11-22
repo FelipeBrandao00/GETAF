@@ -187,7 +187,10 @@
                 url: '/Pergunta/EnviarResposta',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(answers),
+                data: JSON.stringify({
+                    respostas: answers,
+                    grupoId: @ViewBag.GrupoId 
+                }),
                 success: function (retorno) {
                     if (retorno.sucesso) {
                         alert(retorno.mensagem);

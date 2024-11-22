@@ -15,7 +15,9 @@ namespace GETAF.Controllers {
 
             var perguntasNaoRespondidas = PerguntaViewModel.ListarPerguntasNaoRespondidas(_context, quizId,usuarioLogado.Id);
 
-            ViewBag.QuizName = _context.Quiz.Where(x => x.Id == quizId).Select(x => x.Titulo).FirstOrDefault();
+            var quiz = _context.Quiz.Where(x => x.Id == quizId).FirstOrDefault();
+            ViewBag.QuizName = quiz.Titulo;
+            ViewBag.GrupoId = quiz.GrupoId;
 
             return View(perguntasNaoRespondidas);
         }
@@ -25,11 +27,18 @@ namespace GETAF.Controllers {
             return Json(new { sucesso = resposta.Sucesso, mensagem = resposta.Mensagem });
         }
 
-        public async Task<IActionResult> EnviarResposta([FromBody] List<RespostaQuizDTO> respostas) {
-            PerguntaViewModel perguntaModel = new PerguntaViewModel{ Respostas = respostas };
+        [HttpPost]
+        public async Task<IActionResult> EnviarResposta([FromBody] EnviarRespostaRequest request) {
+            PerguntaViewModel perguntaModel = new PerguntaViewModel { Respostas = request.Respostas };
             var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
-            var resposta = perguntaModel.GravarResposta(_context, usuarioLogado.Id);
+            var resposta = await perguntaModel.GravarRespostaAsync(_context, usuarioLogado.Id, request.GrupoId);
             return Json(new { sucesso = resposta.Sucesso, mensagem = resposta.Mensagem });
+        }
+
+
+        public class EnviarRespostaRequest {
+            public List<RespostaQuizDTO> Respostas { get; set; }
+            public int GrupoId { get; set; }
         }
     }
 }
