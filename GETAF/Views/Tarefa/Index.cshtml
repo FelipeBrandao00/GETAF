@@ -1,5 +1,9 @@
 ﻿@{
+    ViewData["Title"] = "Tarefas - Geral";
     Layout = "_LayoutTopMenu";
+
+    var idUsuarioLogado = ViewBag.IdUsuarioLogado;
+
 }
 
 <link rel="stylesheet" href="~/css/Grupo/DetalhesGrupo/Index.css" />
@@ -13,7 +17,7 @@
             <a class="groups">Grupos</a>
         </div>
         <div class="infoGroup">
-            <div class="group">VAIII</div>
+            <div class="group">@Model.Nome</div>
             <div class="descGroup">
                 AAAAAA
             </div>
@@ -108,7 +112,7 @@
 <script>
     function BuscarQuadroTarefas() {
         $.ajax({
-            url: `@Url.Action("BuscarQuadroTarefas", "Grupo")`,
+            url: `@Url.Action("BuscarQuadroTarefas", "Tarefa")`,
             contentType: "application/json; charset=utf-8",
             type: "POST",
             success: function (data) {

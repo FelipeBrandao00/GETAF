@@ -97,5 +97,17 @@ namespace GETAF.Models.ViewModel {
                 return new List<Tarefa>();
             }
         }
-    }
+
+        public List<Tarefa> ListarTarefasGeral(AppDbContext _context)
+        {
+            try
+            {
+                return _context.Tarefas.ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<Tarefa>();
+            }
+        }
+}
 }
