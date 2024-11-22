@@ -97,5 +97,21 @@ namespace GETAF.Models.ViewModel {
                 return new List<Tarefa>();
             }
         }
-    }
+
+        public List<Tarefa> ListarTarefasGeral(AppDbContext _context, int usuarioId)
+        {
+            try
+            {
+                var grupos = _context.Grupos
+                    .Where(g => g.GrupoUsuarios.Any(gu => gu.UsuarioId == usuarioId))
+                    .ToList(); 
+                List<int> idsGrupos  = grupos.Select(x => x.Id).ToList();
+                return _context.Tarefas.Where(x => idsGrupos.Contains(x.GrupoId)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<Tarefa>();
+            }
+        }
+}
 }
