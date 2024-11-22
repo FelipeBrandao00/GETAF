@@ -1,0 +1,155 @@
+﻿@{
+    ViewData["Title"] = "Tarefas - Geral";
+    Layout = "_LayoutTopMenu";
+
+    int idUsuarioLogado = ViewBag.IdUsuarioLogado;
+}
+
+<link rel="stylesheet" href="~/css/Grupo/DetalhesGrupo/Index.css" />
+<script src="~/lib/Moment/moment.min.js"></script>
+
+
+<div class="main-content">
+    <div class="header">
+        <h1 class="title">Tarefas</h1>
+        <h6 class="subtitle">Visuação de tarefas</h6>
+    </div>
+
+    <div id="quadroTarefas" class="container"></div>
+</div>
+
+
+<script>
+          function buscarTarefas() {
+            $.ajax({
+            url: '@Url.Action("ListarTarefasGeral", "Tarefa")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST",
+                data: JSON.stringify({}),
+                success: function (retorno) {
+                     taskList = retorno.tarefas.map(tarefa => {
+                        return {
+                            id: tarefa.id,
+                            group: tarefa.grupo.nome,
+                            title: tarefa.nome.trim(),
+                            description: tarefa.descricao.trim(),
+                            priority: tarefa.dificuldadeId,
+                            deadline: tarefa.dtFim,
+                            column: tarefa.cdStatus
+                        };
+                    });
+
+                    generateCards();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Erro ao buscar as tarefas');
+                }
+            });
+        }
+
+
+
+        function BuscarQuadroTarefas() {
+        $.ajax({
+            url: `@Url.Action("BuscarQuadroTarefas", "Tarefa")`,
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            success: function (data) {
+                const quadroTarefasContainer = document.getElementById("quadroTarefas");
+                quadroTarefasContainer.innerHTML = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado ao tentar buscar o quadro de tarefas');
+            }
+        });
+    }
+
+        window.onload = function () {
+            BuscarQuadroTarefas();
+            buscarTarefas();
+        };
+
+
+
+        const $modal = document.getElementById('modal');
+        const $modalExcluir = document.getElementById('modalExcluir');
+        const $titleInput = document.getElementById('title');
+        const $descriptionInput = document.getElementById('description');
+        const $priorityInput = document.getElementById('priority');
+        const $deadlineInput = document.getElementById('deadline');
+        const $columnInput = document.getElementById('column');
+        const $idInput = document.getElementById("idInput");
+
+        const $creationModeTitle = document.getElementById('creationModeTitle');
+        const $editingModeTitle = document.getElementById('editingModeTitle');
+
+        const $creationModeBtn = document.getElementById('creationModeBtn');
+        const $editingModeBtn = document.getElementById('editingModeBtn');
+        const $deleteModeBtn = document.getElementById('deleteModeBtn');
+
+
+        // var tasks = localStorage.getItem("tasks");
+
+        var taskList = [];
+
+        generateCards();
+
+        var idtarefa = null;
+        function resetColumns() {
+            const columns = [1, 2, 3, 4];
+            columns.forEach(columnNumber => {
+                const column = document.querySelector(`[data-column="${columnNumber}"] .body .cards_list`);
+                if (column) { // Verifica se o elemento existe
+                    column.innerHTML = '';
+                }
+            });
+        }
+
+        function generateCards() {
+            resetColumns();
+
+            taskList.forEach(function (task) {
+                const formattedDate = moment(task.deadline).format('DD/MM/YYYY');
+
+                const columnBody = document.querySelector(`[data-column="${task.column}"] .body .cards_list`);
+                if (!columnBody) { // Verifica se columnBody existe
+                    console.warn(`Elemento com data-column="${task.column}" não encontrado no DOM.`);
+                    return;
+                }
+                const niveis = ['Baixa', 'Média', 'Alta'];
+
+                const card = `
+                    <div
+                        id="${task.id}"
+                        class="card"
+                        ondblclick="openModalToEdit(${task.id})"
+                        draggable="true"
+                        ondragstart="dragstart_handler(event)"
+                    >
+                            <div class="info">
+                                <b>Grupo</b>
+                                <span>${task.group}</span>
+                        <div class="info">
+                            <b>Título</b>
+                            <span>${task.title}</span>
+                        </div>
+                        <div class="info">
+                            <b>Descrição</b>
+                            <span>${task.description}</span>
+                        </div>
+                        <div class="info">
+                            <b>Prioridade</b>
+                            <span>${niveis[task.priority-1]}</span>
+                        </div>
+                        <div class="info">
+                            <b>Prazo</b>
+                            <span>${formattedDate}</span>
+                        </div>
+                    </div>
+                `;
+
+                columnBody.innerHTML += card;
+            });
+        }
+</script>

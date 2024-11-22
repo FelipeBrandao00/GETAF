@@ -1,14 +1,13 @@
-﻿using GETAF.Models.Context;
+﻿using GETAF.Helper;
+using GETAF.Models.Context;
+using GETAF.Models.Entities;
 using GETAF.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GETAF.Controllers
 {
-    public class TarefaController : Controller
+    public class TarefaController(AppDbContext _context, ISessao _sessao) : Controller
     {
-        private readonly AppDbContext _context;
-        public TarefaController(AppDbContext context) { _context = context; }
-   
         public IActionResult AddTarefa([FromBody] TarefaViewModel tarefaViewModel) {
             var tarefa = tarefaViewModel.CriarTarefa(_context);
             return Json(new { sucesso = (tarefa != null), mensagem = tarefa == null ? "Erro ao tentar adicionar a tarefa" : "Sucesso" });
@@ -17,6 +16,14 @@ namespace GETAF.Controllers
             var tarefas = tarefaViewModel.ListarTarefas(_context);
             return Json(new { tarefas = tarefas });
         }
+
+        public IActionResult ListarTarefasGeral([FromBody] TarefaViewModel tarefaViewModel)
+        {
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+            var tarefas = tarefaViewModel.ListarTarefasGeral(_context, usuarioLogado.Id);
+            return Json(new { tarefas = tarefas });
+        }
+
         public IActionResult UpdateTarefa([FromBody] TarefaViewModel tarefaViewModel) {
             var tarefa = tarefaViewModel.AtualizarTarefa(_context);
             return Json(new { sucesso = (tarefa != null), mensagem = tarefa == null ? "Erro ao tentar atualizar a tarefa" : "Sucesso" });
@@ -30,6 +37,19 @@ namespace GETAF.Controllers
         public IActionResult ExcluirTarefa([FromBody] TarefaViewModel tarefaViewModel) {
             var tarefa = tarefaViewModel.ExcluirTarefa(_context);
             return Json(new { sucesso = (tarefa != null), mensagem = tarefa == null ? "Erro ao tentar excluir a tarefa" : "Sucesso" });
+        }
+
+        public IActionResult Index()
+        {
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+
+            ViewBag.IdUsuarioLogado = usuarioLogado.Id;
+            return View();
+        }
+
+        public IActionResult BuscarQuadroTarefas()
+        {
+            return PartialView("_QuadroTarefasGeral");
         }
     }
 }

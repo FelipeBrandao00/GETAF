@@ -32,7 +32,7 @@
                         <span class="material-symbols-outlined">star</span>
                         <span class="link-texto">Ranking</span>
                     </a>
-                    <a href="#tarefas" onclick="window.location.href='./tarefas.html'">
+                    <a href="#tarefas" onclick="RedirecionarTarefaGeral()">
                         <span class="material-symbols-outlined">view_kanban</span>
                         <span class="link-texto">Tarefas</span>
                     </a>
@@ -111,6 +111,10 @@
 
     function RedirecionarRanking() {
         window.location.href = '@Url.Action("RankingMembro", "Ranking")';
+    }
+
+    function RedirecionarTarefaGeral(){
+        window.location.href = '@Url.Action("Index", "Tarefa")';
     }
 
     function RedirecionarHome() {

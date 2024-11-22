@@ -36,21 +36,51 @@ namespace GETAF.Models.ViewModel {
             _context.SaveChanges();
         }
 
-        public Resposta GravarResposta(AppDbContext _context, int usuarioId) {
+        public async Task<Resposta> GravarRespostaAsync(AppDbContext _context, int usuarioId, int grupoId) {
             try {
-                foreach (var resposta in Respostas) {
-                    _context.RespostaUsuario.Add(
-                    new RespostaUsuario{
-                        AlternativaId = resposta.AlternativaId,
-                        PerguntaId = resposta.PerguntaId,
-                        UsuarioId = usuarioId
+                var respostasUsuario = Respostas.Select(r => new RespostaUsuario
+                {
+                    AlternativaId = r.AlternativaId,
+                    PerguntaId = r.PerguntaId,
+                    UsuarioId = usuarioId
+                }).ToList();
+
+                await _context.RespostaUsuario.AddRangeAsync(respostasUsuario);
+                await _context.SaveChangesAsync();
+
+                var alternativasCorretas = await _context.Alternativas
+                    .Where(a => respostasUsuario.Select(r => r.AlternativaId).Contains(a.Id) && a.IsCorreta)
+                    .Include(a => a.Pergunta)
+                    .ToListAsync();
+
+                if (alternativasCorretas.Any()) {
+                    var ranking = await _context.Ranking
+                        .FirstOrDefaultAsync(x => x.GrupoId == grupoId && x.UsuarioId == usuarioId);
+
+                    if (ranking == null) {
+                        ranking = new Ranking
+                        {
+                            UsuarioId = usuarioId,
+                            GrupoId = grupoId,
+                            Pontos = 0
+                        };
+                        _context.Ranking.Add(ranking);
+                    }
+
+                    ranking.Pontos += alternativasCorretas.Sum(alt => alt.Pergunta.Dificuldade switch {
+                        1 => 1,
+                        2 => 3,
+                        _ => 6
                     });
-                    _context.SaveChanges();
+
+                    await _context.SaveChangesAsync();
                 }
-                return new Resposta(true, "Quiz Respondido com sucesso!");
+
+                return new Resposta(true, "Quiz respondido com sucesso!");
             }
             catch (Exception ex) {
-                return new Resposta(false, "Algo deu errado tentando responder o quiz!");
+                // Considere logar a exceção aqui
+                return new Resposta(false, "Algo deu errado ao responder o quiz!");
             }
         }
 
