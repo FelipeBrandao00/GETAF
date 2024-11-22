@@ -2,8 +2,7 @@
     ViewData["Title"] = "Tarefas - Geral";
     Layout = "_LayoutTopMenu";
 
-    var idUsuarioLogado = ViewBag.IdUsuarioLogado;
-
+    int idUsuarioLogado = ViewBag.IdUsuarioLogado;
 }
 
 <link rel="stylesheet" href="~/css/Grupo/DetalhesGrupo/Index.css" />
@@ -12,105 +11,45 @@
 
 <div class="main-content">
     <div class="header">
-        <div class="back-to-groups" onclick="RedirecionarGrupos()">
-            <span id="back" class="material-symbols-outlined">arrow_back_ios</span>
-            <a class="groups">Grupos</a>
-        </div>
-        <div class="infoGroup">
-            <div class="group">@Model.Nome</div>
-            <div class="descGroup">
-                AAAAAA
-            </div>
-        </div>
-
-        <br />
-
         <h1 class="title">Tarefas</h1>
-        <h6 class="subtitle">Clique duas vezes na tarefa para editá-la!</h6>
+        <h6 class="subtitle">Visuação de tarefas</h6>
     </div>
 
     <div id="quadroTarefas" class="container"></div>
-
-    <div id="modal">
-        <div class="box">
-            <div class="head">
-                <span id="creationModeTitle">Nova tarefa</span>
-                <span id="editingModeTitle">Editar tarefa</span>
-                <button class="material-icons" onclick="closeModal()">
-                    close
-                </button>
-            </div>
-
-            <div class="form">
-                <input type="hidden" id="idInput">
-
-                <div class="form-group">
-                    <label for="title">Título</label>
-                    <input id="title" placeholder="Digite o título..." />
-                </div>
-
-                <div class="form-group">
-                    <label for="description">Descrição</label>
-                    <textarea id="description" rows="3" placeholder="Digite a descrição..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="priority">Prioridade</label>
-                    <select id="priority">
-                        <option value="-1">Selecione</option>
-                        <option value="1">Baixa</option>
-                        <option value="2">Média</option>
-                        <option value="3">Alta</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="column">Card</label>
-                    <select id="column">
-                        <option value="1">A Fazer</option>
-                        <option value="2">Em andamento</option>
-                        <option value="3">Finalizado</option>
-                        <option value="4">Arquivado</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="deadline">Prazo</label>
-                    <input type="date" id="deadline">
-                </div>
-
-                <button class="primary" onclick="createTask()" id="creationModeBtn">Cadastrar</button>
-                <div id="divEditingBtns">
-                    <button class="primary" onclick="openModalExcluir()" id="deleteModeBtn">Excluir tarefa</button>
-                    <button class="primary" onclick="updateTask()" id="editingModeBtn">Salvar alterações</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div id="modalExcluir">
-        <div class="box">
-            <div class="head">
-                <span>Confirmação de exclusão</span>
-                <button class="material-icons" onclick="closeModalExcluir()">
-                    close
-                </button>
-            </div>
-
-            <p>Tem certeza que deseja excluir a tarefa {titulo}?</p>
-            <div class="modalExcluirbuttons">
-                <button class="primary" id="btnCancelDelete" onclick="closeModalExcluir()">Cancelar</button>
-                <button class="primary" id="btnDelete" onclick="confirmDelete()">Excluir</button>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 
 <script>
-    function BuscarQuadroTarefas() {
+          function buscarTarefas() {
+            $.ajax({
+            url: '@Url.Action("ListarTarefasGeral", "Tarefa")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST",
+                data: JSON.stringify({}),
+                success: function (retorno) {
+                     taskList = retorno.tarefas.map(tarefa => {
+                        return {
+                            id: tarefa.id,
+                            title: tarefa.nome.trim(),
+                            description: tarefa.descricao.trim(),
+                            priority: tarefa.dificuldadeId,
+                            deadline: tarefa.dtFim,
+                            column: tarefa.cdStatus
+                        };
+                    });
+
+                    generateCards();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Erro ao buscar as tarefas');
+                }
+            });
+        }
+
+
+
+        function BuscarQuadroTarefas() {
         $.ajax({
             url: `@Url.Action("BuscarQuadroTarefas", "Tarefa")`,
             contentType: "application/json; charset=utf-8",
@@ -125,9 +64,88 @@
         });
     }
 
-    window.onload = function () {
-        BuscarQuadroTarefas();
-    };
+        window.onload = function () {
+            BuscarQuadroTarefas();
+            buscarTarefas();
+        };
 
 
+
+        const $modal = document.getElementById('modal');
+        const $modalExcluir = document.getElementById('modalExcluir');
+        const $titleInput = document.getElementById('title');
+        const $descriptionInput = document.getElementById('description');
+        const $priorityInput = document.getElementById('priority');
+        const $deadlineInput = document.getElementById('deadline');
+        const $columnInput = document.getElementById('column');
+        const $idInput = document.getElementById("idInput");
+
+        const $creationModeTitle = document.getElementById('creationModeTitle');
+        const $editingModeTitle = document.getElementById('editingModeTitle');
+
+        const $creationModeBtn = document.getElementById('creationModeBtn');
+        const $editingModeBtn = document.getElementById('editingModeBtn');
+        const $deleteModeBtn = document.getElementById('deleteModeBtn');
+
+
+        // var tasks = localStorage.getItem("tasks");
+
+        var taskList = [];
+
+        generateCards();
+
+        var idtarefa = null;
+        function resetColumns() {
+            const columns = [1, 2, 3, 4];
+            columns.forEach(columnNumber => {
+                const column = document.querySelector(`[data-column="${columnNumber}"] .body .cards_list`);
+                if (column) { // Verifica se o elemento existe
+                    column.innerHTML = '';
+                }
+            });
+        }
+
+        function generateCards() {
+            resetColumns();
+
+            taskList.forEach(function (task) {
+                const formattedDate = moment(task.deadline).format('DD/MM/YYYY');
+
+                const columnBody = document.querySelector(`[data-column="${task.column}"] .body .cards_list`);
+                if (!columnBody) { // Verifica se columnBody existe
+                    console.warn(`Elemento com data-column="${task.column}" não encontrado no DOM.`);
+                    return;
+                }
+                const niveis = ['Baixa', 'Média', 'Alta'];
+
+                const card = `
+                    <div
+                        id="${task.id}"
+                        class="card"
+                        ondblclick="openModalToEdit(${task.id})"
+                        draggable="true"
+                        ondragstart="dragstart_handler(event)"
+                    >
+                        <div class="info">
+                            <b>Título</b>
+                            <span>${task.title}</span>
+                        </div>
+                        <div class="info">
+                            <b>Descrição</b>
+                            <span>${task.description}</span>
+                        </div>
+                        <div class="info">
+                            <b>Prioridade</b>
+                            <span>${niveis[task.priority-1]}</span>
+                        </div>
+                        <div class="info">
+                            <b>Prazo</b>
+                            <span>${formattedDate}</span>
+                        </div>
+                    </div>
+                `;
+
+                columnBody.innerHTML += card;
+            });
+        }
 </script>
