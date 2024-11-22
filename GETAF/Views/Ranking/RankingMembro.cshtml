@@ -34,16 +34,19 @@
 
     //eu odiei isso aqui... mas quis reaproveitar o card da turma... me perdoem
     function EntrarNoGrupo(grupoId) {
-        $.ajax({
-             url: '@Url.Action("VerRanking", "Ranking")?grupoId=' + grupoId,
-             contentType: "application/json; charset=utf-8",
-             type: "POST",
-             success: function (data) {
-                     document.getElementById("_rankingGrupo").innerHTML = data;
-             },
-             error: function (jqXHR, textStatus, errorThrown) {
-                 alert('Algo deu errado');
-             }
-         });
+         $.ajax({
+            url: '@Url.Action("CarregarRanking", "Ranking")',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                GrupoId: grupoId,
+            }),
+            success: function (data) {
+                document.getElementById("_rankingGrupo").innerHTML = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
     }
 </script>
