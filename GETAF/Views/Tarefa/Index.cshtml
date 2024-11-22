@@ -31,6 +31,7 @@
                      taskList = retorno.tarefas.map(tarefa => {
                         return {
                             id: tarefa.id,
+                            group: tarefa.grupo.nome,
                             title: tarefa.nome.trim(),
                             description: tarefa.descricao.trim(),
                             priority: tarefa.dificuldadeId,
@@ -126,6 +127,9 @@
                         draggable="true"
                         ondragstart="dragstart_handler(event)"
                     >
+                            <div class="info">
+                                <b>Grupo</b>
+                                <span>${task.group}</span>
                         <div class="info">
                             <b>Título</b>
                             <span>${task.title}</span>
