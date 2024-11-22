@@ -98,11 +98,15 @@ namespace GETAF.Models.ViewModel {
             }
         }
 
-        public List<Tarefa> ListarTarefasGeral(AppDbContext _context)
+        public List<Tarefa> ListarTarefasGeral(AppDbContext _context, int usuarioId)
         {
             try
             {
-                return _context.Tarefas.ToList();
+                var grupos = _context.Grupos
+                    .Where(g => g.GrupoUsuarios.Any(gu => gu.UsuarioId == usuarioId))
+                    .ToList(); 
+                List<int> idsGrupos  = grupos.Select(x => x.Id).ToList();
+                return _context.Tarefas.Where(x => idsGrupos.Contains(x.GrupoId)).ToList();
             }
             catch (Exception ex)
             {

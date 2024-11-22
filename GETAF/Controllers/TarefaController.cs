@@ -19,7 +19,8 @@ namespace GETAF.Controllers
 
         public IActionResult ListarTarefasGeral([FromBody] TarefaViewModel tarefaViewModel)
         {
-            var tarefas = tarefaViewModel.ListarTarefasGeral(_context);
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+            var tarefas = tarefaViewModel.ListarTarefasGeral(_context, usuarioLogado.Id);
             return Json(new { tarefas = tarefas });
         }
 
