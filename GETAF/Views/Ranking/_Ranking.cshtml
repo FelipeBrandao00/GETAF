@@ -1,40 +1,123 @@
-﻿@model GETAF.Models.Entities.Ranking
+﻿@using GETAF.Models.ViewModel
+@{
+    List<RankingViewModel> lstRanking = ViewBag.ListaRanking ?? new List<RankingViewModel>();
+
+    int len = lstRanking.Count;
+}
 
 <link rel='stylesheet' href="~/css/Ranking/Index.css" />
 
-<main>
-    <div class="ranking-container">
-        <h1 class="nomeranking">Ranking</h1>
-        <div class="top-3">
-            <div class="rank">
-                <span class="medalha prata">🥈</span>
-                <p>Charlie Fidalgo</p>
-                <img src="https://i.pinimg.com/736x/5d/3f/26/5d3f26d4ee1e3aaf9b002f98050dd1ae.jpg" alt="Charlie Fidalgo" class="foto-perfil">
-                <p>400</p>
-            </div>
-            <div class="rank">
-                <span class="medalha ouro">👑</span>
-                <p>Juliana Fidalgo</p>
-                <img src="https://i.pinimg.com/736x/5d/3f/26/5d3f26d4ee1e3aaf9b002f98050dd1ae.jpg" alt="Juliana Fidalgo" class="foto-perfil">
-                <p>500</p>
-            </div>
-            <div class="rank">
-                <span class="medalha bronze">🥉</span>
-                <p>Luna Fidalgo</p>
-                <img src="https://i.pinimg.com/736x/5d/3f/26/5d3f26d4ee1e3aaf9b002f98050dd1ae.jpg" alt="Luna Fidalgo" class="foto-perfil">
-                <p>300</p>
-            </div>
-        </div>
+@if (lstRanking.Any()) {
+    <main>
+        <div class="ranking-container">
+            <h1 class="nomeranking">Ranking</h1>
 
-        <section class="rank-lista-container">
-            <ul class="rank-lista">
-                <li><img src="https://i.pinimg.com/736x/5d/3f/26/5d3f26d4ee1e3aaf9b002f98050dd1ae.jpg" alt="usuário" class="foto-perfil-small"> Membro - 200</li>
-                <li><img src="https://i.pinimg.com/736x/5d/3f/26/5d3f26d4ee1e3aaf9b002f98050dd1ae.jpg" alt="usuário" class="foto-perfil-small"> Membro - 100</li>
-                <li><img src="https://i.pinimg.com/736x/5d/3f/26/5d3f26d4ee1e3aaf9b002f98050dd1ae.jpg" alt="usuário" class="foto-perfil-small"> Membro - 90</li>
-                <li><img src="https://i.pinimg.com/736x/5d/3f/26/5d3f26d4ee1e3aaf9b002f98050dd1ae.jpg" alt="usuário" class="foto-perfil-small"> Membro - 90</li>
-                <li><img src="https://i.pinimg.com/736x/5d/3f/26/5d3f26d4ee1e3aaf9b002f98050dd1ae.jpg" alt="usuário" class="foto-perfil-small"> Membro - 90</li>
-                <li><img src="https://i.pinimg.com/736x/5d/3f/26/5d3f26d4ee1e3aaf9b002f98050dd1ae.jpg" alt="usuário" class="foto-perfil-small"> Membro - 90</li>
-            </ul>
-        </section>
-    </div>
-</main>
+            <div class="top-3">
+
+                @if (lstRanking.Count == 1) {
+                    string foto = lstRanking[0].Foto == null
+                    ? "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg"
+                    : $"data:image/png;base64,{Convert.ToBase64String(lstRanking[0].Foto)}";
+                    <div class="rank">
+                        @if (lstRanking[0].Rank == 1) {
+                            <span class="medalha ouro">👑</span>
+                        } else if (lstRanking[0].Rank == 2) {
+                            <span class="medalha prata">🥈</span>
+                        } else if (lstRanking[0].Rank == 3) {
+                            <span class="medalha bronze">🥉</span>
+                        }
+                        <p>@lstRanking[0].Nome</p>
+                        <img src="@foto" alt="@lstRanking[0].Nome" class="foto-perfil">
+                        <p>@lstRanking[0].Pontos</p>
+                    </div>
+                } else if (lstRanking.Count == 2) {
+                    string[] fotos = new string[2];
+                    for (int i = 0; i < 2; i++) {
+                        fotos[i] = lstRanking[i].Foto == null
+                        ? "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg"
+                        : $"data:image/png;base64,{Convert.ToBase64String(lstRanking[i].Foto)}";
+                    }
+                    <div class="rank">
+                        @if (lstRanking[1].Rank == 1) {
+                            <span class="medalha ouro">👑</span>
+                        } else if (lstRanking[1].Rank == 2) {
+                            <span class="medalha prata">🥈</span>
+                        } else if (lstRanking[1].Rank == 3) {
+                            <span class="medalha bronze">🥉</span>
+                        }
+                        <p>@lstRanking[1].Nome</p>
+                        <img src="@fotos[1]" alt="@lstRanking[0].Nome" class="foto-perfil">
+                        <p>@lstRanking[1].Pontos</p>
+                    </div>
+                    <div class="rank">
+                        <span class="medalha ouro">👑</span>
+                        <p>@lstRanking[0].Nome</p>
+                        <img src="@fotos[0]" alt="@lstRanking[0].Nome" class="foto-perfil">
+                        <p>@lstRanking[0].Pontos</p>
+                    </div>
+                } else {
+                    string[] fotos = new string[3];
+                    for (int i = 0; i < 3; i++) {
+                        fotos[i] = lstRanking[i].Foto == null
+                        ? "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg"
+                        : $"data:image/png;base64,{Convert.ToBase64String(lstRanking[i].Foto)}";
+                    }
+                    <div class="rank">
+                        @if (lstRanking[1].Rank == 1) {
+                            <span class="medalha ouro">👑</span>
+                        } else if (lstRanking[1].Rank == 2) {
+                            <span class="medalha prata">🥈</span>
+                        } else if (lstRanking[1].Rank == 3) {
+                            <span class="medalha bronze">🥉</span>
+                        }
+                        <p>@lstRanking[1].Nome</p>
+                        <img src="@fotos[1]" alt="@lstRanking[0].Nome" class="foto-perfil">
+                        <p>@lstRanking[1].Pontos</p>
+                    </div>
+                    <div class="rank">
+                        <span class="medalha ouro">👑</span>
+                        <p>@lstRanking[0].Nome</p>
+                        <img src="@fotos[0]" alt="@lstRanking[0].Nome" class="foto-perfil">
+                        <p>@lstRanking[0].Pontos</p>
+                    </div>
+                    <div class="rank">
+                        @if (lstRanking[2].Rank == 1) {
+                            <span class="medalha ouro">👑</span>
+                        } else if (lstRanking[2].Rank == 2) {
+                            <span class="medalha prata">🥈</span>
+                        } else if (lstRanking[2].Rank == 3) {
+                            <span class="medalha bronze">🥉</span>
+                        }
+                        <p>@lstRanking[2].Nome</p>
+                        <img src="@fotos[2]" alt="@lstRanking[0].Nome" class="foto-perfil">
+                        <p>@lstRanking[2].Pontos</p>
+                    </div>
+                }
+            </div>
+
+            @if (lstRanking.Count > 3) {
+                <section class="rank-lista-container">
+                    <ul class="rank-lista">
+                        @for (int i = 3; i < lstRanking.Count; i++) {
+                            string foto = lstRanking[i].Foto == null
+                            ? "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg"
+                            : $"data:image/png;base64,{Convert.ToBase64String(lstRanking[i].Foto)}";
+                            <li><img src="@foto" alt="@lstRanking[i].Nome" class="foto-perfil-small">
+                                @if (lstRanking[i].Rank == 1) {
+                                    <span>👑</span>
+                                } else if (lstRanking[i].Rank == 2) {
+                                    <span>🥈</span>
+                                } else if (lstRanking[i].Rank == 3) {
+                                    <span>🥉</span>
+                                } 
+                                @lstRanking[i].Nome - @lstRanking[i].Pontos
+                            </li>
+                        }
+                    </ul>
+                </section>
+            }
+        </div>
+    </main>
+} else {
+    <h1 class="nomeranking" style="font-size: 15px; margin-top: 50px; text-align: center;">Não há dados o suficiente. Crie ou participe de um quiz e o responda!</h1>
+}
