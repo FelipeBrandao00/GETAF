@@ -215,9 +215,10 @@ a {
     }
 
     .rank img.foto-perfil {
-        width: 80px;
-        height: 80px;
+        height: 100px;
+        width: 100px;
         border-radius: 50%;
+        object-fit: cover;
         margin: 10px 0;
     }
 

@@ -11,31 +11,30 @@ namespace GETAF.Controllers
 {
     public class RankingController(AppDbContext _context, ISessao _sessao) : Controller {
 
-        public IActionResult Index()
-        {
+        public IActionResult Index(int grupoId) {
+            var grupo = _context.Grupos.Find(grupoId);
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+
+            ViewBag.grupoId = grupoId;
+            ViewBag.isAdmin = grupo.UsuarioId == usuarioLogado.Id;
             return View();
         }
 
-        public IActionResult RankingMembro()
-        {
+        public IActionResult RankingMembro() {
             return View();
         }
 
-        public IActionResult VerRanking(int grupoId) {
+        public IActionResult CarregarRanking([FromBody]RankingViewModel rkg) {
+            var lstRanking = new RankingViewModel().BuscarRanking(_context, rkg.GrupoId);
+            ViewBag.ListaRanking = lstRanking;
             return View("_Ranking");
         }
 
-        public IActionResult RankingMembros(int grupoId)
-        {
-            return View(grupoId);
-        }
-
-        [HttpPost]
-        public IActionResult Pontuar([FromBody] RankingViewModel rkg, int dificuldade)
-        {
-            var resposta = rkg.Pontuar(_context, dificuldade);
-            return Json(new { sucesso = resposta.Sucesso, mensagem = resposta.Mensagem });
-        }
-
+        //[HttpPost]
+        //public IActionResult Pontuar([FromBody] RankingViewModel rkg, int dificuldade)
+        //{
+        //    var resposta = rkg.Pontuar(_context, dificuldade);
+        //    return Json(new { sucesso = resposta.Sucesso, mensagem = resposta.Mensagem });
+        //}
     }
 }

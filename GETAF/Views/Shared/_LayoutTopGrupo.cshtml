@@ -3,7 +3,7 @@
 <ul class="menu">
     <li><a onclick="RedirecionarTarefas(@Model.Id)">Tarefas</a></li>
     <li><a onclick="RedirecionarQuiz(@Model.Id)">Quiz</a></li>
-    <li><a href="#">Ranking</a></li>
+    <li><a onclick="RedirecionarRankingGrupo(@Model.Id)">Ranking</a></li>
     <li><a onclick="RedirecionarMembros(@Model.Id)">Membros</a></li>
     @if (Model.IsAdmin) {
         <li><a onclick="EntrarConfigGrupo(@Model.Id)">Configurações</a></li>
@@ -25,5 +25,8 @@
     }
     function RedirecionarQuiz(grupoId){
         window.location.href = `@Url.Action("Index", "Quiz")?grupoId=` + grupoId;
+    }
+    function RedirecionarRankingGrupo(grupoId) {
+        window.location.href = `@Url.Action("Index", "Ranking")?grupoId=` + grupoId;
     }
 </script>

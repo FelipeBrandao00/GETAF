@@ -8,7 +8,11 @@ using Microsoft.EntityFrameworkCore;
 namespace GETAF.Controllers {
     public class QuizController(AppDbContext _context, ISessao _sessao) : Controller {
         public IActionResult Index(int grupoId) {
+            var grupo = _context.Grupos.Find(grupoId);
+            var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
+
             ViewBag.grupoId = grupoId;
+            ViewBag.isAdmin = grupo.UsuarioId == usuarioLogado.Id;
             return View();
         }
         public IActionResult CriarQuiz([FromBody] QuizViewModel quizModel) {

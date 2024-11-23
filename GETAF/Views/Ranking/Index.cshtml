@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Ranking";
+    Layout = "_LayoutTopMenu";
+
+    int grupoId = ViewBag.grupoId;
+}
+
+@Html.Partial("_LayoutTopGrupo", new GETAF.Models.ViewModel.MenuViewModel { Id = ViewBag.grupoId, IsAdmin = ViewBag.isAdmin })
+
+<link rel="stylesheet" href="~/css/Ranking/Index.css" />
+
+<div class="content">
+    <div class="groups-section" id="_Ranking"></div>
+</div>
+
+<script>
+    function toggleUserMenu() {
+        var menu = document.getElementById('user-menu');
+        menu.classList.toggle('show');
+    }
+
+    function CarregarRanking() {
+        $.ajax({
+            url: '@Url.Action("CarregarRanking", "Ranking")',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                GrupoId: @grupoId
+            }),
+            success: function (data) {
+                document.getElementById("_Ranking").innerHTML = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
+
+    window.onload = function () {
+       CarregarRanking();
+    };
+</script>
