@@ -7,8 +7,9 @@
 
 <link rel="stylesheet" href="~/css/Quiz/CriarPergunta.css" />
 
-
 <div class="quiz-container">
+    <span id="back" class="material-symbols-outlined" onclick="history.back();" >arrow_back_ios</span>
+  
     <h2>Criar Pergunta</h2>
     <form>
         <div class="form-group pergunta">
@@ -65,9 +66,6 @@
         </div>
 
         <div class="buttons">
-            <button type="button" class="btn-back" onclick="history.back();">
-                Voltar
-            </button>
             <button type="submit" class="btn-save">Salvar</button>
         </div>
     </form>
