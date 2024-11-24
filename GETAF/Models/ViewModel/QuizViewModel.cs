@@ -86,21 +86,17 @@ namespace GETAF.Models.ViewModel
         }
 
 
-        public Quiz? ExcluirQuiz(AppDbContext _context)
-        {
-            try
-            {
+        public Resposta ExcluirQuiz(AppDbContext _context) {
+            try {
                 var quiz = _context.Quiz.Find(Id);
-                if (quiz == null) return null;
+                if (quiz == null) throw new Exception();
 
                 _context.Quiz.Remove(quiz);
                 _context.SaveChanges();
-                return quiz;
+            } catch  {
+                return new Resposta(false, "Algo deu errado ao tentar excluir o quiz");
             }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            return new Resposta(true, "Quiz excluido com sucesso!");
         }
     }
 }

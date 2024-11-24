@@ -29,6 +29,11 @@ namespace GETAF.Controllers {
             return Json(new { sucesso = resposta.Sucesso, mensagem = resposta.Mensagem });
         }
 
+        public IActionResult ExcluirQuiz([FromBody] QuizViewModel quizModel) {
+            var resposta = quizModel.ExcluirQuiz(_context);
+            return Json(new { sucesso = resposta.Sucesso, mensagem = resposta.Mensagem });
+        }
+
         public IActionResult HabilitarQuizRespostas([FromBody] QuizViewModel quizModel) {
             var resposta = quizModel.HabilitarQuizRespostas(_context);
             return Json(new { sucesso = resposta.Sucesso, mensagem = resposta.Mensagem });
@@ -79,10 +84,6 @@ namespace GETAF.Controllers {
         }
 
         public IActionResult UpdateQuiz([FromBody] QuizViewModel quizModel) {
-            return null;
-        }
-
-        public IActionResult ExcluirQuiz([FromBody] QuizViewModel quizModel) {
             return null;
         }
     }
