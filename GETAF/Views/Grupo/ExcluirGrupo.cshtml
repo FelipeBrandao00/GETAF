@@ -29,16 +29,16 @@
         window.location.href = `@Url.Action("EditarGrupo", "Grupo")?grupoId=` + grupoId;
     }
 
-    function DelGroup(idGrupo) {
+    function DelGroup(grupoId) {
         event.preventDefault();
-        alert(idGrupo);
+        alert(grupoId);
         $.ajax({
             url: '@Url.Action("ExcluirGrupo", "Grupo")',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             type: "POST",
             data: JSON.stringify({
-                id: idGrupo
+                GrupoId: grupoId
             }),
             success: function (retorno) {
                 if (retorno.sucesso) {
