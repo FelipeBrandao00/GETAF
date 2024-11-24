@@ -18,8 +18,8 @@
             <h3 id="nome-grupo">@Model.Nome</h3>
             <p class="confirmation-text" id="nome-grp">Você tem certeza que deseja excluir o grupo?</p>
             <div class="actions">
-            <button type="button" class="cancel-btn" onclick="VoltarConfigGrupo(@Model.Id)">Cancelar</button>
-            <button type="button" class="delete-btn" onclick="DelGroup(@Model.Id)">Deletar</button>
+            <button type="button" class="cancel-btn" onclick="VoltarConfigGrupo('@Model.Id')">Cancelar</button>
+            <button type="button" class="delete-btn" onclick="DelGroup('@Model.Id')">Deletar</button>
             </div>
         </div>
     </div>
@@ -30,7 +30,6 @@
     }
 
     function DelGroup(grupoId) {
-        event.preventDefault();
         alert(grupoId);
         $.ajax({
             url: '@Url.Action("ExcluirGrupo", "Grupo")',
@@ -38,7 +37,7 @@
             dataType: "json",
             type: "POST",
             data: JSON.stringify({
-                GrupoId: grupoId
+                Id: grupoId
             }),
             success: function (retorno) {
                 if (retorno.sucesso) {

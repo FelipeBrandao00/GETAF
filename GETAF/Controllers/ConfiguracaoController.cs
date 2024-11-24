@@ -43,8 +43,7 @@ namespace GETAF.Controllers
             var usuario = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
             var resposta = config.DeletarContaUsuario(usuario);
 
-            if (resposta.Sucesso)
-            {
+            if (resposta.Sucesso) {
                 _sessao.RemoverSessaoUsuario("SessaoUsuarioLogado");
             }
 
@@ -52,8 +51,7 @@ namespace GETAF.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadImagem(IFormFile foto)
-        {
+        public async Task<IActionResult> UploadImagem(IFormFile foto) {
             if (foto == null || foto.Length == 0)
             {
                 return Json(new { sucesso = false, mensagem = "Nenhuma imagem foi enviada." });

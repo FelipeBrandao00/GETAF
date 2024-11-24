@@ -18,7 +18,8 @@ namespace GETAF.Models.ViewModel {
                     Nome = Nome,
                     Descricao = Descricao,
                     Usuario = usuarioExistente,
-                    UsuarioId = usuarioExistente.Id
+                    UsuarioId = usuarioExistente.Id,
+                    IsAtivo = true,
                 };
 
                 _context.Grupos.Add(grupo);
@@ -55,7 +56,7 @@ namespace GETAF.Models.ViewModel {
         public Resposta ExcluirGrupo(AppDbContext _context) {
             try {
                 var grupo = _context.Grupos.Find(Id);
-                _context.Grupos.Remove(grupo);
+                grupo.IsAtivo = false;
                 _context.SaveChanges();
                 return new Resposta(true, "Sucesso ao excluir grupo");
             }

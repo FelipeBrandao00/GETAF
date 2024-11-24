@@ -40,7 +40,8 @@ namespace GETAF.Controllers
 
         public IActionResult ListarMembros(int grupoId) {
             var criador = _context.Grupos.Where(x => x.Id == grupoId).Select(x => x.UsuarioId).FirstOrDefault();
-            var membros = _context.GrupoUsuarios.Include(x => x.Usuario).Where(x => x.GrupoId == grupoId && x.UsuarioId != criador).ToList();
+            var membros = _context.GrupoUsuarios.Include(x => x.Usuario).Where(x => x.GrupoId == grupoId && x.UsuarioId != criador && x.Usuario.IsAtivo == true)
+                .ToList();
 
             var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
             ViewBag.IdUsuarioLogado = usuarioLogado.Id;
