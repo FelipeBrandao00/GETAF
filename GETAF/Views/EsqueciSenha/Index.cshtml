@@ -62,7 +62,7 @@
             }),
             success: function (retorno) {
                 if (retorno.sucesso) {
-                    window.location.href = '@Url.Action("Index", "CodigoSenha")';
+                    window.location.href = '@Url.Action("Index", "CodigoSenha")?email='+email.value;
                     return;
                 }
             },

@@ -5,8 +5,8 @@ namespace GETAF.Controllers
 {
     public class CodigoSenhaController : Controller
     {
-        public IActionResult Index()
-        {
+        public IActionResult Index(string email) {
+            ViewBag.Email = email;
             return View();
         }
 
