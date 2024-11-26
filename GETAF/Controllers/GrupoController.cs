@@ -66,7 +66,8 @@ namespace GETAF.Controllers {
         public IActionResult ListarGrupos() {
             var usuarioLogado = _sessao.BuscarSessaoUsuario("SessaoUsuarioLogado");
             var grupos = _context.Grupos
-                   .Where(g => g.GrupoUsuarios.Any(gu => gu.UsuarioId == usuarioLogado.Id))
+                   .Where(g => g.GrupoUsuarios.Any(gu => gu.UsuarioId == usuarioLogado.Id)
+                   && g.IsAtivo == true)
                    .ToList();
             return PartialView("_ListaGrupos", grupos);
         }

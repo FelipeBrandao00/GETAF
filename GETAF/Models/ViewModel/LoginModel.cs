@@ -16,7 +16,7 @@ namespace GETAF.Models.ViewModel {
         public (Usuario usuario, Resposta resposta) ValidarLogin() {
             try {
                 using (var _context = new AppDbContext()) {
-                    var user = _context.Usuarios.Where(x => x.Email == Email).FirstOrDefault();
+                    var user = _context.Usuarios.Where(x => x.Email == Email && x.IsAtivo == true).FirstOrDefault();
                     if (user == null) {
                         return (null, new Resposta(false, "Login/senha inválidos."));
                     }

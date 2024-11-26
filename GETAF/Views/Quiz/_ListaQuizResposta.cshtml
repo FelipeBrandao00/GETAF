@@ -5,12 +5,18 @@
     @foreach (var quiz in Model) {
         <div class="group" onclick="window.location.href = '@Url.Action("ResponderPerguntas", "Pergunta")?quizId=@quiz.Id'">
             @quiz.Titulo
-            <button 
-                class="material-symbols-outlined" 
-                style="background-color: transparent; border: none;color: white; cursor: pointer;" 
-                    onclick="event.stopPropagation(); showEditQuizModalResposta(@quiz.Id, '@quiz.Titulo','@quiz.Descricao')">
-                edit
-            </button>
+            <div style="display: flex; justify-content: right; gap: 10px;">
+                <button class="material-symbols-outlined"
+                        style="background-color: transparent; border: none;color: white; cursor: pointer;"
+                        onclick="event.stopPropagation(); showEditQuizModalResposta(@quiz.Id, '@quiz.Titulo','@quiz.Descricao')">
+                    edit
+                </button>
+                <button class="material-symbols-outlined deleteQuizButton"
+                        style="background-color: transparent; border: none;color: white; cursor: pointer;"
+                        onclick="event.stopPropagation(); openExcluirQuizModal(@quiz.Id, '@quiz.Titulo','@quiz.Descricao')">
+                    delete
+                </button>
+            </div>
         </div>
     }
 </div>

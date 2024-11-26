@@ -2,12 +2,15 @@
     ViewData["Title"] = "Quiz";
     Layout = "_LayoutTopMenu";
     int grupoId = ViewBag.grupoId;
+    bool isAdmin = ViewBag.isAdmin;
 }
 
 <!--todo:-->
 @Html.Partial("_LayoutTopGrupo", new GETAF.Models.ViewModel.MenuViewModel { Id = ViewBag.grupoId, IsAdmin = ViewBag.isAdmin })
 
 <link rel="stylesheet" href="~/css/Quiz/Index.css" />
+
+<div id="isAdmin" hidden>@isAdmin</div>
 
 <div class="content">
     <h1 class="grupos">Quizzes</h1>
@@ -30,6 +33,24 @@
         <input class="QuizName" type="text" id="QuizName" placeholder="Nome do quiz" required />
         <textarea class="QuizDesc" id="QuizDesc" placeholder="Descrição do quiz"></textarea>
         <button id="criar" onclick="createQuiz()">Criar quiz</button>
+    </div>
+</div>
+
+<div id="ExcluirQuizModal" class="modal">
+    <div class="modal-content">
+        <div class="head">
+            <span>Excluir quiz</span>
+            <button class="material-icons" onclick="closeExcluirQuizModal()">
+                close
+            </button>
+        </div>
+        <p style="padding: 10px;">
+            Tem certeza que deseja excluir o quiz?
+        </p>
+        <div id="nmQuiz" style="padding-bottom: 5px;"></div>
+        <div id="idQuiz" hidden></div>
+        <button class="primary" id="btnCancelExcluir" onclick="closeExcluirQuizModal()">Cancelar</button>
+        <button class="primary" id="btnExcluir" onclick="ExcluirQuiz()">Excluir</button>
     </div>
 </div>
 
@@ -66,6 +87,39 @@
 
 
 <script>
+    function closeExcluirQuizModal() {
+        $('#ExcluirQuizModal').css('display', 'none');
+    }
+
+    function openExcluirQuizModal(id, titulo, desc) {
+        $('#ExcluirQuizModal').css('display', 'block');
+        $('#nmQuiz').text(titulo);
+        $('#idQuiz').text(id);
+    }
+
+    function ExcluirQuiz() {
+        let idQuiz= $('#idQuiz').text();
+        $.ajax({
+            url: '@Url.Action("ExcluirQuiz", "Quiz")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                Id: idQuiz
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    alert(retorno.mensagem);
+                    closeExcluirQuizModal();
+                    ListarQuizes();
+                }
+                else alert(retorno.mensagem)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Algo deu errado');
+            }
+        });
+    }
 
     function showCreateQuizModal() {
         document.getElementById("createQuizModal").style.display = "block";
@@ -227,6 +281,11 @@
             }),
             success: function (data) {
                 document.getElementById("ListaQuizAbertoPerguntas").innerHTML = data;
+                    if ($('#isAdmin').text() == 'True') {
+                        $('.deleteQuizButton').css('display', 'inline');
+                    } else {
+                        $('.deleteQuizButton').css('display', 'none');
+                    }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Algo deu errado');
@@ -244,6 +303,11 @@
             }),
             success: function (data) {
                 document.getElementById("ListaQuizAbertoResposta").innerHTML = data;
+                    if ($('#isAdmin').text() == 'True') {
+                        $('.deleteQuizButton').css('display', 'inline');
+                    } else {
+                        $('.deleteQuizButton').css('display', 'none');
+                    }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Algo deu errado');
@@ -282,6 +346,7 @@
                 if (retorno.sucesso) {
                     closeEditQuizModal();
                     ListarQuizes();
+
                 }
                 else alert(retorno.mensagem)
             },

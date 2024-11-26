@@ -10,6 +10,7 @@ public class Grupo {
     public required string Nome { get; set; }
     public string? Descricao { get; set; }
     public int UsuarioId { get; set; }
+    public bool IsAtivo { get; set; }
 
     public virtual required Usuario Usuario { get; set; }
     public virtual List<GrupoUsuario> GrupoUsuarios { get; set; }

@@ -31,7 +31,7 @@
             <a>Não recebeu um código?</a>
         </div>
     <div class="reenviar">
-        <a href="#">Reenviar</a>
+        <a onclick="ReceberCodigo()">Reenviar</a>
     </div>
     </div>
 </body>
@@ -42,6 +42,28 @@
 
     function Voltar() {
         window.location.href = '@Url.Action("Index", "Login")';
+    }
+
+    function ReceberCodigo() {
+        $.ajax({
+            url: '@Url.Action("ReceberCodigo", "EsqueciSenha")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                Email: '@ViewBag.Email',
+            }),
+            success: function (retorno) {
+                if (retorno.sucesso) {
+                    window.location.href = '@Url.Action("Index", "CodigoSenha")?email=@ViewBag.Email';
+                    return;
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(jqXHR.responseText);
+                alert('Algo deu errado ao fazer o envio: ' + textStatus);
+            }
+        });
     }
 
     function VerificarCodigo() {

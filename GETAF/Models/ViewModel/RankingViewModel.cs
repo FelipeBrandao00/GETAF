@@ -56,7 +56,7 @@ namespace GETAF.Models.ViewModel
         }
 
         public List<RankingViewModel> BuscarRanking(AppDbContext _context, int grupoId) {
-            var lstRanking = _context.Ranking.Where(x => x.GrupoId == grupoId)
+            var lstRanking = _context.Ranking.Where(x => x.GrupoId == grupoId && x.Usuario.IsAtivo == true)
                 .Include(x => x.Usuario)
                 .OrderByDescending(x => x.Pontos)
                 .Select(x => new RankingViewModel {

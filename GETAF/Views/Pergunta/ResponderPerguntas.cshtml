@@ -5,6 +5,23 @@
     Layout = "_LayoutTopMenu";
 }
 
+<div id="modalSair">
+    <div class="box">
+        <div class="head">
+            <span>Deseja sair do quiz?</span>
+            <button class="material-icons" onclick="closeBack()">
+                close
+            </button>
+        </div>
+
+        <p>O progresso não será salvo.</p>
+        <div class="modalSairbuttons">
+            <button class="primary" id="btnCancelSair" onclick="closeBack()">Cancelar</button>
+            <button class="primary" id="btnSairQuiz" onclick="confirmSair()">Sair</button>
+        </div>
+    </div>
+</div>
+
 <link rel="stylesheet" href="~/css/pergunta/ResponderPergunta.css" />
 
 <div class="quiz-container">
@@ -40,6 +57,18 @@
 </div>
 
 <script>
+    function openBack() {
+        $('#modalSair').css("display", "flex");
+    }
+
+    function closeBack() {
+        $('#modalSair').css("display", "none");
+    }
+
+    function confirmSair() {
+        window.location.href = `@Url.Action("Index", "Quiz")?grupoId=` + '@ViewBag.grupoId';
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         let currentQuestion = 1;
         const questions = document.querySelectorAll('.question');
@@ -106,9 +135,9 @@
             const btnBack = document.querySelector('.btn-back');
             const btnNext = document.querySelector('.btn-next');
 
-            if (btnBack) {
-                btnBack.disabled = currentQuestionNumber === 1;
-            }
+            // if (btnBack) {
+            //     btnBack.disabled = currentQuestionNumber === 1;
+            // }
 
             if (btnNext) {
                 btnNext.textContent = currentQuestionNumber === totalQuestions ? 'Finalizar' : 'Avançar';
@@ -122,7 +151,6 @@
         const btnNext = document.querySelector('.btn-next');
         if (btnNext) {
             btnNext.addEventListener('click', function () {
-                //console.log('Clique no botão Avançar. Questão atual:', currentQuestion);
 
                 if (currentQuestion < totalQuestions) {
                     currentQuestion++;
@@ -137,9 +165,9 @@
         const btnBack = document.querySelector('.btn-back');
         if (btnBack) {
             btnBack.addEventListener('click', function () {
-                //console.log('Clique no botão Voltar. Questão atual:', currentQuestion);
-
-                if (currentQuestion > 1) {
+                if (currentQuestion == 1) {
+                    openBack();
+                } else {
                     currentQuestion--;
                     showQuestion(currentQuestion);
                 }

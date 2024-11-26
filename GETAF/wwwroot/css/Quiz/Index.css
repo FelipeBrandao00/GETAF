@@ -313,3 +313,46 @@ a {
     text-decoration: none;
     cursor: pointer;
 }
+
+
+button.primary {
+    border: none;
+    background-color: #207283;
+    color: #FFF;
+    font-size: 16px;
+    padding: 9px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    button.primary:hover {
+        background-color: #155967;
+        color: #FFF;
+    }
+
+#btnExcluir {
+    background-color: #bb3b37; /* Cor do botão Excluir */
+    color: #fff;
+}
+
+    #btnExcluir:hover {
+        background-color: #c72a25; /* Cor do botão Excluir */
+        color: #fff;
+    }
+
+#btnCancelExcluir {
+    background-color: #fff;
+    color: #155967;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid #155967;
+}
+
+    #btnCancelExcluir:hover {
+        background-color: #e2e0e0; /* Cor do botão Cancelar */
+        color: #155967;
+        border: 1px solid #155967;
+    }

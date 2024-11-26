@@ -77,3 +77,164 @@ input[type="radio"] {
 #group-name {
     padding-bottom: 15px;
 }
+
+#modal, #modalSair {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+    #modal .box, #modalSair .box {
+        background-color: #FFF;
+        width: 400px;
+        border-radius: 7px;
+        overflow: hidden;
+    }
+
+        #modal .box .head, #modalSair .box .head {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border-bottom: 1px solid #DDD;
+        }
+
+            #modal .box .head span, #modalSair .box .head span {
+                font-size: 25px;
+                color: #155967;
+                font-weight: bold;
+            }
+
+            #modal .box .head button, #modalSair .box .head button {
+                border: none;
+                background: none;
+                font-size: 24px;
+                font-weight: 700;
+                cursor: pointer;
+                color: #aaa;
+            }
+
+                #modal .box .head button:hover, #modalSair .box .head button:hover {
+                    color: black;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+
+
+        #modal .box .form {
+            padding: 20px;
+        }
+
+            #modal .box .form .form-group {
+                margin-bottom: 15px;
+            }
+
+            #modal .box .form label {
+                display: block;
+                font-size: 14px;
+                color: #333;
+                margin-bottom: 5px;
+            }
+
+            #modal .box .form textarea,
+            #modal .box .form select,
+            #modal .box .form input {
+                width: 100%;
+                border-radius: 7px;
+                font-size: 14px;
+                border: 1px solid #999;
+                color: #333;
+            }
+
+            #modal .box .form textarea {
+                padding: 10px 15px;
+                max-height: 120px;
+                max-width: 100%;
+                overflow-y: auto;
+            }
+
+            #modal .box .form select {
+                padding: 10px;
+            }
+
+            #modal .box .form input {
+                padding: 10px;
+            }
+
+            #modal .box .form button, #modalSair .box .form button {
+                display: block;
+                margin-left: auto;
+            }
+
+.modalSairbuttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#btnSairQuiz {
+    background-color: #bb3b37; /* Cor do botão Excluir */
+    color: #fff;
+}
+
+    #btnSairQuiz:hover {
+        background-color: #c72a25; /* Cor do botão Excluir */
+        color: #fff;
+    }
+
+#btnCancelSair {
+    background-color: #fff;
+    color: #155967;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid #155967;
+}
+
+    #btnCancelSair:hover {
+        background-color: #e2e0e0; /* Cor do botão Cancelar */
+        color: #155967;
+        border: 1px solid #155967;
+    }
+
+
+#modalSair p {
+    text-align: center;
+    padding: 20px;
+}
+
+#btnSairQuiz {
+    background-color: #bb3b37;
+    color: #fff;
+}
+
+    #btnSairQuiz:hover {
+        background-color: #c72a25;
+        color: #fff;
+    }
+
+button.primary {
+    border: none;
+    background-color: #207283;
+    color: #FFF;
+    font-size: 16px;
+    padding: 9px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    button.primary:hover {
+        background-color: #155967;
+        color: #FFF;
+    }
